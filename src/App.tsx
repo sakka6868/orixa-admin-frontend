@@ -76,6 +76,7 @@ import TicketList from "./pages/Support/TicketList";
 import TicketReply from "./pages/Support/TicketReply";
 import Integrations from "./pages/OtherPage/Integrations";
 import ApiKeys from "./pages/OtherPage/ApiKeys";
+import AuthorizeCodeCallback from "./pages/AuthPages/AuthorizeCodeCallback.tsx";
 
 export default function App() {
   return (
@@ -84,7 +85,7 @@ export default function App() {
         <ScrollToTop />
         <Routes>
           {/* Dashboard Layout */}
-          <Route element={<AppLayout />}>
+          <Route element={<AppLayout />} >
             <Route index path="/" element={<Ecommerce />} />
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/marketing" element={<Marketing />} />
@@ -176,6 +177,8 @@ export default function App() {
           </Route>
 
           {/* Auth Layout */}
+          <Route path="/authorize-code-callback" element={<AuthorizeCodeCallback />} />
+
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/reset-password" element={<ResetPassword />} />

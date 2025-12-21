@@ -22,3 +22,10 @@ import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(...inputs));
 }
+
+/**
+ * 获取URL中的参数
+ */
+export function getUrlParam(name: string) {
+    return new URLSearchParams(window.location.search).get(name);
+}
