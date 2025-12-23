@@ -20,7 +20,7 @@ export default function AuthorizeCodeCallback() {
             // 保存token
             window.sessionStorage.setItem("USER_TOKEN", response.access_token);
             try {
-               const user =await foundationApi.getCurrentUser(response.access_token);
+               const user =await foundationApi.getCurrentUser();
                 resetAuthorization(user);
                 // 跳转到首页
                 navigate('/');

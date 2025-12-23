@@ -9,16 +9,20 @@ const baseConfig: CreateAxiosDefaults = {
 };
 const requesterInstance = axios.create(baseConfig);
 
-const requesterWithAuthenticationInstance = axios.create(Object.assign({
-    headers: {
-        Authorization: `Bearer ${window.sessionStorage.getItem("USER_TOKEN")}`
-    }
-}, baseConfig));
+const requesterWithAuthenticationInstance = axios.create(baseConfig);
 
 // 响应拦截器
 const onFulfilled = (response: AxiosResponse) => response.data;
 // 请求失败
 requesterInstance.interceptors.response.use(onFulfilled, error => Promise.reject(error));
+
+// 请求拦截器
+requesterWithAuthenticationInstance.interceptors.request.use(config => {
+    // 添加token
+    config.headers.Authorization = `Bearer ${window.sessionStorage.getItem("USER_TOKEN")}`;
+    return config;
+});
+
 // 响应拦截器
 requesterWithAuthenticationInstance.interceptors.response.use(onFulfilled, error => {
     // 处理token失效
