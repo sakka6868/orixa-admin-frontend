@@ -1,13 +1,13 @@
 # Orixa-Admin-Panel - React.js (v2.2.0)
 
-[TailAdmin](https://tailadmin.com) is a modern, responsive, and customizable admin dashboard template built using Tailwind CSS and React.js. It is designed to help developers build beautiful and functional dashboards quickly and easily.
+[OrixaAdmin](https://orixaadmin.com) is a modern, responsive, and customizable admin dashboard template built using Tailwind CSS and React.js. It is designed to help developers build beautiful and functional dashboards quickly and easily.
 
 ## Quick Links
 
-- [✨ Visit Website](https://tailadmin.com)
-- [📄 Documentation](https://tailadmin.com/docs)
-- [⬇️ Download](https://tailadmin.com/download)
-- [🌐 Live Site](https://react-demo.tailadmin.com)
+- [✨ Visit Website](https://orixaadmin.com)
+- [📄 Documentation](https://orixaadmin.com/docs)
+- [⬇️ Download](https://orixaadmin.com/download)
+- [🌐 Live Site](https://react-demo.orixaadmin.com)
 
 ## Installation
 
@@ -161,8 +161,8 @@ A major update with comprehensive redesign and modern React patterns implementat
 - Migrated charts to ApexCharts
 - Revised authentication system
 
-[Read more](https://tailadmin.com/docs/update-logs/react) on the changelog.
+[Read more](https://orixaadmin.com/docs/update-logs/react) on the changelog.
 
 ## License
 
-Refer to our [LICENSE](https://tailadmin.com/license) page for more information.
+Refer to our [LICENSE](https://orixaadmin.com/license) page for more information.

@@ -1,4 +1,4 @@
-import {requesterInstance} from './NetworkRequester.ts'
+import {requesterInstance, requesterWithAuthenticationInstance} from './NetworkRequester.ts'
 
 const generatePKCE = async (): Promise<{ codeChallenge: string, codeVerifier: string }> => {
     // 生成一个随机字符串作为 code verifier
@@ -67,6 +67,11 @@ const AuthenticationApi = {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
+        });
+    },
+    logout: async () => {
+        return await requesterWithAuthenticationInstance.post(`${AUTH_SERVER_URL}/logout`, null, {
+            withCredentials: true
         });
     }
 }

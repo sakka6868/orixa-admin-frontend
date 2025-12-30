@@ -13,8 +13,8 @@ export default function Analytics() {
   return (
     <>
       <PageMeta
-        title="React.js Analytics Dashboard | TailAdmin - React.js Admin Dashboard Template"
-        description="This is React.js Analytics Dashboard page for TailAdmin - React.js Tailwind CSS Admin Dashboard Template"
+        title="分析仪表盘 | OrixaAdmin - React.js 管理仪表盘"
+        description="这是基于 React.js 的 OrixaAdmin 分析仪表盘页面 - React.js Tailwind CSS 管理仪表盘"
       />
       <div className="grid grid-cols-12 gap-4 md:gap-6">
         <div className="col-span-12">

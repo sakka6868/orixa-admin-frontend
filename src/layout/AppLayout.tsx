@@ -5,6 +5,7 @@ import Backdrop from "./Backdrop";
 import AppSidebar from "./AppSidebar";
 import {useAuthorization} from "../hooks/authorization/useAuthorization.ts";
 import AuthenticationApi from "../api/AuthenticationApi.ts";
+import React from "react";
 
 const LayoutContent: React.FC = () => {
     const {isExpanded, isHovered, isMobileOpen} = useSidebar();
