@@ -13,6 +13,7 @@ import AppLayout from "./layout/AppLayout";
 import {ScrollToTop} from "./components/common/ScrollToTop";
 import ApiKeys from "./pages/OtherPage/ApiKeys";
 import AuthorizeCodeCallback from "./pages/AuthPages/AuthorizeCodeCallback.tsx";
+import TreeDemoPage from "./pages/OtherPage/TreeDemoPage";
 
 export default function App() {
     return (
@@ -27,6 +28,7 @@ export default function App() {
                         {/* Others Page */}
                         <Route path="/user/profile" element={<UserProfiles/>}/>
                         <Route path="/api-keys" element={<ApiKeys/>}/>
+                        <Route path="/tree-demo" element={<TreeDemoPage/>}/>
                     </Route>
                     {/* Auth Pages */}
                     <Route path="/authorize-code-callback" element={<AuthorizeCodeCallback/>}/>
