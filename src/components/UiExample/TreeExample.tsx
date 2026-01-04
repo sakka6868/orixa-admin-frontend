@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import Tree from '../ui/tree';
+import { TreeNode } from '../ui/tree/types';
 
 const TreeExample: React.FC = () => {
-  const [treeData] = useState([
+  const [treeData, setTreeData] = useState([
     {
       key: '1',
       title: 'Parent 1',
@@ -61,7 +62,7 @@ const TreeExample: React.FC = () => {
   ]);
 
   // 更复杂的树数据，包含叶子节点
-  const [complexTreeData] = useState([
+  const [complexTreeData, setComplexTreeData] = useState([
     {
       key: 'root',
       title: 'Root',
@@ -112,6 +113,92 @@ const TreeExample: React.FC = () => {
     setExpandedKeys(expandedKeys);
   };
 
+  // 处理删除节点
+  const handleDelete = (node: TreeNode) => {
+    console.log('Delete node:', node);
+    
+    // 获取要删除的节点及其所有子节点的keys
+    const getNodeAndChildrenKeys = (n: TreeNode): string[] => {
+      let keys = [n.key || ''];
+      if (n.children) {
+        n.children.forEach((child: TreeNode) => {
+          keys = keys.concat(getNodeAndChildrenKeys(child));
+        });
+      }
+      return keys;
+    };
+    
+    const keysToRemove = getNodeAndChildrenKeys(node);
+    
+    // 递归删除节点的函数
+    const removeNode = (nodes: TreeNode[], key: string): TreeNode[] => {
+      return nodes.filter(n => {
+        if (n.key === key) {
+          return false;
+        }
+        if (n.children) {
+          n.children = removeNode(n.children, key);
+        }
+        return true;
+      });
+    };
+
+    // 更新树数据
+    const newData = (prevData: TreeNode[]) => removeNode(prevData, node.key || '');
+    setTreeData(newData);
+    
+    // 清除被删除节点相关的选中状态
+    setSelectedKeys(prev => prev.filter(key => !keysToRemove.includes(key)));
+    
+    // 清除被删除节点相关的勾选状态
+    setCheckedKeys(prev => prev.filter(key => !keysToRemove.includes(key)));
+    
+    // 清除被删除节点相关的展开状态
+    setExpandedKeys(prev => prev.filter(key => !keysToRemove.includes(key)));
+  };
+
+  // 处理复杂树的删除
+  const handleComplexDelete = (node: TreeNode) => {
+    console.log('Delete complex node:', node);
+    
+    // 获取要删除的节点及其所有子节点的keys
+    const getNodeAndChildrenKeys = (n: TreeNode): string[] => {
+      let keys = [n.key || ''];
+      if (n.children) {
+        n.children.forEach((child: TreeNode) => {
+          keys = keys.concat(getNodeAndChildrenKeys(child));
+        });
+      }
+      return keys;
+    };
+    
+    const keysToRemove = getNodeAndChildrenKeys(node);
+    
+    const removeNode = (nodes: TreeNode[], key: string): TreeNode[] => {
+      return nodes.filter(n => {
+        if (n.key === key) {
+          return false;
+        }
+        if (n.children) {
+          n.children = removeNode(n.children, key);
+        }
+        return true;
+      });
+    };
+
+    // 更新树数据
+    setComplexTreeData(prevData => removeNode(prevData, node.key || ''));
+    
+    // 清除被删除节点相关的选中状态
+    setSelectedKeys(prev => prev.filter(key => !keysToRemove.includes(key)));
+    
+    // 清除被删除节点相关的勾选状态
+    setCheckedKeys(prev => prev.filter(key => !keysToRemove.includes(key)));
+    
+    // 清除被删除节点相关的展开状态
+    setExpandedKeys(prev => prev.filter(key => !keysToRemove.includes(key)));
+  };
+
   return (
     <div className="max-w-4xl mx-auto p-6">
       <div className="mb-8">
@@ -133,6 +220,23 @@ const TreeExample: React.FC = () => {
           />
         </div>
 
+        {/* 带删除功能的树形组件 */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+          <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Tree with Delete</h2>
+          <Tree 
+            treeData={treeData} 
+            selectable={true}
+            deletable={true}
+            onDelete={handleDelete}
+            defaultExpandAll={true}
+          />
+          <div className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+            <p>悬停在节点上显示删除按钮</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
         {/* 可勾选的树形组件（级联） */}
         <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
           <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Checkable Tree (Cascading)</h2>
@@ -150,9 +254,7 @@ const TreeExample: React.FC = () => {
             <p>Selected: {selectedKeys.join(', ') || 'None'}</p>
           </div>
         </div>
-      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
         {/* 严格模式勾选（非级联） */}
         <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
           <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Checkable Tree (Strict Mode)</h2>
@@ -161,6 +263,24 @@ const TreeExample: React.FC = () => {
             checkable={true}
             checkStrictly={true} // 严格模式，不级联
             onCheck={handleCheck}
+            defaultExpandAll={true}
+          />
+          <div className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+            <p>Checked: {checkedKeys.join(', ') || 'None'}</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+        {/* 可勾选+删除的树 */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+          <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Checkable Tree with Delete</h2>
+          <Tree 
+            treeData={treeData} 
+            checkable={true}
+            deletable={true}
+            onCheck={handleCheck}
+            onDelete={handleDelete}
             defaultExpandAll={true}
           />
           <div className="mt-4 text-sm text-gray-600 dark:text-gray-400">
@@ -188,14 +308,19 @@ const TreeExample: React.FC = () => {
       </div>
       
       <div className="mt-8 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-        <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Complex Tree with Leaf Nodes</h2>
+        <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Complex Tree with Delete</h2>
         <Tree 
           treeData={complexTreeData} 
           checkable={true}
+          deletable={true}
           className="bg-gray-50 dark:bg-gray-900 p-6 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600"
           onCheck={handleCheck}
+          onDelete={handleComplexDelete}
           defaultExpandAll={true}
         />
+        <div className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+          <p>复杂树结构，支持勾选和删除节点</p>
+        </div>
       </div>
     </div>
   );

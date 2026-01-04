@@ -20,6 +20,7 @@ export interface TreeProps {
   onCheck?: (checkedKeys: string[], e: { checked: boolean; node: TreeNode }) => void;
   onSelect?: (selectedKeys: string[], e: { selected: boolean; node: TreeNode }) => void;
   onExpand?: (expandedKeys: string[], node: TreeNode) => void;
+  onDelete?: (node: TreeNode) => void;
   className?: string;
   multiple?: boolean;
   /** 级联选择 */
@@ -30,4 +31,6 @@ export interface TreeProps {
   checkedKeys?: string[];
   /** 选择受控 */
   selectedKeys?: string[];
+  /** 是否显示删除按钮 */
+  deletable?: boolean;
 }

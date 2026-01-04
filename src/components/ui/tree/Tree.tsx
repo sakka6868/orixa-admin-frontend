@@ -12,9 +12,11 @@ const Tree: React.FC<TreeProps> = ({
                                        onCheck,
                                        onSelect,
                                        onExpand,
+                                       onDelete,
                                        className = '',
                                        multiple = false,
                                        checkStrictly = false,
+                                       deletable = false,
                                        expandedKeys: controlledExpandedKeys,
                                        checkedKeys: controlledCheckedKeys,
                                        selectedKeys: controlledSelectedKeys,
@@ -315,6 +317,16 @@ const Tree: React.FC<TreeProps> = ({
         return 'unchecked';
     };
 
+    // 处理删除节点
+    const handleDelete = useCallback((node: TreeNode, e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (node.disabled) return;
+        
+        if (onDelete) {
+            onDelete(node);
+        }
+    }, [onDelete]);
+
     // 渲染单个树节点
     const renderTreeNode = (node: TreeNode, level: number = 0) => {
         const isExpanded = expandedKeys.includes(node.key || '');
@@ -327,7 +339,7 @@ const Tree: React.FC<TreeProps> = ({
             <div key={node.key || node.title} className="w-full">
                 <div
                     className={`
-            flex items-center py-2 px-3 rounded-lg transition-all duration-200
+            flex items-center py-2 px-3 rounded-lg transition-all duration-200 group
             ${isSelected
                         ? 'bg-brand-500/10 text-brand-500 dark:bg-brand-500/20'
                         : 'hover:bg-gray-100 dark:hover:bg-gray-700/50'}
@@ -409,6 +421,25 @@ const Tree: React.FC<TreeProps> = ({
                     <span className="flex-1 text-sm font-medium text-gray-700 dark:text-gray-300">
             {node.title}
           </span>
+
+                    {/* 删除按钮 */}
+                    {deletable && (
+                        <button
+                            className={`
+                ml-auto flex items-center justify-center w-6 h-6 rounded-md 
+                opacity-0 group-hover:opacity-100 transition-opacity duration-200
+                hover:bg-red-100 dark:hover:bg-red-900/30 text-red-500 dark:text-red-400
+                ${node.disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}
+              `}
+                            onClick={(e) => handleDelete(node, e)}
+                            disabled={node.disabled}
+                            title="删除节点"
+                        >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                            </svg>
+                        </button>
+                    )}
                 </div>
 
                 {/* 子节点 */}
