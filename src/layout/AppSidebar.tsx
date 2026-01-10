@@ -28,23 +28,13 @@ const systemNavItems: NavItem[] = [
             {name: "分析仪表盘", path: "/"},
         ],
     },
-    // {
-    //   icon: <UserCircleIcon />,
-    //   name: "用户详情",
-    //   path: "/user/profile",
-    // },
-    // {
-    //   name: "Pages",
-    //   icon: <PageIcon />,
-    //   subItems: [
-    //     { name: "API Keys", path: "/api-keys", new: true },
-    //     { name: "404 Error", path: "/error-404" },
-    //     { name: "500 Error", path: "/error-500" },
-    //     { name: "503 Error", path: "/error-503" },
-    //     { name: "Coming Soon", path: "/coming-soon" },
-    //     { name: "Maintenance", path: "/maintenance" },
-    //   ],
-    // },
+    {
+        icon: IconMappings["TableIcon"],
+        name: "系统管理",
+        subItems: [
+            {name: "菜单列表", path: "/system/menus"},
+        ],
+    }
 ];
 
 

@@ -14,10 +14,12 @@ import {ScrollToTop} from "./components/common/ScrollToTop";
 import ApiKeys from "./pages/OtherPage/ApiKeys";
 import AuthorizeCodeCallback from "./pages/AuthPages/AuthorizeCodeCallback.tsx";
 import TreeDemoPage from "./pages/OtherPage/TreeDemoPage";
+import MenusList from "./pages/System/MenusList.tsx";
+import {MessageProvider} from "./components/ui/message";
 
 export default function App() {
     return (
-        <>
+        <MessageProvider>
             <Router>
                 <ScrollToTop/>
                 <Routes>
@@ -25,6 +27,7 @@ export default function App() {
                     <Route element={<AppLayout/>}>
                         <Route index path="/" element={<Analytics/>}/>
                         <Route path="/analytics" element={<Analytics/>}/>
+                        <Route path="/system/menus" element={<MenusList/>}/>
                         {/* Others Page */}
                         <Route path="/user/profile" element={<UserProfiles/>}/>
                         <Route path="/api-keys" element={<ApiKeys/>}/>
@@ -41,6 +44,6 @@ export default function App() {
                     <Route path="/coming-soon" element={<ComingSoon/>}/>
                 </Routes>
             </Router>
-        </>
+        </MessageProvider>
     );
 }

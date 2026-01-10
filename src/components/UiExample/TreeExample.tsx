@@ -3,7 +3,7 @@ import Tree from '../ui/tree';
 import { TreeNode } from '../ui/tree/types';
 
 const TreeExample: React.FC = () => {
-  const [treeData, setTreeData] = useState([
+  const [treeData, setTreeData] = useState<TreeNode[]>([
     {
       key: '1',
       title: 'Parent 1',
@@ -62,7 +62,7 @@ const TreeExample: React.FC = () => {
   ]);
 
   // 更复杂的树数据，包含叶子节点
-  const [complexTreeData, setComplexTreeData] = useState([
+  const [complexTreeData, setComplexTreeData] = useState<TreeNode[]>([
     {
       key: 'root',
       title: 'Root',

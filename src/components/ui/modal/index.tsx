@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 
 interface ModalProps {
   isOpen: boolean;
@@ -7,6 +7,7 @@ interface ModalProps {
   children: React.ReactNode;
   showCloseButton?: boolean; // New prop to control close button visibility
   isFullscreen?: boolean; // Default to false for backwards compatibility
+  closeOnClickOutside?: boolean; // 控制点击外部是否关闭，默认false
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -16,8 +17,28 @@ export const Modal: React.FC<ModalProps> = ({
   className,
   showCloseButton = true, // Default to true for backwards compatibility
   isFullscreen = false,
+  closeOnClickOutside = false, // 默认不允许点击外部关闭
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [shouldRender, setShouldRender] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setShouldRender(true);
+      // 延迟一帧以触发动画
+      requestAnimationFrame(() => {
+        setIsAnimating(true);
+      });
+    } else {
+      setIsAnimating(false);
+      // 等待动画结束后再卸载
+      const timer = setTimeout(() => {
+        setShouldRender(false);
+      }, 300); // 与动画时长一致
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
@@ -26,17 +47,17 @@ export const Modal: React.FC<ModalProps> = ({
       }
     };
 
-    if (isOpen) {
+    if (shouldRender) {
       document.addEventListener("keydown", handleEscape);
     }
 
     return () => {
       document.removeEventListener("keydown", handleEscape);
     };
-  }, [isOpen, onClose]);
+  }, [shouldRender, onClose]);
 
   useEffect(() => {
-    if (isOpen) {
+    if (shouldRender) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "unset";
@@ -45,25 +66,33 @@ export const Modal: React.FC<ModalProps> = ({
     return () => {
       document.body.style.overflow = "unset";
     };
-  }, [isOpen]);
+  }, [shouldRender]);
 
-  if (!isOpen) return null;
+  if (!shouldRender) return null;
 
   const contentClasses = isFullscreen
     ? "w-full h-full"
     : "relative w-full rounded-3xl bg-white  dark:bg-gray-900";
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center overflow-y-auto modal z-99999">
+    <div className={`fixed inset-0 flex items-center justify-center overflow-y-auto modal z-99999 transition-opacity duration-300 ${
+      isAnimating ? 'opacity-100' : 'opacity-0'
+    }`}>
       {!isFullscreen && (
         <div
-          className="fixed inset-0 h-full w-full bg-gray-400/50 backdrop-blur-[32px]"
-          onClick={onClose}
+          className={`fixed inset-0 h-full w-full bg-gray-400/50 backdrop-blur-[32px] transition-opacity duration-300 ${
+            isAnimating ? 'opacity-100' : 'opacity-0'
+          }`}
+          onClick={closeOnClickOutside ? onClose : undefined}
         ></div>
       )}
       <div
         ref={modalRef}
-        className={`${contentClasses}  ${className}`}
+        className={`${contentClasses} ${className} transform transition-all duration-300 ${
+          isAnimating 
+            ? 'translate-y-0 opacity-100 scale-100' 
+            : 'translate-y-4 opacity-0 scale-95'
+        }`}
         onClick={(e) => e.stopPropagation()}
       >
         {showCloseButton && (
