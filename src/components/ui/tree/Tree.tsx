@@ -306,6 +306,11 @@ const Tree: React.FC<TreeProps> = ({
         const isChecked = checkedKeys.includes(node.key || '');
         if (isChecked) return 'checked';
 
+        // 严格模式下不显示半选状态
+        if (checkStrictly) {
+            return 'unchecked';
+        }
+
         if (node.children && node.children.length > 0) {
             const childKeys = getAllChildKeys(node);
             const checkedChildCount = childKeys.filter(key => checkedKeys.includes(key)).length;

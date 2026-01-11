@@ -1,9 +1,12 @@
 import React, {useCallback, useEffect, useRef, useState} from "react";
-import {Link, useLocation} from "react-router";
+import {Link, useLocation, useNavigate} from "react-router";
 
 // Assume these icons are imported from an icon library
-import {ChevronDownIcon, GridIcon, HorizontaLDots, TableIcon, UserIcon,} from "../icons";
+import {ChevronDownIcon, GridIcon, HomeIcon, HorizontaLDots, TableIcon, UserIcon,} from "../icons";
 import {useSidebar} from "../context/SidebarContext";
+import SystemApi from "../api/SystemApi";
+import {MenuVo} from "../types/staff";
+import useMountEffect from "../hooks/useMountEffect";
 
 type NavItem = {
     name: string;
@@ -13,35 +16,139 @@ type NavItem = {
     subItems?: { name: string; path: string; pro?: boolean; new?: boolean }[];
 };
 
-const IconMappings = {
+const IconMappings: Record<string, React.ReactNode> = {
     GridIcon: <GridIcon/>,
     UserIcon: <UserIcon/>,
     TableIcon: <TableIcon/>,
+    HomeIcon: <HomeIcon/>,
+};
+
+// 固定的首页菜单（无需权限）
+const homeMenuItem: NavItem = {
+    name: "首页",
+    icon: <HomeIcon/>,
+    path: "/welcome",
+};
+
+// 将菜单数据转换为 NavItem 格式
+const convertMenusToNavItems = (menus: MenuVo[]): NavItem[] => {
+    return menus.map(menu => {
+        const navItem: NavItem = {
+            name: menu.name,
+            icon: IconMappings[menu.icon || 'GridIcon'] || <GridIcon/>,
+            path: menu.path || undefined,
+        };
+        
+        // 如果有子菜单，转换为 subItems
+        if (menu.children && menu.children.length > 0) {
+            navItem.subItems = menu.children.map(child => ({
+                name: child.name,
+                path: child.path || '',
+            }));
+            // 有子菜单时，父级不需要 path
+            navItem.path = undefined;
+        }
+        
+        return navItem;
+    });
+};
+
+// 递归获取所有菜单路径
+const getAllMenuPaths = (menus: MenuVo[]): string[] => {
+    let paths: string[] = [];
+    menus.forEach(menu => {
+        if (menu.path) {
+            paths.push(menu.path);
+        }
+        if (menu.children && menu.children.length > 0) {
+            paths = paths.concat(getAllMenuPaths(menu.children));
+        }
+    });
+    return paths;
+};
+
+// 检查路径是否有权限
+const hasPathPermission = (currentPath: string, allowedPaths: string[]): boolean => {
+    // 首页和欢迎页始终允许访问（无需权限）
+    if (currentPath === '/' || currentPath === '' || currentPath === '/welcome') {
+        return true;
+    }
+    // 检查当前路径是否在允许的路径列表中
+    return allowedPaths.some(path => {
+        if (!path) return false;
+        // 精确匹配或前缀匹配（用于子路由）
+        return currentPath === path || currentPath.startsWith(path + '/');
+    });
 };
 
 
-const systemNavItems: NavItem[] = [
-    {
-        icon: IconMappings["GridIcon"],
-        name: "仪表盘",
-        subItems: [
-            {name: "分析仪表盘", path: "/"},
-        ],
-    },
-    {
-        icon: IconMappings["TableIcon"],
-        name: "系统管理",
-        subItems: [
-            {name: "菜单列表", path: "/system/menus"},
-        ],
-    }
-];
-
-
 const AppSidebar: React.FC = () => {
-    const {isExpanded, isMobileOpen, isHovered, setIsHovered, setIsMobileOpen} =
+    const {isExpanded, isMobileOpen, isHovered, setIsHovered, setIsMobileOpen, menuRefreshKey} =
         useSidebar();
     const location = useLocation();
+    const navigate = useNavigate();
+    
+    // 动态菜单数据
+    const [navItems, setNavItems] = useState<NavItem[]>([]);
+    const [menuLoading, setMenuLoading] = useState(true);
+    const [allowedPaths, setAllowedPaths] = useState<string[]>([]);
+    const prevMenuRefreshKey = useRef(menuRefreshKey);
+    
+    // 获取菜单的公共方法
+    const fetchCurrentStaffMenus = useCallback(async () => {
+        // 如果已经在错误页面，不再获取菜单
+        if (location.pathname.startsWith('/error-')) {
+            setMenuLoading(false);
+            return;
+        }
+        
+        setMenuLoading(true);
+        try {
+            const staff = await SystemApi.getCurrentStaff();
+            if (staff && staff.menus && staff.menus.length > 0) {
+                const items = convertMenusToNavItems(staff.menus);
+                // 在菜单最前面添加固定的首页菜单
+                setNavItems([homeMenuItem, ...items]);
+                // 保存允许的路径列表
+                setAllowedPaths(getAllMenuPaths(staff.menus));
+            } else {
+                // 没有菜单权限，跳转403页面
+                navigate('/error-403');
+            }
+        } catch (error) {
+            console.error('获取当前员工菜单失败:', error);
+            // 获取失败也跳转403页面
+            navigate('/error-403');
+        } finally {
+            setMenuLoading(false);
+        }
+    }, [navigate, location.pathname]);
+    
+    // 组件挂载时获取菜单（只执行一次）
+    useMountEffect(() => {
+        fetchCurrentStaffMenus().then(()=>console.log('监控服务数据加载完成'));
+    });
+    
+    // 监听 menuRefreshKey 变化时刷新菜单（跳过首次渲染）
+    useEffect(() => {
+        if (prevMenuRefreshKey.current !== menuRefreshKey) {
+            prevMenuRefreshKey.current = menuRefreshKey;
+            fetchCurrentStaffMenus().then(()=>console.log('监控服务数据加载完成'));
+        }
+    }, [menuRefreshKey, fetchCurrentStaffMenus]);
+    
+    // 路由变化时检查权限（使用已获取的菜单数据）
+    useEffect(() => {
+        // 跳过错误页面和加载中的情况
+        if (location.pathname.startsWith('/error-') || menuLoading) {
+            return;
+        }
+        // 如果菜单已加载，检查当前路径是否有权限
+        if (allowedPaths.length > 0 && !hasPathPermission(location.pathname, allowedPaths)) {
+            navigate('/error-403');
+        }
+    }, [location.pathname, allowedPaths, menuLoading, navigate]);
+    
     // Auto-close sidebar on mobile after route change
     useEffect(() => {
         if (isMobileOpen) {
@@ -70,7 +177,7 @@ const AppSidebar: React.FC = () => {
         ["system", "support", "others"].forEach((menuType) => {
             const items =
                 menuType === "system"
-                    ? systemNavItems
+                    ? navItems
                     : menuType === "support"
                         ? []
                         : [];
@@ -92,7 +199,7 @@ const AppSidebar: React.FC = () => {
         if (!submenuMatched) {
             setOpenSubmenu(null);
         }
-    }, [location, isActive]);
+    }, [location, isActive, navItems]);
 
     useEffect(() => {
         if (openSubmenu !== null) {
@@ -326,7 +433,16 @@ const AppSidebar: React.FC = () => {
                                     <HorizontaLDots className="size-6"/>
                                 )}
                             </h2>
-                            {renderMenuItems(systemNavItems, "system")}
+                            {menuLoading ? (
+                                <div className="flex items-center justify-center py-8">
+                                    <div className="h-6 w-6 animate-spin rounded-full border-2 border-gray-300 border-t-brand-500"></div>
+                                    {(isExpanded || isHovered || isMobileOpen) && (
+                                        <span className="ml-2 text-sm text-gray-400">加载中...</span>
+                                    )}
+                                </div>
+                            ) : (
+                                renderMenuItems(navItems, "system")
+                            )}
                         </div>
                     </div>
                 </nav>

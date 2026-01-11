@@ -89,6 +89,8 @@ export default function AddMenuModal({onAdd, parentMenuOptions = []}: AddMenuMod
         }
         if (formData.parent) {
             formData.level = formData.parent.level + 1;
+        }else {
+            formData.level = 0;
         }
 
         try {

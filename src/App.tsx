@@ -1,12 +1,14 @@
 import {BrowserRouter as Router, Route, Routes} from "react-router";
-import Analytics from "./pages/Dashboard/Analytics";
+import MonitorDashboard from "./pages/Dashboard/MonitorDashboard";
 import NotFound from "./pages/OtherPage/NotFound";
 import UserProfiles from "./pages/User/UserProfiles.tsx";
 import Maintenance from "./pages/OtherPage/Maintenance";
 import FiveZeroZero from "./pages/OtherPage/FiveZeroZero";
 import FiveZeroThree from "./pages/OtherPage/FiveZeroThree";
+import Forbidden from "./pages/OtherPage/Forbidden";
 
 import ComingSoon from "./pages/OtherPage/ComingSoon";
+import HomeWelcome from "./pages/OtherPage/HomeWelcome.tsx"; // 首页欢迎页面
 
 import AppLayout from "./layout/AppLayout";
 
@@ -15,6 +17,7 @@ import ApiKeys from "./pages/OtherPage/ApiKeys";
 import AuthorizeCodeCallback from "./pages/AuthPages/AuthorizeCodeCallback.tsx";
 import TreeDemoPage from "./pages/OtherPage/TreeDemoPage";
 import MenusList from "./pages/System/MenusList.tsx";
+import StaffList from "./pages/System/StaffList.tsx";
 import {MessageProvider} from "./components/ui/message";
 
 export default function App() {
@@ -23,11 +26,14 @@ export default function App() {
             <Router>
                 <ScrollToTop/>
                 <Routes>
+                    <Route path="/" element={<HomeWelcome/>}/>
+                    <Route path="/welcome" element={<HomeWelcome/>}/>
                     {/* Dashboard Layout */}
                     <Route element={<AppLayout/>}>
-                        <Route index path="/" element={<Analytics/>}/>
-                        <Route path="/analytics" element={<Analytics/>}/>
+                        <Route path="/analytics/monitor" element={<MonitorDashboard/>}/>
+                        <Route path="/system" element={<MenusList/>}/>
                         <Route path="/system/menus" element={<MenusList/>}/>
+                        <Route path="/system/staffs" element={<StaffList/>}/>
                         {/* Others Page */}
                         <Route path="/user/profile" element={<UserProfiles/>}/>
                         <Route path="/api-keys" element={<ApiKeys/>}/>
@@ -41,7 +47,9 @@ export default function App() {
                     <Route path="/maintenance" element={<Maintenance/>}/>
                     <Route path="/error-500" element={<FiveZeroZero/>}/>
                     <Route path="/error-503" element={<FiveZeroThree/>}/>
+                    <Route path="/error-403" element={<Forbidden/>}/>
                     <Route path="/coming-soon" element={<ComingSoon/>}/>
+                    <Route path="/welcome" element={<HomeWelcome/>}/>
                 </Routes>
             </Router>
         </MessageProvider>
