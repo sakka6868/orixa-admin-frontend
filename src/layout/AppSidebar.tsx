@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useRef, useState} from "react";
 import {Link, useLocation, useNavigate} from "react-router";
 
 // Assume these icons are imported from an icon library
-import {ChevronDownIcon, GridIcon, HomeIcon, HorizontaLDots, TableIcon, UserIcon,} from "../icons";
+import {ChevronDownIcon, DocsIcon, GridIcon, HomeIcon, HorizontaLDots, TableIcon, UserIcon,} from "../icons";
 import {useSidebar} from "../context/SidebarContext";
 import SystemApi from "../api/SystemApi";
 import {MenuVo} from "../types/staff";
@@ -21,6 +21,7 @@ const IconMappings: Record<string, React.ReactNode> = {
     UserIcon: <UserIcon/>,
     TableIcon: <TableIcon/>,
     HomeIcon: <HomeIcon/>,
+    DocsIcon: <DocsIcon/>,
 };
 
 // 固定的首页菜单（无需权限）

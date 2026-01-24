@@ -346,8 +346,8 @@ const Tree: React.FC<TreeProps> = ({
                     className={`
             flex items-center py-2 px-3 rounded-lg transition-all duration-200 group
             ${isSelected
-                        ? 'bg-brand-500/10 text-brand-500 dark:bg-brand-500/20'
-                        : 'hover:bg-gray-100 dark:hover:bg-gray-700/50'}
+                        ? 'bg-brand-500/[0.08] text-brand-500 dark:bg-brand-500/20'
+                        : 'hover:bg-gray-100 dark:hover:bg-white/[0.03]'}
             ${node.disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
           `}
                     onClick={() => handleSelect(node)}
@@ -363,11 +363,11 @@ const Tree: React.FC<TreeProps> = ({
                             }}
                         >
               {isExpanded ? (
-                  <svg className="w-3 h-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-3 h-3 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"/>
                   </svg>
               ) : (
-                  <svg className="w-3 h-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-3 h-3 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"/>
                   </svg>
               )}
@@ -377,10 +377,8 @@ const Tree: React.FC<TreeProps> = ({
                     {/* 如果不是叶子节点且没有子节点图标，则显示叶子节点图标 */}
                     {!hasChildren && (
                         <span className="mr-2 flex items-center justify-center w-6 h-6">
-              <svg className="w-1.5 h-1.5 text-gray-400 rounded-full bg-gray-400" viewBox="0 0 8 8">
-                <circle cx="4" cy="4" r="4"/>
-              </svg>
-            </span>
+                            <span className="w-1.5 h-1.5 rounded-full bg-gray-400 dark:bg-gray-500"></span>
+                        </span>
                     )}
 
                     {/* 勾选框 */}
@@ -423,7 +421,7 @@ const Tree: React.FC<TreeProps> = ({
                     )}
 
                     {/* 节点标题 */}
-                    <span className="flex-1 text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <span className="flex-1 text-sm font-medium text-gray-700 dark:text-white/90">
             {node.title}
           </span>
 
@@ -459,7 +457,7 @@ const Tree: React.FC<TreeProps> = ({
 
     return (
         <div
-            className={`bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 ${className}`}>
+            className={`bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 p-4 ${className}`}>
             <div className="space-y-1">
                 {treeData.map(node => renderTreeNode(node))}
             </div>

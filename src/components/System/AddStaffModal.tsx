@@ -5,6 +5,7 @@ import {Modal} from "../ui/modal";
 import Label from "../form/Label";
 import Input from "../form/input/InputField";
 import {StaffFormData, MenuVo} from "../../types/staff";
+import {User} from "../../types/user";
 import {useMessage} from "../ui/message";
 import SystemApi from "../../api/SystemApi.ts";
 import {AxiosError} from "axios";
@@ -14,9 +15,10 @@ import {TreeNode} from "../ui/tree/types";
 interface AddStaffModalProps {
     onAdd?: (staffData: StaffFormData) => void;
     availableMenus?: MenuVo[];
+    availableUsers?: User[];
 }
 
-export default function AddStaffModal({onAdd, availableMenus = []}: AddStaffModalProps) {
+export default function AddStaffModal({onAdd, availableMenus = [], availableUsers = []}: AddStaffModalProps) {
     const addStaffModal = useModal();
     const message = useMessage();
 
@@ -89,7 +91,7 @@ export default function AddStaffModal({onAdd, availableMenus = []}: AddStaffModa
 
         // 表单验证
         if (!formData.userId.trim()) {
-            message.warning("表单验证失败", "请输入用户ID");
+            message.warning("表单验证失败", "请选择用户");
             return;
         }
 
@@ -165,15 +167,24 @@ export default function AddStaffModal({onAdd, availableMenus = []}: AddStaffModa
                     </p>
                     <form onSubmit={handleSubmit}>
                         <div className="space-y-4">
-                            {/* 用户ID */}
+                            {/* 用户选择 */}
                             <div>
-                                <Label>用户ID *</Label>
-                                <Input
-                                    type="text"
-                                    placeholder="请输入用户ID"
+                                <Label>用户 *</Label>
+                                <select
+                                    className="h-11 w-full appearance-none rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 pr-11 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
                                     value={formData.userId}
                                     onChange={(e) => handleInputChange("userId", e.target.value)}
-                                />
+                                >
+                                    <option value="">请选择用户</option>
+                                    {availableUsers.map((user) => (
+                                        <option key={user.id} value={user.id}>
+                                            {user.name}
+                                        </option>
+                                    ))}
+                                </select>
+                                <p className="mt-1.5 text-xs text-gray-500 dark:text-gray-400">
+                                    选择要分配员工权限的用户
+                                </p>
                             </div>
 
                             {/* 菜单权限 */}

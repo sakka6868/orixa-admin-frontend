@@ -31,7 +31,8 @@ const LayoutContent: React.FC = () => {
 const AppLayout: React.FC = () => {
     //获取当前路由
     const {authorization} = useAuthorization();
-    if (!authorization) {
+    const userToken = window.sessionStorage.getItem("USER_TOKEN");
+    if (!authorization || !userToken) {
         AuthenticationApi.redirect('http://localhost:5173/authorize-code-callback').then(() => console.log('redirecting to login'));
         return <></>;
     }

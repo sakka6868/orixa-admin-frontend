@@ -18,7 +18,9 @@ import AuthorizeCodeCallback from "./pages/AuthPages/AuthorizeCodeCallback.tsx";
 import TreeDemoPage from "./pages/OtherPage/TreeDemoPage";
 import MenusList from "./pages/System/MenusList.tsx";
 import StaffList from "./pages/System/StaffList.tsx";
+import UserList from "./pages/Foundation/UserList.tsx";
 import {MessageProvider} from "./components/ui/message";
+import RoleList from "./pages/Foundation/RoleList.tsx";
 
 export default function App() {
     return (
@@ -26,14 +28,16 @@ export default function App() {
             <Router>
                 <ScrollToTop/>
                 <Routes>
-                    <Route path="/" element={<HomeWelcome/>}/>
-                    <Route path="/welcome" element={<HomeWelcome/>}/>
                     {/* Dashboard Layout */}
                     <Route element={<AppLayout/>}>
+                        <Route path="/" element={<HomeWelcome/>}/>
+                        <Route path="/welcome" element={<HomeWelcome/>}/>
                         <Route path="/analytics/monitor" element={<MonitorDashboard/>}/>
                         <Route path="/system" element={<MenusList/>}/>
                         <Route path="/system/menus" element={<MenusList/>}/>
                         <Route path="/system/staffs" element={<StaffList/>}/>
+                        <Route path="/foundation/users" element={<UserList/>}/>
+                        <Route path="/foundation/roles" element={<RoleList/>}/>
                         {/* Others Page */}
                         <Route path="/user/profile" element={<UserProfiles/>}/>
                         <Route path="/api-keys" element={<ApiKeys/>}/>

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import flatpickr from "flatpickr";
+import Chinese from "flatpickr/dist/l10n/zh.js";
 import "flatpickr/dist/flatpickr.css";
 import Label from "./Label";
 import { CalenderIcon } from "../../icons";
@@ -31,11 +32,13 @@ export default function DatePicker({
       dateFormat: "Y-m-d",
       defaultDate,
       onChange,
+      locale: Chinese.zh,
     });
 
     return () => {
       if (!Array.isArray(flatPickr)) {
-        flatPickr.destroy();
+        // @ts-ignore
+        flatPickr['destroy']();
       }
     };
   }, [mode, onChange, id, defaultDate]);

@@ -1,9 +1,10 @@
 import GridShape from "../../components/common/GridShape";
 import PageMeta from "../../components/common/PageMeta";
 import {Link, useNavigate} from "react-router";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import SystemApi from "../../api/SystemApi";
 import {MenuVo} from "../../types/staff";
+import useMountEffect from "../../hooks/useMountEffect.ts";
 
 // 递归查找第一个有 path 的菜单
 const findFirstMenuPath = (menus: MenuVo[]): string | null => {
@@ -27,7 +28,7 @@ export default function HomeWelcome() {
     const [firstMenuPath, setFirstMenuPath] = useState<string | null>(null);
     
     // 获取第一个可用的菜单路径
-    useEffect(() => {
+    useMountEffect(() => {
         const fetchMenus = async () => {
             try {
                 const staff = await SystemApi.getCurrentStaff();
@@ -39,8 +40,8 @@ export default function HomeWelcome() {
                 console.error('获取菜单失败:', error);
             }
         };
-        fetchMenus();
-    }, []);
+        fetchMenus().then(() => console.log('菜单加载完成'));
+    });
     
     // 进入控制台点击处理
     const handleEnterConsole = () => {
@@ -65,12 +66,12 @@ export default function HomeWelcome() {
                     <div className="mb-8">
                         <img
                             className="mx-auto h-12 dark:hidden"
-                            src="./images/logo/logo.svg"
+                            src="images/logo/logo.svg"
                             alt="Logo"
                         />
                         <img
                             className="mx-auto h-12 hidden dark:block"
-                            src="./images/logo/logo-dark.svg"
+                            src="images/logo/logo-dark.svg"
                             alt="Logo"
                         />
                     </div>

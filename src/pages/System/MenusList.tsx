@@ -163,7 +163,7 @@ export default function MenusList() {
             {loading ? (
                 <div className="flex items-center justify-center p-12">
                     <div
-                        className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+                        className="h-8 w-8 animate-spin rounded-full border-4 border-brand-500 border-t-transparent"></div>
                     <span className="ml-3 text-gray-500 dark:text-gray-400">加载中...</span>
                 </div>
             ) : treeData.length > 0 ? (

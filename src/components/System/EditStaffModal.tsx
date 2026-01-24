@@ -4,6 +4,7 @@ import {Modal} from "../ui/modal";
 import Label from "../form/Label";
 import Input from "../form/input/InputField";
 import {StaffFormData, StaffListItem, MenuVo} from "../../types/staff";
+import {User} from "../../types/user";
 import {useMessage} from "../ui/message";
 import SystemApi from "../../api/SystemApi.ts";
 import {AxiosError} from "axios";
@@ -16,6 +17,7 @@ interface EditStaffModalProps {
     onClose: () => void;
     onUpdate?: (staffData: StaffFormData) => void;
     availableMenus?: MenuVo[];
+    availableUsers?: User[];
 }
 
 export default function EditStaffModal({
@@ -23,7 +25,8 @@ export default function EditStaffModal({
     isOpen,
     onClose,
     onUpdate,
-    availableMenus = []
+    availableMenus = [],
+    availableUsers = []
 }: EditStaffModalProps) {
     const message = useMessage();
 
@@ -106,7 +109,7 @@ export default function EditStaffModal({
 
         // 表单验证
         if (!formData.userId.trim()) {
-            message.warning("表单验证失败", "请输入用户ID");
+            message.warning("表单验证失败", "请选择用户");
             return;
         }
 
@@ -158,15 +161,18 @@ export default function EditStaffModal({
                 </p>
                 <form onSubmit={handleSubmit}>
                     <div className="space-y-4">
-                        {/* 用户ID */}
+                        {/* 用户显示（禁止编辑） */}
                         <div>
-                            <Label>用户ID *</Label>
+                            <Label>用户</Label>
                             <Input
                                 type="text"
-                                placeholder="请输入用户ID"
-                                value={formData.userId}
-                                onChange={(e) => handleInputChange("userId", e.target.value)}
+                                value={availableUsers.find(u => u.id === formData.userId)?.name || formData.userId}
+                                disabled={true}
+                                className="bg-gray-50 dark:bg-gray-800/50 cursor-not-allowed"
                             />
+                            <p className="mt-1.5 text-xs text-gray-500 dark:text-gray-400">
+                                用户信息不可修改
+                            </p>
                         </div>
 
                         {/* 菜单权限 */}
