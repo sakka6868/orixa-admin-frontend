@@ -21,6 +21,7 @@ import StaffList from "./pages/System/StaffList.tsx";
 import UserList from "./pages/Foundation/UserList.tsx";
 import {MessageProvider} from "./components/ui/message";
 import RoleList from "./pages/Foundation/RoleList.tsx";
+import TenantList from "./pages/Foundation/TenantList.tsx";
 
 export default function App() {
     return (
@@ -38,6 +39,7 @@ export default function App() {
                         <Route path="/system/staffs" element={<StaffList/>}/>
                         <Route path="/foundation/users" element={<UserList/>}/>
                         <Route path="/foundation/roles" element={<RoleList/>}/>
+                        <Route path="/foundation/tenants" element={<TenantList/>}/>
                         {/* Others Page */}
                         <Route path="/user/profile" element={<UserProfiles/>}/>
                         <Route path="/api-keys" element={<ApiKeys/>}/>

@@ -1,5 +1,6 @@
 import {requesterWithAuthenticationInstance} from './NetworkRequester.ts';
 import {Role, RoleFormData, RoleQuery, User, UserFormData, UserQuery} from "../types/user.ts";
+import {Tenant, CreateTenantCommand, UpdateTenantCommand, TenantQuery} from "../types/tenant.ts";
 
 const FoundationApi = {
     getCurrentUser: async (): Promise<Authorization> => {
@@ -50,6 +51,30 @@ const FoundationApi = {
     },
     deleteRole: async (id: string): Promise<void> => {
         return await requesterWithAuthenticationInstance.delete(`/foundation/roles/${id}`);
+    },
+
+    // 租户管理相关 API
+    listTenants: async (query?: TenantQuery): Promise<Tenant[]> => {
+        return await requesterWithAuthenticationInstance.get(`/foundation/tenants`, {
+            params: query
+        });
+    },
+    createTenant: async (command: CreateTenantCommand): Promise<Tenant> => {
+        return await requesterWithAuthenticationInstance.post(`/foundation/tenants`, command, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    },
+    updateTenant: async (command: UpdateTenantCommand): Promise<Tenant> => {
+        return await requesterWithAuthenticationInstance.put(`/foundation/tenants`, command, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    },
+    deleteTenant: async (id: string): Promise<void> => {
+        return await requesterWithAuthenticationInstance.delete(`/foundation/tenants/${id}`);
     }
 }
 
