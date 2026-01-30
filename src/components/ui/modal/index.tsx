@@ -26,16 +26,17 @@ export const Modal: React.FC<ModalProps> = ({
   useEffect(() => {
     if (isOpen) {
       setShouldRender(true);
-      // 延迟一帧以触发动画
-      requestAnimationFrame(() => {
+      // 延迟50ms确保浏览器先渲染初始状态，再触发动画
+      const timer = setTimeout(() => {
         setIsAnimating(true);
-      });
+      }, 50);
+      return () => clearTimeout(timer);
     } else {
       setIsAnimating(false);
       // 等待动画结束后再卸载
       const timer = setTimeout(() => {
         setShouldRender(false);
-      }, 300); // 与动画时长一致
+      }, 400); // 与动画时长一致
       return () => clearTimeout(timer);
     }
   }, [isOpen]);
@@ -72,15 +73,13 @@ export const Modal: React.FC<ModalProps> = ({
 
   const contentClasses = isFullscreen
     ? "w-full h-full"
-    : "relative w-full rounded-3xl bg-white  dark:bg-gray-900";
+    : "relative w-full rounded-3xl bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl";
 
   return (
-    <div className={`fixed inset-0 flex items-center justify-center overflow-y-auto modal z-99999 transition-opacity duration-300 ${
-      isAnimating ? 'opacity-100' : 'opacity-0'
-    }`}>
+    <div className="fixed inset-0 flex items-center justify-center overflow-y-auto modal z-99999">
       {!isFullscreen && (
         <div
-          className={`fixed inset-0 h-full w-full bg-gray-400/50 backdrop-blur-[32px] transition-opacity duration-300 ${
+          className={`fixed inset-0 h-full w-full bg-gray-400/50 backdrop-blur-[32px] transition-opacity duration-400 ease-in-out ${
             isAnimating ? 'opacity-100' : 'opacity-0'
           }`}
           onClick={closeOnClickOutside ? onClose : undefined}
@@ -88,10 +87,10 @@ export const Modal: React.FC<ModalProps> = ({
       )}
       <div
         ref={modalRef}
-        className={`${contentClasses} ${className} transform transition-all duration-300 ${
+        className={`${contentClasses} ${className} transform transition-all duration-400 ease-out ${
           isAnimating 
             ? 'translate-y-0 opacity-100 scale-100' 
-            : 'translate-y-4 opacity-0 scale-95'
+            : 'translate-y-24 opacity-0 scale-90'
         }`}
         onClick={(e) => e.stopPropagation()}
       >

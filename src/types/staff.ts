@@ -1,3 +1,5 @@
+import { MenuType } from "./menu";
+
 // 员工相关类型定义
 
 // 菜单 VO（用于员工关联的菜单）
@@ -5,6 +7,7 @@ export interface MenuVo {
     id: string;
     name: string;
     path: string;
+    type: MenuType;
     icon?: string;
     children?: MenuVo[];
 }

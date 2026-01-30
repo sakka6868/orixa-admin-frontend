@@ -4,12 +4,14 @@ import {Link, useNavigate} from "react-router";
 import {useState} from "react";
 import SystemApi from "../../api/SystemApi";
 import {MenuVo} from "../../types/staff";
+import {MenuType} from "../../types/menu";
 import useMountEffect from "../../hooks/useMountEffect.ts";
 
-// 递归查找第一个有 path 的菜单
+// 递归查找第一个 type="MENU" 的菜单路径
 const findFirstMenuPath = (menus: MenuVo[]): string | null => {
     for (const menu of menus) {
-        if (menu.path) {
+        // 只查找 type="MENU" 的菜单项
+        if (menu.type === MenuType.MENU && menu.path) {
             return menu.path;
         }
         if (menu.children && menu.children.length > 0) {
