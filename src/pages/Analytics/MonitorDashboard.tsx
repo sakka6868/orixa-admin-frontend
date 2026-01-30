@@ -1,10 +1,10 @@
 import {useEffect, useState, useCallback} from "react";
-import PageMeta from "../../components/common/PageMeta";
-import PageBreadCrumb from "../../components/common/PageBreadCrumb";
-import MonitorApi from "../../api/MonitorApi";
-import ServiceHealthCard from "../../components/monitor/ServiceHealthCard";
-import ServiceMetricsCard from "../../components/monitor/ServiceMetricsCard";
-import {ServiceHealthInfo, ServiceMetricsInfo, AggregatedHealthStatus} from "../../types/monitor";
+import PageMeta from "../../components/common/PageMeta.tsx";
+import PageBreadCrumb from "../../components/common/PageBreadCrumb.tsx";
+import MonitorApi from "../../api/MonitorApi.ts";
+import ServiceHealthCard from "../../components/monitor/ServiceHealthCard.tsx";
+import ServiceMetricsCard from "../../components/monitor/ServiceMetricsCard.tsx";
+import {ServiceHealthInfo, ServiceMetricsInfo, AggregatedHealthStatus} from "../../types/monitor.ts";
 import useMountEffect from "../../hooks/useMountEffect.ts";
 
 export default function MonitorDashboard() {
