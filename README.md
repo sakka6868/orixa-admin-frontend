@@ -1,168 +1,219 @@
-# Orixa-Admin-Panel - React.js (v2.2.0)
+# OrixaAdmin Frontend - React.js
 
-[OrixaAdmin](https://orixaadmin.com) is a modern, responsive, and customizable admin dashboard template built using Tailwind CSS and React.js. It is designed to help developers build beautiful and functional dashboards quickly and easily.
+[OrixaAdmin](https://orixaadmin.com) 是一个现代化、响应式、可定制的后台管理面板模板，基于 Tailwind CSS 和 React.js 构建。旨在帮助开发者快速构建美观且功能强大的仪表盘。
 
-## Quick Links
+## 快速链接
 
-- [✨ Visit Website](https://orixaadmin.com)
-- [📄 Documentation](https://orixaadmin.com/docs)
-- [⬇️ Download](https://orixaadmin.com/download)
-- [🌐 Live Site](https://react-demo.orixaadmin.com)
+- [✨ 访问官网](https://orixaadmin.com)
+- [📄 文档中心](https://orixaadmin.com/docs)
+- [⬇️ 下载地址](https://orixaadmin.com/download)
+- [🌐 在线演示](https://react-demo.orixaadmin.com)
 
-## Installation
+## 环境要求
 
-### Prerequisites
+在开始之前，请确保已安装以下环境：
 
-To get started with TailAdmin, ensure you have the following prerequisites installed and set up:
+- Node.js 18.x 或更高版本（推荐使用 Node.js 20.x 或更高版本）
+- yarn 或 npm 包管理器
 
-- Node.js 18.x or later (recommended to use Node.js 20.x or later)
+## 快速开始
 
-### Getting Started
+### 1. 安装依赖
 
-1. Install dependencies:
+```bash
+npm install
+# 或
+yarn install
+```
 
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
+> 如果安装过程中遇到 peer-dependency 错误，请使用 `--legacy-peer-deps` 标志。
 
-   > Use the `--legacy-peer-deps` flag if you encounter peer-deps error during installation.
+### 2. 启动开发服务器
 
-2. Start the development server:
+```bash
+npm run dev
+# 或
+yarn dev
+```
 
-   ```bash
-   npm start
-   # or
-   yarn start
-   ```
+应用将在开发模式下运行，打开 [http://localhost:3000](http://localhost:3000) 即可在浏览器中查看。
 
-   Runs the app in the development mode.\
-   Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 3. 构建生产版本
 
-## Changelog
+```bash
+npm run build
+# 或
+yarn build
+```
 
-### Version 2.2.0 - [July 30, 2025]
+### 4. 代码检查
 
-* Fixed reported minor bugs and UI issues
-* Updated packages
-#### 🧭 **Logistics Dashboard** – *Added*
+```bash
+npm run lint
+# 或
+yarn lint
+```
 
-* Redesigned logistics dashboard interface
-* Delivery activity table
-* Delivery tracking timeline
-* Total revenue earned chart
+### 5. 预览生产构建
 
-#### 🛍️ **E-commerce Pages** – *Added*
+```bash
+npm run preview
+# 或
+yarn preview
+```
 
-* **Products**:
+## 项目技术栈
 
-  * Product list table
-  * Add product form
-* **Invoices**:
+- **框架**: React 19.0
+- **构建工具**: Vite 6.x
+- **样式**: Tailwind CSS 4.0
+- **路由**: React Router 7.x
+- **语言**: TypeScript 5.7
+- **图表**: ApexCharts
+- **日历**: FullCalendar
+- **HTTP 客户端**: Axios
 
-  * Invoice list table
-  * Single invoice view
-  * View invoice modal
-  * Create invoice form
-* **Transactions**:
+## 核心功能
 
-  * Transaction list table
-  * Single transaction detail view
+### 🎨 现代化界面设计
+- 完全响应式布局
+- 可折叠侧边栏
+- 暗色/亮色主题支持
+- 精心设计的 UI 组件
 
-#### 🧠 **AI Assistant Suite (New App Example)** – *Newly Added*
+### 📊 多样化仪表盘
+- 电商仪表盘
+- 数据分析仪表盘
+- 营销仪表盘
+- CRM 仪表盘
+- 物流仪表盘
 
-* Text generator
-* Image generator
-* Code generator
-* Video generator
+### 🛍️ 电商功能
+- 产品管理（列表、添加、编辑）
+- 订单管理
+- 发票管理（列表、详情、创��）
+- 交易记录管理
 
-#### 🔑 **API Key Management** – *Newly Added*
+### 🧠 AI 助手套件
+- 文本生成器
+- 图像生成器
+- 代码生成器
+- 视频生成器
 
-* API key dashboard
-* API key table view
-* Add API key modal
+### 🔑 API 密钥管理
+- API 密钥仪表盘
+- 密钥列表视图
+- 添加新密钥功能
 
-#### 🔌 **Integrations (Pages)** – *Newly Added*
+### 🔌 集成管理
+- 集成卡片展示
+- 集成详情查看
+- 添加新集成
+- 集成设置管理
 
-* Integration cards UI
-* Integration details modal
-* Add integration modal
-* Integration settings modal
-* Delete integration confirmation modal
+### 💬 客服支持
+- 工单列表
+- 工单回复界面
 
-### ⚙️ **Support (New App Example)** – *Newly Added*
+### 📅 其他功能
+- 日历功能（支持拖拽）
+- 聊天系统
+- 高级数据表格（支持排序和筛选）
+- 文件上传（拖拽支持）
 
-* Support ticket list page
-* Support ticket reply interface
+## 更新日志
 
-#### 📊 **Charts & Visuals** - *Imporoved*
+### Version 2.2.0 - 2025年7月30日
 
-* New bar chart design added
+#### 🧭 物流仪表盘 - 新增
+- 重新设计物流仪表盘界面
+- 配送活动表格
+- 配送跟踪时间线
+- 总收入图表
 
-### Version 2.1.2 - [Jun 02, 2025]
+#### 🛍️ 电商页面 - 新增
+- **产品管理**：产品列表表格、添加产品表单
+- **发票管理**：发票列表、发票详情、查看发票模态框、创建发票表单
+- **交易管理**：交易列表、交易详情视图
 
-#### Update Overview
+#### 🧠 AI 助手套件 - 新增
+- 文本生成器
+- 图像生成器
+- 代码生成器
+- 视频生成器
 
-- Basic Table 3 Dropdown (cropped) update
-- Popover and Tooltip component overflow (cropped) issue update
+#### 🔑 API 密钥管理 - 新增
+- API 密钥仪表盘
+- API 密钥表格视图
+- 添加 API 密钥模态框
 
-### Version 2.1.1 - [March 25, 2025]
+#### 🔌 集成管理 - 新增
+- 集成卡片界面
+- 集成详情模态框
+- 添加集成模态框
+- 集成设置模态框
+- 删除集成确认模态框
 
-- Upgraded to React 19
-- Included overrides for packages to prevent peer dependency errors.
-- Migrated from react-flatpickr to flatpickr package for React 19 support
+#### 💬 客服支持 - 新增
+- 支持工单列表页面
+- 支持工单回复界面
 
-### Version 2.1.0 - [March 10, 2025]
+#### 📊 图表与可视化 - 改进
+- 新增柱状图设计
 
-#### Update Overview
+#### 🐛 其他更新
+- 修复已知 bug 和 UI 问题
+- 更新依赖包
 
-- Added new dashboard design for saas product.
-- New Metrics card
-- Product performance tab with charts
+### Version 2.1.2 - 2025年6月2日
+- 修复基础表格 3 下拉菜单（裁剪）问题
+- 修复弹出框和工具提示组件溢出（裁剪）问题
 
-### Version 2.0.1 - [February 27, 2025]
+### Version 2.1.1 - 2025年3月25日
+- 升级到 React 19
+- 为防止 peer dependency 错误添加包覆盖配置
+- 从 react-flatpickr 迁移到 flatpickr 包以支持 React 19
 
-#### Update Overview
+### Version 2.1.0 - 2025年3月10日
+- 为 SaaS 产品添加新的仪表盘设计
+- 新的指标卡片
+- 带有图表的产品性能标签页
 
-- Upgraded to Tailwind CSS v4 for better performance and efficiency.
-- Updated class usage to match the latest syntax and features.
-- Replaced deprecated class and optimized styles.
+### Version 2.0.1 - 2025年2月27日
+- 升级到 Tailwind CSS v4 以获得更好的性能和效率
+- 更新类名使用以匹配最新语法和功能
+- 替换已弃用的类并优化样式
 
-#### Next Steps
+### Version 2.0.0 - 2025年2月
 
-- Run npm install or yarn install to update dependencies.
-- Check for any style changes or compatibility issues.
-- Refer to the Tailwind CSS v4 [Migration Guide](https://tailwindcss.com/docs/upgrade-guide) on this release. if needed.
-- This update keeps the project up to date with the latest Tailwind improvements. 🚀
+重大更新，全面重新设计并实施现代化 React 模式。
 
-### Version 2.0.0 - [February 2025]
+#### 主要改进
+- 完整的 UI 重新设计，采用现代化 React 模式
+- 新功能：可折叠侧边栏、聊天和日历
+- 改进性能和可访问性
+- 使用 ApexCharts 更新数据可视化
 
-A major update with comprehensive redesign and modern React patterns implementation.
+#### 关键功能
+- 重新设计的仪表盘（电商、分析、营销、CRM）
+- 通过 React Router 集成增强导航
+- 支持排序和筛选的高级表格
+- 支持拖放的日历功能
+- 新的 UI 组件和改进的现有组件
 
-#### Major Improvements
+#### 破坏性变更
+- 更新侧边栏组件 API
+- 迁移图表到 ApexCharts
+- 修订身份验证系统
 
-- Complete UI redesign with modern React patterns
-- New features: collapsible sidebar, chat, and calendar
-- Improved performance and accessibility
-- Updated data visualization using ApexCharts
+[查看更多](https://orixaadmin.com/docs/update-logs/react)更新日志详情。
 
-#### Key Features
+## 许可证
 
-- Redesigned dashboards (Ecommerce, Analytics, Marketing, CRM)
-- Enhanced navigation with React Router integration
-- Advanced tables with sorting and filtering
-- Calendar with drag-and-drop support
-- New UI components and improved existing ones
+更多信息请访问我们的[许可证](https://orixaadmin.com/license)页面。
 
-#### Breaking Changes
+## 技术支持
 
-- Updated sidebar component API
-- Migrated charts to ApexCharts
-- Revised authentication system
-
-[Read more](https://orixaadmin.com/docs/update-logs/react) on the changelog.
-
-## License
-
-Refer to our [LICENSE](https://orixaadmin.com/license) page for more information.
+如有任何问题或建议，请访问：
+- 官方网站：https://orixaadmin.com
+- 文档中心：https://orixaadmin.com/docs
