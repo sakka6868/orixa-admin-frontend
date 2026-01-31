@@ -10,6 +10,7 @@ import useMountEffect from "../../hooks/useMountEffect.ts";
 import {useMessage} from "../../components/ui/message";
 import Button from "../../components/ui/button/Button";
 import {useSidebar} from "../../context/SidebarContext";
+import {useModal} from "../../components/ui/modal";
 import Badge from "../../components/ui/badge/Badge.tsx";
 
 interface MenuApiData {
@@ -27,8 +28,10 @@ export default function StaffList() {
     const [loading, setLoading] = useState<boolean>(true);
     const [editingStaff, setEditingStaff] = useState<StaffListItem | null>(null);
     const [currentStaffId, setCurrentStaffId] = useState<string | null>(null);
+
     const message = useMessage();
     const {refreshMenu} = useSidebar();
+    const modal = useModal();
 
     // 页面加载时获取员工数据和菜单数据
     useMountEffect(() => {
@@ -99,18 +102,24 @@ export default function StaffList() {
 
     // 处理删除员工
     const handleDeleteStaff = async (id: string) => {
-        if (!confirm("确认删除该员工吗？")) {
-            return;
-        }
+        const confirmed = await modal.confirm({
+            title: "确认删除",
+            message: "确认删除该员工吗？此操作不可恢复。",
+            confirmText: "确认删除",
+            cancelText: "取消",
+            type: "danger"
+        });
 
-        try {
-            await SystemApi.deleteStaff(id);
-            message.success("删除成功", "员工已成功删除");
-            // 刷新列表
-            await fetchStaffList();
-        } catch (error) {
-            console.error('删除员工失败:', error);
-            message.error("删除失败", "删除员工失败");
+        if (confirmed) {
+            try {
+                await SystemApi.deleteStaff(id);
+                message.success("删除成功", "员工已成功删除");
+                // 刷新列表
+                await fetchStaffList();
+            } catch (error) {
+                console.error('删除员工失败:', error);
+                message.error("删除失败", "删除员工失败");
+            }
         }
     };
 

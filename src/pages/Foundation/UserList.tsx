@@ -8,13 +8,16 @@ import useMountEffect from "../../hooks/useMountEffect.ts";
 import {useMessage} from "../../components/ui/message";
 import Button from "../../components/ui/button/Button.tsx";
 import Badge from "../../components/ui/badge/Badge.tsx";
+import {useModal} from "../../components/ui/modal";
 
 export default function UserList() {
     const [userList, setUserList] = useState<User[]>([]);
     const [availableRoles, setAvailableRoles] = useState<Role[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [editingUser, setEditingUser] = useState<User | null>(null);
+
     const message = useMessage();
+    const modal = useModal();
 
     // 页面加载时获取用户数据和角色数据
     useMountEffect(() => {
@@ -38,6 +41,20 @@ export default function UserList() {
         fetchData().then(() => console.log('用户数据加载完成'));
     });
 
+    // 刷新用户列表
+    const fetchUserList = async () => {
+        try {
+            setLoading(true);
+            const users = await FoundationApi.listUsers({});
+            setUserList(users);
+        } catch (error) {
+            console.error('获取用户列表失败:', error);
+            message.error("加载失败", "获取用户列表失败");
+        } finally {
+            setLoading(false);
+        }
+    };
+
     // 处理添加用户
     const handleAddUser = async () => {
         // 刷新列表
@@ -58,28 +75,24 @@ export default function UserList() {
 
     // 处理删除用户
     const handleDeleteUser = async (id: string) => {
-        if (!confirm("确认删除该用户吗？")) {
-            return;
-        }
+        const confirmed = await modal.confirm({
+            title: "确认删除",
+            message: "确认删除该用户吗？此操作不可恢复。",
+            confirmText: "确认删除",
+            cancelText: "取消",
+            type: "danger"
+        });
 
-        try {
-            await FoundationApi.deleteUser(id);
-            message.success("删除成功", "用户已成功删除");
-            // 刷新列表
-            await fetchUserList();
-        } catch (error) {
-            console.error('删除用户失败:', error);
-            message.error("删除失败", "删除用户失败");
-        }
-    };
-
-    // 刷新用户列表
-    const fetchUserList = async () => {
-        try {
-            const users = await FoundationApi.listUsers({});
-            setUserList(users);
-        } catch (error) {
-            console.error('获取用户列表失败:', error);
+        if (confirmed) {
+            try {
+                await FoundationApi.deleteUser(id);
+                message.success("删除成功", "用户已成功删除");
+                // 刷新列表
+                await fetchUserList();
+            } catch (error) {
+                console.error('删除用户失败:', error);
+                message.error("删除失败", "删除用户失败");
+            }
         }
     };
 

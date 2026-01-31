@@ -25,18 +25,8 @@ export default function AuthorizeCodeCallback() {
                 // 跳转到首页
                 navigate('/');
             } catch (e: any) {
-                resetAuthorization({
-                    id: '1',
-                    name: 'user',
-                    firstName: 'user',
-                    lastName: 'user',
-                    birthday: '2000',
-                    avatar: '',
-                })
+                console.log("Error:",e);
             }
-            //resetAuthorization(user);
-            // 跳转到首页
-            //navigate('/');
         })();
     });
     return (

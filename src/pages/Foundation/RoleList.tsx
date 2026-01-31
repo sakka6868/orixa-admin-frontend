@@ -8,12 +8,15 @@ import useMountEffect from "../../hooks/useMountEffect.ts";
 import {useMessage} from "../../components/ui/message";
 import Button from "../../components/ui/button/Button.tsx";
 import React from "react";
+import {useModal} from "../../components/ui/modal";
 
 export default function RoleList() {
     const [roleList, setRoleList] = useState<Role[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [editingRole, setEditingRole] = useState<Role | null>(null);
+
     const message = useMessage();
+    const modal = useModal();
 
     // 页面加载时获取角色数据
     useMountEffect(() => {
@@ -32,6 +35,20 @@ export default function RoleList() {
         };
         fetchData().then(() => console.log('角色数据加载完成'));
     });
+
+    // 刷新角色列表
+    const fetchRoleList = async () => {
+        try {
+            setLoading(true);
+            const roles = await FoundationApi.listRoles();
+            setRoleList(roles);
+        } catch (error) {
+            console.error('获取角色列表失败:', error);
+            message.error("加载失败", "获取角色列表失败");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     // 处理添加角色
     const handleAddRole = async () => {
@@ -53,28 +70,24 @@ export default function RoleList() {
 
     // 处理删除角色
     const handleDeleteRole = async (id: string) => {
-        if (!confirm("确认删除该角色吗？此操作不可恢复。")) {
-            return;
-        }
+        const confirmed = await modal.confirm({
+            title: "确认删除",
+            message: "确认删除该角色吗？此操作不可恢复。",
+            confirmText: "确认删除",
+            cancelText: "取消",
+            type: "danger"
+        });
 
-        try {
-            await FoundationApi.deleteRole(id);
-            message.success("删除成功", "角色已成功删除");
-            // 刷新列表
-            await fetchRoleList();
-        } catch (error) {
-            console.error('删除角色失败:', error);
-            message.error("删除失败", "删除角色失败");
-        }
-    };
-
-    // 刷新角色列表
-    const fetchRoleList = async () => {
-        try {
-            const roles = await FoundationApi.listRoles();
-            setRoleList(roles);
-        } catch (error) {
-            console.error('获取角色列表失败:', error);
+        if (confirmed) {
+            try {
+                await FoundationApi.deleteRole(id);
+                message.success("删除成功", "角色已成功删除");
+                // 刷新列表
+                await fetchRoleList();
+            } catch (error) {
+                console.error('删除角色失败:', error);
+                message.error("删除失败", "删除角色失败");
+            }
         }
     };
 

@@ -5,12 +5,12 @@ interface ModalProps {
   onClose: () => void;
   className?: string;
   children: React.ReactNode;
-  showCloseButton?: boolean; // New prop to control close button visibility
-  isFullscreen?: boolean; // Default to false for backwards compatibility
-  closeOnClickOutside?: boolean; // 控制点击外部是否关闭，默认false
+  showCloseButton?: boolean;
+  isFullscreen?: boolean;
+  closeOnClickOutside?: boolean;
 }
 
-export const Modal: React.FC<ModalProps> = ({
+const Modal: React.FC<ModalProps> = ({
   isOpen,
   onClose,
   children,
@@ -120,3 +120,6 @@ export const Modal: React.FC<ModalProps> = ({
     </div>
   );
 };
+
+export { Modal };
+export default Modal;

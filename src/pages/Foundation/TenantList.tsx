@@ -7,10 +7,11 @@ import FoundationApi from "../../api/FoundationApi.ts";
 import useMountEffect from "../../hooks/useMountEffect.ts";
 import {useMessage} from "../../components/ui/message";
 import Button from "../../components/ui/button/Button.tsx";
-import {Modal} from "../../components/ui/modal";
+import {Modal} from "../../components/ui/modal/Modal";
 import Input from "../../components/form/input/InputField";
 import Label from "../../components/form/Label";
 import MultiSelect from "../../components/form/MultiSelect.tsx";
+import {useModal} from "../../components/ui/modal";
 
 export default function TenantList() {
     const [tenantList, setTenantList] = useState<Tenant[]>([]);
@@ -56,6 +57,7 @@ export default function TenantList() {
     });
 
     const message = useMessage();
+    const modal = useModal();
 
     // 页面加载时获取租户数据和角色列表
     useMountEffect(() => {
@@ -203,17 +205,23 @@ export default function TenantList() {
 
     // 处理删除租户
     const handleDeleteTenant = async (id: string) => {
-        if (!confirm("确认删除该租户吗？")) {
-            return;
-        }
+        const confirmed = await modal.confirm({
+            title: "确认删除",
+            message: "确认删除该租户吗？此操作不可恢复。",
+            confirmText: "确认删除",
+            cancelText: "取消",
+            type: "danger"
+        });
 
-        try {
-            await FoundationApi.deleteTenant(id);
-            message.success("删除成功", "租户已成功删除");
-            await fetchTenantList();
-        } catch (error) {
-            console.error('删除租户失败:', error);
-            message.error("删除失败", "删除租户失败");
+        if (confirmed) {
+            try {
+                await FoundationApi.deleteTenant(id);
+                message.success("删除成功", "租户已成功删除");
+                await fetchTenantList();
+            } catch (error) {
+                console.error('删除租户失败:', error);
+                message.error("删除失败", "删除租户失败");
+            }
         }
     };
 

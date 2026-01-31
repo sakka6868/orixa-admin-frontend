@@ -8,7 +8,7 @@ import FiveZeroThree from "./pages/OtherPage/FiveZeroThree";
 import Forbidden from "./pages/OtherPage/Forbidden";
 
 import ComingSoon from "./pages/OtherPage/ComingSoon";
-import HomeWelcome from "./pages/OtherPage/HomeWelcome.tsx"; // 首页欢迎页面
+import HomeWelcome from "./pages/OtherPage/HomeWelcome.tsx";
 
 import AppLayout from "./layout/AppLayout";
 
@@ -21,13 +21,15 @@ import UserList from "./pages/Foundation/UserList.tsx";
 import {MessageProvider} from "./components/ui/message";
 import RoleList from "./pages/Foundation/RoleList.tsx";
 import TenantList from "./pages/Foundation/TenantList.tsx";
+import {ModalProvider} from "./components/ui/modal";
 
 export default function App() {
     return (
-        <MessageProvider>
-            <Router>
-                <ScrollToTop/>
-                <Routes>
+        <ModalProvider>
+            <MessageProvider>
+                <Router>
+                    <ScrollToTop/>
+                    <Routes>
                     {/* Dashboard Layout */}
                     <Route element={<AppLayout/>}>
                         <Route path="/" element={<HomeWelcome/>}/>
@@ -54,5 +56,6 @@ export default function App() {
                 </Routes>
             </Router>
         </MessageProvider>
+        </ModalProvider>
     );
 }
