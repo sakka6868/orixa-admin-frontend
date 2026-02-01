@@ -3,7 +3,6 @@ import {useModal} from "../../hooks/useModal";
 import Button from "../ui/button/Button";
 import {Modal} from "../ui/modal";
 import Label from "../form/Label";
-import Input from "../form/input/InputField";
 import {StaffFormData, MenuVo} from "../../types/staff";
 import {User} from "../../types/user";
 import {useMessage} from "../ui/message";
@@ -45,7 +44,8 @@ export default function AddStaffModal({onAdd, availableMenus = [], availableUser
                         id: menu.id,
                         name: menu.name,
                         path: menu.path,
-                        icon: menu.icon
+                        icon: menu.icon,
+                        type: menu.type
                     });
                 }
                 if (menu.children) {
