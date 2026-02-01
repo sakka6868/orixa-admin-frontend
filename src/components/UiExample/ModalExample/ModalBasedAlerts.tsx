@@ -1,6 +1,7 @@
 import ComponentCard from "../../common/ComponentCard";
 import { useModal } from "../../../hooks/useModal";
 import { Modal } from "../../ui/modal";
+import Button from "../../ui/button/Button";
 
 export default function ModalBasedAlerts() {
   const successModal = useModal();
@@ -10,30 +11,30 @@ export default function ModalBasedAlerts() {
   return (
     <ComponentCard title="Modal Based Alerts">
       <div className="flex flex-wrap items-center gap-3">
-        <button
+        <Button
           onClick={successModal.openModal}
-          className="px-4 py-3 text-sm font-medium text-white rounded-lg bg-success-500 shadow-theme-xs hover:bg-success-600"
+          className="bg-success-500 hover:bg-success-600"
         >
           Success Alert
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={infoModal.openModal}
-          className="px-4 py-3 text-sm font-medium text-white rounded-lg bg-blue-light-500 shadow-theme-xs hover:bg-blue-light-600"
+          className="bg-blue-light-500 hover:bg-blue-light-600"
         >
           Info Alert
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={warningModal.openModal}
-          className="px-4 py-3 text-sm font-medium text-white rounded-lg bg-warning-500 shadow-theme-xs hover:bg-warning-600"
+          className="bg-warning-500 hover:bg-warning-600"
         >
           Warning Alert
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={errorModal.openModal}
-          className="px-4 py-3 text-sm font-medium text-white rounded-lg bg-error-500 shadow-theme-xs hover:bg-error-600"
+          className="bg-error-500 hover:bg-error-600"
         >
           Danger Alert
-        </button>
+        </Button>
       </div>
       {/* Success Modal */}
       <Modal
@@ -85,12 +86,11 @@ export default function ModalBasedAlerts() {
           </p>
 
           <div className="flex items-center justify-center w-full gap-3 mt-7">
-            <button
-              type="button"
-              className="flex justify-center w-full px-4 py-3 text-sm font-medium text-white rounded-lg bg-success-500 shadow-theme-xs hover:bg-success-600 sm:w-auto"
+            <Button
+              className="bg-success-500 hover:bg-success-600"
             >
               Okay, Got It
-            </button>
+            </Button>
           </div>
         </div>
       </Modal>
@@ -145,12 +145,11 @@ export default function ModalBasedAlerts() {
           </p>
 
           <div className="flex items-center justify-center w-full gap-3 mt-7">
-            <button
-              type="button"
-              className="flex justify-center w-full px-4 py-3 text-sm font-medium text-white rounded-lg bg-blue-light-500 shadow-theme-xs hover:bg-blue-light-600 sm:w-auto"
+            <Button
+              className="bg-blue-light-500 hover:bg-blue-light-600"
             >
               Okay, Got It
-            </button>
+            </Button>
           </div>
         </div>
       </Modal>
@@ -205,12 +204,11 @@ export default function ModalBasedAlerts() {
           </p>
 
           <div className="flex items-center justify-center w-full gap-3 mt-7">
-            <button
-              type="button"
-              className="flex justify-center w-full px-4 py-3 text-sm font-medium text-white rounded-lg bg-warning-500 shadow-theme-xs hover:bg-warning-600 sm:w-auto"
+            <Button
+              className="bg-warning-500 hover:bg-warning-600"
             >
               Okay, Got It
-            </button>
+            </Button>
           </div>
         </div>
       </Modal>
@@ -265,12 +263,11 @@ export default function ModalBasedAlerts() {
           </p>
 
           <div className="flex items-center justify-center w-full gap-3 mt-7">
-            <button
-              type="button"
-              className="flex justify-center w-full px-4 py-3 text-sm font-medium text-white rounded-lg bg-error-500 shadow-theme-xs hover:bg-error-600 sm:w-auto"
+            <Button
+              className="bg-error-500 hover:bg-error-600"
             >
               Okay, Got It
-            </button>
+            </Button>
           </div>
         </div>
       </Modal>

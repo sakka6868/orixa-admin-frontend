@@ -73,10 +73,10 @@ const Modal: React.FC<ModalProps> = ({
 
   const contentClasses = isFullscreen
     ? "w-full h-full"
-    : "relative w-full max-w-[95%] sm:max-w-[90%] md:max-w-[85%] lg:max-w-[80%] xl:max-w-[75%] 2xl:max-w-[1200px] mx-auto rounded-3xl bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl";
+    : "relative w-auto min-w-[280px] max-w-[95vw] h-auto max-h-[90vh] mx-auto rounded-3xl bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl";
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center overflow-y-auto modal z-99999">
+    <div className="fixed inset-0 flex items-center justify-center modal z-99999">
       {!isFullscreen && (
         <div
           className={`fixed inset-0 h-full w-full bg-gray-400/50 backdrop-blur-[32px] transition-opacity duration-400 ease-in-out ${
@@ -115,7 +115,7 @@ const Modal: React.FC<ModalProps> = ({
             </svg>
           </button>
         )}
-        <div>{children}</div>
+        <div className="overflow-y-auto max-h-[calc(90vh-40px)] pb-6 modal-scrollbar">{children}</div>
       </div>
     </div>
   );

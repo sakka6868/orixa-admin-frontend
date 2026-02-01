@@ -1,4 +1,5 @@
 import { Modal } from "../ui/modal";
+import Button from "../ui/button/Button";
 
 interface IntegrationDeleteModalProps {
   isOpen: boolean;
@@ -61,25 +62,24 @@ export default function IntegrationDeleteModal({
         </p>
 
         <div className="mt-8 flex w-full items-center justify-center gap-3">
-          <button
-            type="button"
+          <Button
+            variant="outline"
             onClick={onClose}
-            className="shadow-theme-xs flex justify-center rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200"
           >
             No, cancel
-          </button>
-          <button
-            type="button"
+          </Button>
+          <Button
+            variant="primary"
             onClick={() => {
               if (onConfirm) {
                 onConfirm();
               }
               onClose();
             }}
-            className="shadow-theme-xs flex justify-center rounded-lg bg-red-500 px-4 py-3 text-sm font-medium text-white hover:bg-red-600"
+            className="bg-red-500 hover:bg-red-600 dark:bg-red-500 dark:hover:bg-red-600"
           >
             Yes, I'm sure
-          </button>
+          </Button>
         </div>
       </div>
     </Modal>

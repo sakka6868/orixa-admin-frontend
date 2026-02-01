@@ -289,6 +289,28 @@ layer(base);
   }
 }
 
+/* Modal scrollbar - 弹窗滚动条样式，固定在右侧 */
+@utility modal-scrollbar {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: theme('colors.gray.200') transparent; /* Firefox */
+
+  &::-webkit-scrollbar {
+    @apply w-1.5;
+  }
+
+  &::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    @apply bg-gray-200 rounded-full dark:bg-gray-700;
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 dark:bg-gray-600;
+  }
+}
+
 .dark .custom-scrollbar::-webkit-scrollbar-thumb {
   background-color: #344054;
 }

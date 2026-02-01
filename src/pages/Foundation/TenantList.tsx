@@ -1,6 +1,6 @@
 import PageMeta from "../../components/common/PageMeta.tsx";
 import {useState} from "react";
-import {Tenant, CreateTenantCommand, UpdateTenantCommand} from "../../types/tenant.ts";
+import {Tenant, CreateTenantCommand, UpdateTenantCommand, TenantProfile} from "../../types/tenant.ts";
 import {Role} from "../../types/user.ts";
 import {CLIENT_AUTHENTICATION_METHODS, AUTHORIZATION_GRANT_TYPES, OAUTH_SCOPES} from "../../types/oauth.ts";
 import FoundationApi from "../../api/FoundationApi.ts";
@@ -150,16 +150,19 @@ export default function TenantList() {
 
     // 打开编辑弹窗
     const handleOpenEditModal = (tenant: Tenant) => {
+        // 确保编辑时密码字段留空
+        const mergeProfile: TenantProfile = {
+            ...tenant.profile!,
+            credential: {
+                credentialKey: tenant.profile?.credential?.credentialKey || "",
+                credentialValue: "",
+                oldCredentialValue: ""
+            }
+        };
         setEditFormData({
             id: tenant.id,
             name: tenant.name,
-            profile: tenant.profile || {
-                credential: {
-                    credentialKey: "",
-                    credentialValue: ""
-                },
-                roles: []
-            },
+            profile: mergeProfile,
             authenticationMethods: tenant.authenticationMethods || [],
             authorizationGrantTypes: tenant.authorizationGrantTypes || [],
             redirectUris: tenant.redirectUris || [],
@@ -522,10 +525,10 @@ export default function TenantList() {
                         </div>
                     </div>
                     <div className="mt-6 flex justify-end gap-3">
-                        <Button variant="outline" onClick={() => setIsAddModalOpen(false)}>
+                        <Button className="w-full" variant="outline" onClick={() => setIsAddModalOpen(false)}>
                             取消
                         </Button>
-                        <Button variant="primary" onClick={handleAddTenant}>
+                        <Button className="w-full" variant="primary" onClick={handleAddTenant}>
                             确定
                         </Button>
                     </div>
@@ -733,10 +736,10 @@ export default function TenantList() {
                         </div>
                     </div>
                     <div className="mt-6 flex justify-end gap-3">
-                        <Button variant="outline" onClick={() => setIsEditModalOpen(false)}>
+                        <Button className="w-full" variant="outline" onClick={() => setIsEditModalOpen(false)}>
                             取消
                         </Button>
-                        <Button variant="primary" onClick={handleUpdateTenant}>
+                        <Button className="w-full" variant="primary" onClick={handleUpdateTenant}>
                             确定
                         </Button>
                     </div>
