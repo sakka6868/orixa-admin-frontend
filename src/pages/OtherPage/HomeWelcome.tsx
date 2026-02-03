@@ -77,9 +77,9 @@ export default function HomeWelcome() {
                             alt="Logo"
                         />
                         <img
-                            className="mx-auto h-12 hidden asuka:block"
-                            src="images/logo/logo-dark.svg"
-                            alt="Logo"
+                            className="mx-auto h-24 hidden asuka:block asuka-logo"
+                            src="images/asuka-portrait.jpg"
+                            alt="Asuka"
                         />
                     </div>
 

@@ -1010,8 +1010,6 @@ pre[class*="language-"].line-numbers {
 
 /* Asuka theme logo - mecha style portrait */
 .asuka .asuka-logo {
-  width: 48px;
-  height: 48px;
   border-radius: 6px;
   border: 1.5px solid #E60012;
   box-shadow:
@@ -1029,6 +1027,18 @@ pre[class*="language-"].line-numbers {
     0% 92%,
     0% 8%
   );
+}
+
+/* Sidebar logo size */
+.asuka aside .asuka-logo {
+  width: 48px;
+  height: 48px;
+}
+
+/* Welcome page logo size */
+.asuka .asuka-logo:not(aside .asuka-logo) {
+  width: 96px;
+  height: 96px;
 }
 
 /* Corner accents for mecha style */
