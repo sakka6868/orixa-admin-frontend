@@ -67,12 +67,17 @@ export default function HomeWelcome() {
                     {/* Logo */}
                     <div className="mb-8">
                         <img
-                            className="mx-auto h-12 dark:hidden"
+                            className="mx-auto h-12 dark:hidden asuka:hidden"
                             src="images/logo/logo.svg"
                             alt="Logo"
                         />
                         <img
                             className="mx-auto h-12 hidden dark:block"
+                            src="images/logo/logo-dark.svg"
+                            alt="Logo"
+                        />
+                        <img
+                            className="mx-auto h-12 hidden asuka:block"
                             src="images/logo/logo-dark.svg"
                             alt="Logo"
                         />

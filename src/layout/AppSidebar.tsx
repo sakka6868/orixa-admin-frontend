@@ -393,7 +393,7 @@ const AppSidebar: React.FC = () => {
                     {isExpanded || isHovered || isMobileOpen ? (
                         <>
                             <img
-                                className="dark:hidden"
+                                className="dark:hidden asuka:hidden"
                                 src="/images/logo/logo.svg"
                                 alt="Logo"
                                 width={150}
@@ -406,9 +406,17 @@ const AppSidebar: React.FC = () => {
                                 width={150}
                                 height={40}
                             />
+                            <img
+                                className="hidden asuka:block asuka-logo"
+                                src="/images/asuka-portrait.jpg"
+                                alt="Asuka"
+                                width={150}
+                                height={150}
+                            />
                         </>
                     ) : (
                         <img
+                            className="asuka:hidden"
                             src="/images/logo/logo-icon.svg"
                             alt="Logo"
                             width={32}
@@ -448,6 +456,8 @@ const AppSidebar: React.FC = () => {
                     </div>
                 </nav>
             </div>
+            {/* EVA Unit-02 Background */}
+            <div className="asuka-unit02-bg"></div>
         </aside>
     );
 };

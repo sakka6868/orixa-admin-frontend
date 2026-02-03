@@ -3,11 +3,13 @@
 import type React from "react";
 import { createContext, useState, useContext, useEffect } from "react";
 
-type Theme = "light" | "dark";
+type Theme = "light" | "dark" | "asuka";
 
 type ThemeContextType = {
   theme: Theme;
+  setTheme: (theme: Theme) => void;
   toggleTheme: () => void;
+  cycleTheme: () => void;
 };
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -30,10 +32,11 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     if (isInitialized) {
       localStorage.setItem("theme", theme);
+      document.documentElement.classList.remove("dark", "asuka");
       if (theme === "dark") {
         document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
+      } else if (theme === "asuka") {
+        document.documentElement.classList.add("asuka");
       }
     }
   }, [theme, isInitialized]);
@@ -42,8 +45,16 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
   };
 
+  const cycleTheme = () => {
+    setTheme((prevTheme) => {
+      if (prevTheme === "light") return "dark";
+      if (prevTheme === "dark") return "asuka";
+      return "light";
+    });
+  };
+
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, setTheme, toggleTheme, cycleTheme }}>
       {children}
     </ThemeContext.Provider>
   );

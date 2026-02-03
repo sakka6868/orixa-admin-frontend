@@ -881,3 +881,287 @@ pre[class*="language-"] {
 pre[class*="language-"].line-numbers {
   padding-left: 2.8em !important;
 }
+
+/* Asuka Theme - NERV Tactical Dashboard Style */
+.asuka {
+  /* EVA Color System */
+  --eva-red: #E60012;
+  --eva-orange: #FF6B35;
+  --eva-yellow: #FFD700;
+  --eva-blue: #00BFFF;
+  --eva-green: #39FF14;
+  --eva-black: #000000;
+  --eva-dark: #0A0A0A;
+  --eva-gray: #1A1A1A;
+  
+  /* Warm dark background - EVA plug interior style */
+  --color-gray-50: #1a0f0f;
+  --color-gray-100: #1f1212;
+  --color-gray-200: #2d1818;
+  --color-gray-300: #3d2020;
+  --color-gray-400: #4d2828;
+  --color-gray-500: #6d4040;
+  --color-gray-600: #8d5858;
+  --color-gray-700: #b08080;
+  --color-gray-800: #d4a5a5;
+  --color-gray-900: #f5e0e0;
+  --color-gray-950: #ffffff;
+  --color-gray-dark: #1f1212;
+
+  /* Brand colors - EVA Unit-02 Red */
+  --color-brand-25: #fff0f0;
+  --color-brand-50: #ffe0e0;
+  --color-brand-100: #ffc0c0;
+  --color-brand-200: #ff9090;
+  --color-brand-300: #ff6060;
+  --color-brand-400: #ff3030;
+  --color-brand-500: #E60012;
+  --color-brand-600: #cc0010;
+  --color-brand-700: #b3000e;
+  --color-brand-800: #99000c;
+  --color-brand-900: #660008;
+  --color-brand-950: #330004;
+
+  /* Success - EVA Green */
+  --color-success-500: #39FF14;
+  --color-success-600: #32e012;
+
+  /* Warning - EVA Yellow */
+  --color-warning-500: #FFD700;
+  --color-warning-600: #e6c200;
+
+  /* Error - EVA Red */
+  --color-error-500: #E60012;
+  --color-error-600: #cc0010;
+
+  /* Orange accent */
+  --color-orange-500: #FF6B35;
+  --color-orange-600: #e66030;
+
+  /* Shadows with EVA red tint */
+  --shadow-theme-xs: 0px 1px 2px 0px rgba(230, 0, 18, 0.15);
+  --shadow-theme-sm: 0px 1px 3px 0px rgba(230, 0, 18, 0.2),
+    0px 1px 2px 0px rgba(230, 0, 18, 0.15);
+  --shadow-theme-md: 0px 4px 8px -2px rgba(230, 0, 18, 0.2),
+    0px 2px 4px -2px rgba(230, 0, 18, 0.15);
+  --shadow-theme-lg: 0px 12px 16px -4px rgba(230, 0, 18, 0.2),
+    0px 4px 6px -2px rgba(230, 0, 18, 0.15);
+  --shadow-theme-xl: 0px 20px 24px -4px rgba(230, 0, 18, 0.2),
+    0px 8px 8px -4px rgba(230, 0, 18, 0.15);
+}
+
+/* Asuka theme body background - Warm dark EVA style */
+.asuka body {
+  background-color: #1a0f0f;
+  color: #f5e0e0;
+}
+
+/* Asuka theme tactical grid background */
+.asuka body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  background: 
+    linear-gradient(rgba(230, 0, 18, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(230, 0, 18, 0.08) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: asuka-grid-flow 3s linear infinite;
+}
+
+@keyframes asuka-grid-flow {
+  0% { background-position: 0 0; }
+  100% { background-position: 40px 40px; }
+}
+
+/* Asuka theme text colors - Warm tones */
+.asuka .text-gray-700 {
+  color: #b08080 !important;
+}
+
+.asuka .text-gray-800 {
+  color: #d4a5a5 !important;
+}
+
+.asuka .text-gray-900 {
+  color: #f5e0e0 !important;
+}
+
+/* Asuka theme sidebar - Warm glassmorphism effect */
+.asuka aside {
+  background: rgba(45, 24, 24, 0.9) !important;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-right: 1px solid rgba(230, 0, 18, 0.4) !important;
+}
+
+/* Asuka theme sidebar title */
+.asuka aside h2 {
+  color: #E60012 !important;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(230, 0, 18, 0.8);
+}
+
+/* Asuka theme logo - mecha style portrait */
+.asuka .asuka-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  border: 1.5px solid #E60012;
+  box-shadow:
+    0 0 10px rgba(230, 0, 18, 0.3),
+    inset 0 0 6px rgba(230, 0, 18, 0.15);
+  object-fit: cover;
+  position: relative;
+  clip-path: polygon(
+    8% 0%,
+    92% 0%,
+    100% 8%,
+    100% 92%,
+    92% 100%,
+    8% 100%,
+    0% 92%,
+    0% 8%
+  );
+}
+
+/* Corner accents for mecha style */
+.asuka .asuka-logo::before {
+  content: "";
+  position: absolute;
+  top: -1.5px;
+  left: -1.5px;
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid #FF6B35;
+  border-left: 2px solid #FF6B35;
+}
+
+.asuka .asuka-logo::after {
+  content: "";
+  position: absolute;
+  bottom: -1.5px;
+  right: -1.5px;
+  width: 10px;
+  height: 10px;
+  border-bottom: 2px solid #FF6B35;
+  border-right: 2px solid #FF6B35;
+}
+
+/* Asuka theme sidebar EVA Unit-02 background */
+.asuka .asuka-unit02-bg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 300px;
+  background-image: url('/images/eva-unit02.jpg');
+  background-size: cover;
+  background-position: center bottom;
+  opacity: 0.25;
+  pointer-events: none;
+  z-index: 0;
+  mask-image: linear-gradient(to top, black 0%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to top, black 0%, transparent 100%);
+}
+
+/* Asuka theme menu items */
+.asuka .menu-item {
+  color: #d4a5a5 !important;
+  transition: all 0.3s ease;
+}
+
+.asuka .menu-item:hover {
+  background-color: rgba(230, 0, 18, 0.2) !important;
+  color: #f5e0e0 !important;
+  box-shadow: 0 0 15px rgba(230, 0, 18, 0.3);
+}
+
+.asuka .menu-item-active {
+  background: linear-gradient(90deg, rgba(230, 0, 18, 0.25), transparent) !important;
+  color: #ff4d4d !important;
+  border-left: 3px solid #E60012;
+  box-shadow: 0 0 20px rgba(230, 0, 18, 0.4);
+}
+
+/* Asuka theme card styling - Warm glass effect */
+.asuka .bg-white,
+.asuka .bg-gray-50,
+.asuka .bg-gray-100 {
+  background: rgba(45, 24, 24, 0.8) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(230, 0, 18, 0.3);
+  box-shadow: 0 0 20px rgba(230, 0, 18, 0.15);
+}
+
+/* Asuka theme button styling */
+.asuka button[class*="bg-brand"],
+.asuka .bg-brand-500 {
+  background: #E60012 !important;
+  box-shadow: 0 0 20px rgba(230, 0, 18, 0.5);
+  transition: all 0.3s ease;
+}
+
+.asuka button[class*="bg-brand"]:hover,
+.asuka .bg-brand-500:hover {
+  background: #ff1a2e !important;
+  box-shadow: 0 0 30px rgba(230, 0, 18, 0.7);
+  transform: translateY(-1px);
+}
+
+/* Asuka theme headings */
+.asuka h1,
+.asuka h2,
+.asuka h3 {
+  color: #ffffff;
+  text-shadow: 0 0 20px rgba(230, 0, 18, 0.5);
+}
+
+/* Asuka theme scrollbar */
+.asuka ::-webkit-scrollbar {
+  width: 8px;
+}
+
+.asuka ::-webkit-scrollbar-track {
+  background: #1a0f0f;
+}
+
+.asuka ::-webkit-scrollbar-thumb {
+  background: #E60012;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(230, 0, 18, 0.5);
+}
+
+/* Asuka theme selection */
+.asuka ::selection {
+  background: #E60012;
+  color: #ffffff;
+}
+
+/* Asuka theme logo - use dark logo */
+.asuka .asuka\:hidden {
+  display: none;
+}
+
+.asuka .asuka\:block {
+  display: block;
+}
+
+/* Asuka Animations */
+
+/* Background grid flow animation */
+@keyframes asuka-grid-flow {
+  0% { background-position: 0 0; }
+  100% { background-position: 40px 40px; }
+}
+
+.asuka body::before {
+  animation: asuka-grid-flow 20s linear infinite;
+}
