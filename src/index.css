@@ -893,6 +893,14 @@ pre[class*="language-"].line-numbers {
   --eva-black: #000000;
   --eva-dark: #0A0A0A;
   --eva-gray: #1A1A1A;
+  --eva-scarlet: #ff1a2e;
+  --eva-ember: #ff8a4c;
+  --eva-steel: #3b1f1f;
+  --eva-glow: rgba(230, 0, 18, 0.35);
+  --eva-glow-strong: rgba(230, 0, 18, 0.6);
+  --eva-grid: rgba(230, 0, 18, 0.12);
+  --eva-panel: rgba(45, 24, 24, 0.82);
+  --eva-panel-strong: rgba(54, 26, 26, 0.92);
   
   /* Warm dark background - EVA plug interior style */
   --color-gray-50: #1a0f0f;
@@ -966,9 +974,11 @@ pre[class*="language-"].line-numbers {
   height: 100%;
   pointer-events: none;
   z-index: -1;
-  background: 
-    linear-gradient(rgba(230, 0, 18, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(230, 0, 18, 0.08) 1px, transparent 1px);
+  background:
+    linear-gradient(var(--eva-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--eva-grid) 1px, transparent 1px),
+    radial-gradient(circle at 12% 18%, rgba(255, 107, 53, 0.18), transparent 45%),
+    radial-gradient(circle at 88% 72%, rgba(255, 215, 0, 0.12), transparent 52%);
   background-size: 40px 40px;
   animation: asuka-grid-flow 3s linear infinite;
 }
@@ -997,6 +1007,38 @@ pre[class*="language-"].line-numbers {
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
   border-right: 1px solid rgba(230, 0, 18, 0.4) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.asuka aside::before {
+  content: "";
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--eva-scarlet), transparent);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.asuka aside::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, rgba(230, 0, 18, 0.12) 0%, transparent 35%),
+    linear-gradient(-45deg, rgba(255, 107, 53, 0.1) 0%, transparent 38%),
+    repeating-linear-gradient(
+      135deg,
+      rgba(230, 0, 18, 0.12),
+      rgba(230, 0, 18, 0.12) 6px,
+      transparent 6px,
+      transparent 14px
+    );
+  opacity: 0.25;
+  pointer-events: none;
 }
 
 /* Asuka theme sidebar title */
@@ -1006,6 +1048,15 @@ pre[class*="language-"].line-numbers {
   letter-spacing: 2px;
   text-transform: uppercase;
   text-shadow: 0 0 10px rgba(230, 0, 18, 0.8);
+}
+
+.asuka aside h2::after {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 2px;
+  margin-top: 6px;
+  background: linear-gradient(90deg, var(--eva-orange), transparent);
 }
 
 /* Asuka theme logo - mecha style portrait */
@@ -1085,12 +1136,28 @@ pre[class*="language-"].line-numbers {
 .asuka .menu-item {
   color: #d4a5a5 !important;
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .asuka .menu-item:hover {
   background-color: rgba(230, 0, 18, 0.2) !important;
   color: #f5e0e0 !important;
   box-shadow: 0 0 15px rgba(230, 0, 18, 0.3);
+}
+
+.asuka .menu-item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent, rgba(230, 0, 18, 0.2), transparent);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.asuka .menu-item:hover::after {
+  opacity: 1;
 }
 
 .asuka .menu-item-active {
@@ -1104,11 +1171,42 @@ pre[class*="language-"].line-numbers {
 .asuka .bg-white,
 .asuka .bg-gray-50,
 .asuka .bg-gray-100 {
-  background: rgba(45, 24, 24, 0.8) !important;
+  background: var(--eva-panel) !important;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(230, 0, 18, 0.3);
   box-shadow: 0 0 20px rgba(230, 0, 18, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.asuka .bg-white::before,
+.asuka .bg-gray-50::before,
+.asuka .bg-gray-100::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--eva-red), transparent);
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+.asuka .bg-white::after,
+.asuka .bg-gray-50::after,
+.asuka .bg-gray-100::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 56px;
+  height: 56px;
+  border-top: 2px solid rgba(255, 107, 53, 0.6);
+  border-right: 2px solid rgba(255, 107, 53, 0.6);
+  opacity: 0.55;
+  pointer-events: none;
 }
 
 /* Asuka theme button styling */
@@ -1126,12 +1224,101 @@ pre[class*="language-"].line-numbers {
   transform: translateY(-1px);
 }
 
+.asuka button {
+  border-color: rgba(230, 0, 18, 0.35);
+}
+
+.asuka button[class*="border"],
+.asuka button[class*="bg-transparent"] {
+  background: rgba(45, 24, 24, 0.6);
+  color: #f5e0e0;
+  box-shadow: 0 0 12px rgba(230, 0, 18, 0.25);
+}
+
+.asuka button[class*="border"]:hover,
+.asuka button[class*="bg-transparent"]:hover {
+  border-color: var(--eva-red);
+  box-shadow: 0 0 16px var(--eva-glow-strong);
+  color: #ffffff;
+}
+
+.asuka button[class*="bg-error"],
+.asuka button[class*="bg-danger"] {
+  background: var(--eva-scarlet) !important;
+  box-shadow: 0 0 20px rgba(255, 26, 46, 0.6);
+}
+
+.asuka button[class*="bg-error"]:hover,
+.asuka button[class*="bg-danger"]:hover {
+  background: #ff4d5f !important;
+}
+
+.asuka button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--eva-glow), 0 0 18px rgba(230, 0, 18, 0.4);
+}
+
+.asuka button:disabled,
+.asuka button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.asuka input,
+.asuka textarea,
+.asuka select {
+  background: var(--eva-panel-strong);
+  border: 1px solid rgba(230, 0, 18, 0.35);
+  color: #f5e0e0;
+  box-shadow: inset 0 0 12px rgba(230, 0, 18, 0.15);
+}
+
+.asuka input::placeholder,
+.asuka textarea::placeholder {
+  color: rgba(245, 224, 224, 0.55);
+}
+
+.asuka input:focus,
+.asuka textarea:focus,
+.asuka select:focus {
+  outline: none;
+  border-color: var(--eva-red);
+  box-shadow: 0 0 0 3px var(--eva-glow), inset 0 0 12px rgba(230, 0, 18, 0.25);
+}
+
+.asuka input:disabled,
+.asuka textarea:disabled,
+.asuka select:disabled {
+  opacity: 0.7;
+  background: rgba(45, 24, 24, 0.5);
+}
+
+.asuka input[type="checkbox"],
+.asuka input[type="radio"] {
+  accent-color: var(--eva-red);
+}
+
 /* Asuka theme headings */
 .asuka h1,
 .asuka h2,
 .asuka h3 {
   color: #ffffff;
   text-shadow: 0 0 20px rgba(230, 0, 18, 0.5);
+}
+
+.asuka h1::after,
+.asuka h2::after {
+  content: "";
+  display: block;
+  height: 2px;
+  width: 64px;
+  margin-top: 8px;
+  background: linear-gradient(90deg, var(--eva-scarlet), transparent);
+}
+
+.asuka hr {
+  border-color: rgba(230, 0, 18, 0.35);
+  box-shadow: 0 0 10px rgba(230, 0, 18, 0.2);
 }
 
 /* Asuka theme scrollbar */
