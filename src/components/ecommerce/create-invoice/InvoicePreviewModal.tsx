@@ -35,7 +35,7 @@ export default function InvoicePreviewModal() {
       <Modal
         isOpen={isOpen}
         onClose={closeModal}
-        className="relative w-full max-w-[720px] rounded-3xl bg-white dark:bg-gray-900"
+        className="w-full max-w-[720px]"
       >
         <div className="flex items-center justify-between px-6 py-4">
           <h3 className="text-lg text-gray-700 dark:text-gray-500">

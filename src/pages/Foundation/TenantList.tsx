@@ -345,7 +345,7 @@ export default function TenantList() {
 
             {/* 新增租户弹窗 */}
             <Modal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)}
-                   className="relative w-full max-w-[600px] m-5 sm:m-0 rounded-3xl bg-white p-6 lg:p-10 dark:bg-gray-900">
+                   className="w-full max-w-[600px] p-6 lg:p-10">
                 <div className="max-h-[80vh] overflow-y-auto">
                     <h2 className="mb-1 text-xl font-semibold text-gray-800 dark:text-white">
                         新增租户
@@ -537,7 +537,7 @@ export default function TenantList() {
 
             {/* 编辑租户弹窗 */}
             <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}
-                   className="relative w-full max-w-[600px] m-5 sm:m-0 rounded-3xl bg-white p-6 lg:p-10 dark:bg-gray-900">
+                   className="w-full max-w-[600px] p-6 lg:p-10">
                 <div className="max-h-[80vh] overflow-y-auto">
                     <h2 className="mb-1 text-xl font-semibold text-gray-800 dark:text-white">
                         编辑租户

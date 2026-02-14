@@ -121,10 +121,10 @@ export default function MonitorDashboard() {
                                     checked={autoRefresh}
                                     onChange={(e) => setAutoRefresh(e.target.checked)}
                                 />
-                                <div className={`w-10 h-5 rounded-full transition-colors ${
+                                <div className={`w-10 h-5 rounded-full transition-colors flex items-center ${
                                     autoRefresh ? 'bg-brand-500' : 'bg-gray-300 dark:bg-gray-600'
                                 }`}>
-                                    <div className={`w-4 h-4 bg-white rounded-full shadow transform transition-transform mt-0.5 ${
+                                    <div className={`w-4 h-4 bg-white rounded-full shadow transform transition-transform ${
                                         autoRefresh ? 'translate-x-5' : 'translate-x-0.5'
                                     }`}/>
                                 </div>

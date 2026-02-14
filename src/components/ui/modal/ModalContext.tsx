@@ -105,7 +105,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
             <Modal
                 isOpen={modalState.isOpen}
                 onClose={handleClose}
-                className="relative w-full max-w-[340px] m-5 sm:m-0 rounded-3xl bg-white p-6 dark:bg-gray-900"
+                className="w-full max-w-[340px] p-6"
                 closeOnClickOutside={false}
             >
                 <h2 className="mb-2 text-xl font-semibold text-gray-800 dark:text-white">

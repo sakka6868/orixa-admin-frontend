@@ -73,7 +73,7 @@ const Modal: React.FC<ModalProps> = ({
 
   const contentClasses = isFullscreen
     ? "w-full h-full"
-    : "relative w-auto min-w-[280px] max-w-[95vw] h-auto max-h-[90vh] mx-auto rounded-3xl bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl";
+    : "relative w-auto min-w-[280px] max-w-[95vw] h-auto max-h-[90vh] mx-auto rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-theme-lg";
 
   return (
     <div className="fixed inset-0 flex items-center justify-center modal z-99999">

@@ -139,28 +139,33 @@ export default function AddMenuModal({onAdd, parentMenuOptions = []}: AddMenuMod
 
     return (
         <>
-            <Button onClick={addMenuModal.openModal}>
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                >
-                    <path
-                        d="M5 10.0002H15.0006M10.0002 5V15.0006"
-                        stroke="white"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                    />
-                </svg>
+            <Button 
+                onClick={addMenuModal.openModal}
+                startIcon={
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        className="shrink-0"
+                    >
+                        <path
+                            d="M5 10.0002H15.0006M10.0002 5V15.0006"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        />
+                    </svg>
+                }
+            >
                 添加菜单
             </Button>
             <Modal
                 isOpen={addMenuModal.isOpen}
                 onClose={handleClose}
-                className="relative w-full max-w-[600px] m-5 sm:m-0 rounded-3xl bg-white p-6 lg:p-10 dark:bg-gray-900"
+                className="w-full max-w-[600px] p-6 lg:p-10"
             >
                 <div>
                     <h4 className="text-title-sm mb-1 font-semibold text-gray-800 dark:text-white/90">
@@ -252,17 +257,18 @@ export default function AddMenuModal({onAdd, parentMenuOptions = []}: AddMenuMod
                             </div>
                         </div>
 
-                        <div className="mt-8 flex flex-col sm:flex-row w-full items-center justify-between gap-3">
+                        <div className="mt-8 flex flex-col-reverse sm:flex-row w-full items-center justify-end gap-3">
                             <Button
                                 type="button"
                                 variant="outline"
                                 onClick={handleClose}
-                                className="w-full"
+                                className="w-full sm:w-auto"
                             >
                                 取消
                             </Button>
-                            <Button className="w-full"
-                                    type="submit"
+                            <Button 
+                                type="submit"
+                                className="w-full sm:w-auto"
                             >
                                 确认添加
                             </Button>

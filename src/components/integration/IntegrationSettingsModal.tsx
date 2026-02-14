@@ -39,7 +39,7 @@ export default function IntegrationSettingsModal() {
       <Modal
         isOpen={settingsModal.isOpen}
         onClose={settingsModal.closeModal}
-        className="relative w-full max-w-[558px] m-5 sm:m-0 rounded-3xl bg-white p-6 lg:p-10 dark:bg-gray-900"
+        className="w-full max-w-[558px] p-6 lg:p-10"
       >
         <div>
           <h4 className="text-title-xs mb-1 font-semibold text-gray-800 dark:text-white/90">

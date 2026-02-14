@@ -29,7 +29,7 @@ export default function AddApiKeyModal() {
       <Modal
         isOpen={addApiKeyModal.isOpen}
         onClose={addApiKeyModal.closeModal}
-        className="relative w-full max-w-[600px] m-5 sm:m-0 rounded-3xl bg-white p-6 lg:p-10 dark:bg-gray-900"
+        className="w-full max-w-[600px] p-6 lg:p-10"
       >
         <div>
           <h4 className="text-title-sm mb-1  font-semibold text-gray-800 dark:text-white/90">

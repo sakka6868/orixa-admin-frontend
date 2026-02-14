@@ -16,7 +16,7 @@ export default function IntegrationDeleteModal({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      className=" relative w-full max-w-[558px] rounded-3xl bg-white p-6 overflow-hidden lg:p-10 dark:bg-gray-900"
+      className="w-full max-w-[558px] p-6 lg:p-10"
     >
       <div className="text-center">
         <div className="relative z-1 mb-7 flex items-center justify-center">

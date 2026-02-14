@@ -1,14 +1,18 @@
-interface RadioProps {
-  id: string; // Unique ID for the radio button
-  name: string; // Group name for the radio button
-  value: string; // Value of the radio button
-  checked: boolean; // Whether the radio button is checked
-  label: string; // Label text for the radio button
-  onChange: (value: string) => void; // Handler for when the radio button is toggled
-  className?: string; // Optional custom classes for styling
+import React from "react";
+import { cn } from "../../../utils";
+
+export interface RadioSmProps {
+  id: string;
+  name: string;
+  value: string;
+  checked: boolean;
+  label: string;
+  onChange: (value: string) => void;
+  className?: string;
+  disabled?: boolean;
 }
 
-const RadioSm: React.FC<RadioProps> = ({
+const RadioSm: React.FC<RadioSmProps> = ({
   id,
   name,
   value,
@@ -16,40 +20,48 @@ const RadioSm: React.FC<RadioProps> = ({
   label,
   onChange,
   className = "",
+  disabled = false,
 }) => {
   return (
     <label
       htmlFor={id}
-      className={`flex cursor-pointer select-none items-center text-sm text-gray-500 dark:text-gray-400 ${className}`}
+      className={cn(
+        "relative flex cursor-pointer select-none items-start gap-2 text-sm",
+        disabled
+          ? "cursor-not-allowed text-gray-400 dark:text-gray-600"
+          : "text-gray-600 dark:text-gray-400",
+        className
+      )}
     >
-      <span className="relative">
-        {/* Hidden Input */}
-        <input
-          type="radio"
-          id={id}
-          name={name}
-          value={value}
-          checked={checked}
-          onChange={() => onChange(value)}
-          className="sr-only"
-        />
-        {/* Styled Radio Circle */}
+      <input
+        type="radio"
+        id={id}
+        name={name}
+        value={value}
+        checked={checked}
+        onChange={() => !disabled && onChange(value)}
+        className="sr-only"
+        disabled={disabled}
+        aria-checked={checked}
+      />
+      <span
+        className={cn(
+          "mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border transition-colors duration-200",
+          checked
+            ? "border-brand-500 bg-brand-500"
+            : "border-gray-300 bg-white dark:border-gray-600 dark:bg-gray-800",
+          disabled && "border-gray-200 bg-gray-100 dark:border-gray-700"
+        )}
+        aria-hidden="true"
+      >
         <span
-          className={`mr-2 flex h-4 w-4 items-center justify-center rounded-full border ${
-            checked
-              ? "border-brand-500 bg-brand-500"
-              : "bg-transparent border-gray-300 dark:border-gray-700"
-          }`}
-        >
-          {/* Inner Dot */}
-          <span
-            className={`h-1.5 w-1.5 rounded-full ${
-              checked ? "bg-white" : "bg-white dark:bg-[#1e2636]"
-            }`}
-          ></span>
-        </span>
+          className={cn(
+            "h-1.5 w-1.5 rounded-full transition-all duration-200",
+            checked ? "scale-100 bg-white" : "scale-0 bg-gray-400 dark:bg-gray-600"
+          )}
+        />
       </span>
-      {label}
+      <span className="leading-5">{label}</span>
     </label>
   );
 };

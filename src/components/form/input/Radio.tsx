@@ -1,12 +1,15 @@
-interface RadioProps {
-  id: string; // Unique ID for the radio button
-  name: string; // Radio group name
-  value: string; // Value of the radio button
-  checked: boolean; // Whether the radio button is checked
-  label: string; // Label for the radio button
-  onChange: (value: string) => void; // Handler for value change
-  className?: string; // Optional additional classes
-  disabled?: boolean; // Optional disabled state for the radio button
+import React from "react";
+import { cn } from "../../../utils";
+
+export interface RadioProps {
+  id: string;
+  name: string;
+  value: string;
+  checked: boolean;
+  label: string;
+  onChange: (value: string) => void;
+  className?: string;
+  disabled?: boolean;
 }
 
 const Radio: React.FC<RadioProps> = ({
@@ -22,11 +25,13 @@ const Radio: React.FC<RadioProps> = ({
   return (
     <label
       htmlFor={id}
-      className={`relative flex cursor-pointer  select-none items-center gap-3 text-sm font-medium ${
+      className={cn(
+        "relative flex cursor-pointer select-none items-start gap-3 text-sm",
         disabled
-          ? "text-gray-300 dark:text-gray-600 cursor-not-allowed"
-          : "text-gray-700 dark:text-gray-400"
-      } ${className}`}
+          ? "cursor-not-allowed text-gray-400 dark:text-gray-600"
+          : "text-gray-700 dark:text-gray-300",
+        className
+      )}
     >
       <input
         id={id}
@@ -34,28 +39,29 @@ const Radio: React.FC<RadioProps> = ({
         type="radio"
         value={value}
         checked={checked}
-        onChange={() => !disabled && onChange(value)} // Prevent onChange when disabled
+        onChange={() => !disabled && onChange(value)}
         className="sr-only"
-        disabled={disabled} // Disable input
+        disabled={disabled}
+        aria-checked={checked}
       />
       <span
-        className={`flex h-5 w-5 items-center justify-center rounded-full border-[1.25px] ${
+        className={cn(
+          "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-[1.5px] transition-colors duration-200",
           checked
             ? "border-brand-500 bg-brand-500"
-            : "bg-transparent border-gray-300 dark:border-gray-700"
-        } ${
-          disabled
-            ? "bg-gray-100 dark:bg-gray-700 border-gray-200 dark:border-gray-700"
-            : ""
-        }`}
+            : "border-gray-300 bg-white dark:border-gray-600 dark:bg-gray-800",
+          disabled && "border-gray-200 bg-gray-100 dark:border-gray-700 dark:bg-gray-800"
+        )}
+        aria-hidden="true"
       >
         <span
-          className={`h-2 w-2 rounded-full bg-white ${
-            checked ? "block" : "hidden"
-          }`}
-        ></span>
+          className={cn(
+            "h-2 w-2 rounded-full bg-white transition-transform duration-200",
+            checked ? "scale-100" : "scale-0"
+          )}
+        />
       </span>
-      {label}
+      <span className="leading-6">{label}</span>
     </label>
   );
 };

@@ -107,7 +107,7 @@ export default function BillingInfo() {
       <Modal
         isOpen={isOpen}
         onClose={closeModal}
-        className="relative w-full m-5 sm:m-0 max-w-[558px] rounded-3xl bg-white p-6 lg:p-10 dark:bg-gray-900"
+        className="w-full max-w-[558px] p-6 lg:p-10"
       >
         <div>
           <div className="px-1">
