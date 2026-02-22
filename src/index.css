@@ -882,298 +882,466 @@ pre[class*="language-"].line-numbers {
   padding-left: 2.8em !important;
 }
 
-/* Asuka Theme - NERV Tactical Dashboard Style */
+/* Theme Foundation */
+:root {
+  --ui-bg: #f9fafb;
+  --ui-bg-soft: #f2f4f7;
+  --ui-surface: #ffffff;
+  --ui-surface-soft: #fcfcfd;
+  --ui-border: #e4e7ec;
+  --ui-border-strong: #d0d5dd;
+  --ui-text-primary: #101828;
+  --ui-text-secondary: #344054;
+  --ui-text-muted: #667085;
+  --ui-accent: #465fff;
+  --ui-accent-hover: #3641f5;
+  --ui-ring: rgba(70, 95, 255, 0.28);
+  --ui-shadow: 0 20px 42px -34px rgba(16, 24, 40, 0.35);
+  --ui-floating-shadow: 0 28px 56px -36px rgba(16, 24, 40, 0.45);
+  --ui-selection: rgba(70, 95, 255, 0.2);
+  --ui-selection-text: #101828;
+  --theme-transition-duration: 260ms;
+  --theme-transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark {
+  --ui-bg: #0c111d;
+  --ui-bg-soft: #101828;
+  --ui-surface: #1d2939;
+  --ui-surface-soft: #24344d;
+  --ui-border: #344054;
+  --ui-border-strong: #475467;
+  --ui-text-primary: #f2f4f7;
+  --ui-text-secondary: #d0d5dd;
+  --ui-text-muted: #98a2b3;
+  --ui-accent: #7592ff;
+  --ui-accent-hover: #9cb9ff;
+  --ui-ring: rgba(117, 146, 255, 0.32);
+  --ui-shadow: 0 24px 52px -40px rgba(2, 6, 23, 0.92);
+  --ui-floating-shadow: 0 32px 72px -44px rgba(2, 6, 23, 0.96);
+  --ui-selection: rgba(117, 146, 255, 0.28);
+  --ui-selection-text: #f8fafc;
+}
+
 .asuka {
-  /* EVA Color System */
-  --eva-red: #E60012;
-  --eva-orange: #FF6B35;
-  --eva-yellow: #FFD700;
-  --eva-blue: #00BFFF;
-  --eva-green: #39FF14;
-  --eva-black: #000000;
-  --eva-dark: #0A0A0A;
-  --eva-gray: #1A1A1A;
-  
-  /* Warm dark background - EVA plug interior style */
-  --color-gray-50: #1a0f0f;
-  --color-gray-100: #1f1212;
-  --color-gray-200: #2d1818;
-  --color-gray-300: #3d2020;
-  --color-gray-400: #4d2828;
-  --color-gray-500: #6d4040;
-  --color-gray-600: #8d5858;
-  --color-gray-700: #b08080;
-  --color-gray-800: #d4a5a5;
-  --color-gray-900: #f5e0e0;
-  --color-gray-950: #ffffff;
-  --color-gray-dark: #1f1212;
+  --ui-bg: #12090c;
+  --ui-bg-soft: #1a0e12;
+  --ui-surface: rgba(39, 16, 21, 0.94);
+  --ui-surface-soft: rgba(54, 21, 29, 0.9);
+  --ui-border: rgba(255, 76, 64, 0.34);
+  --ui-border-strong: rgba(255, 124, 98, 0.56);
+  --ui-text-primary: #ffe9bf;
+  --ui-text-secondary: #ffd07a;
+  --ui-text-muted: #e2b35e;
+  --ui-accent: #e60012;
+  --ui-accent-hover: #ff3b31;
+  --ui-ring: rgba(230, 0, 18, 0.42);
+  --ui-shadow: 0 28px 56px -40px rgba(115, 8, 18, 0.8);
+  --ui-floating-shadow: 0 40px 72px -48px rgba(115, 8, 18, 0.92);
+  --ui-selection: rgba(230, 0, 18, 0.34);
+  --ui-selection-text: #fff5f3;
 
-  /* Brand colors - EVA Unit-02 Red */
-  --color-brand-25: #fff0f0;
-  --color-brand-50: #ffe0e0;
-  --color-brand-100: #ffc0c0;
-  --color-brand-200: #ff9090;
-  --color-brand-300: #ff6060;
-  --color-brand-400: #ff3030;
-  --color-brand-500: #E60012;
-  --color-brand-600: #cc0010;
-  --color-brand-700: #b3000e;
-  --color-brand-800: #99000c;
-  --color-brand-900: #660008;
-  --color-brand-950: #330004;
-
-  /* Success - EVA Green */
-  --color-success-500: #39FF14;
-  --color-success-600: #32e012;
-
-  /* Warning - EVA Yellow */
-  --color-warning-500: #FFD700;
-  --color-warning-600: #e6c200;
-
-  /* Error - EVA Red */
-  --color-error-500: #E60012;
-  --color-error-600: #cc0010;
-
-  /* Orange accent */
-  --color-orange-500: #FF6B35;
-  --color-orange-600: #e66030;
-
-  /* Shadows with EVA red tint */
-  --shadow-theme-xs: 0px 1px 2px 0px rgba(230, 0, 18, 0.15);
-  --shadow-theme-sm: 0px 1px 3px 0px rgba(230, 0, 18, 0.2),
-    0px 1px 2px 0px rgba(230, 0, 18, 0.15);
-  --shadow-theme-md: 0px 4px 8px -2px rgba(230, 0, 18, 0.2),
-    0px 2px 4px -2px rgba(230, 0, 18, 0.15);
-  --shadow-theme-lg: 0px 12px 16px -4px rgba(230, 0, 18, 0.2),
-    0px 4px 6px -2px rgba(230, 0, 18, 0.15);
-  --shadow-theme-xl: 0px 20px 24px -4px rgba(230, 0, 18, 0.2),
-    0px 8px 8px -4px rgba(230, 0, 18, 0.15);
+  --color-brand-500: #e60012;
+  --color-brand-600: #c50010;
+  --color-brand-700: #9f000d;
+  --color-gray-dark: #1a1014;
 }
 
-/* Asuka theme body background - Warm dark EVA style */
-.asuka body {
-  background-color: #1a0f0f;
-  color: #f5e0e0;
+html,
+body {
+  transition:
+    background-color var(--theme-transition-duration) var(--theme-transition-easing),
+    color var(--theme-transition-duration) var(--theme-transition-easing),
+    border-color var(--theme-transition-duration) var(--theme-transition-easing);
 }
 
-/* Asuka theme tactical grid background */
-.asuka body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: -1;
-  background: 
-    linear-gradient(rgba(230, 0, 18, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(230, 0, 18, 0.08) 1px, transparent 1px);
-  background-size: 40px 40px;
-  animation: asuka-grid-flow 3s linear infinite;
+body {
+  background-color: var(--ui-bg);
+  color: var(--ui-text-primary);
+}
+
+::selection {
+  background-color: var(--ui-selection);
+  color: var(--ui-selection-text);
+}
+
+.app-shell {
+  background:
+    radial-gradient(circle at 90% -10%, rgba(70, 95, 255, 0.09), transparent 45%),
+    radial-gradient(circle at -10% 110%, rgba(70, 95, 255, 0.06), transparent 42%),
+    var(--ui-bg);
+  color: var(--ui-text-primary);
+}
+
+.dark .app-shell {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(90, 123, 255, 0.14), transparent 38%),
+    radial-gradient(circle at 0% 100%, rgba(59, 130, 246, 0.12), transparent 40%),
+    var(--ui-bg);
+}
+
+.app-shell,
+.app-header,
+.app-sidebar,
+.app-surface,
+.app-surface-soft,
+.app-floating-panel,
+.app-icon-button,
+button,
+input,
+textarea,
+select {
+  transition:
+    background-color var(--theme-transition-duration) var(--theme-transition-easing),
+    border-color var(--theme-transition-duration) var(--theme-transition-easing),
+    color var(--theme-transition-duration) var(--theme-transition-easing),
+    box-shadow var(--theme-transition-duration) var(--theme-transition-easing);
+}
+
+.app-header {
+  border-color: var(--ui-border) !important;
+  background-color: color-mix(in srgb, var(--ui-bg) 96%, transparent) !important;
+  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+  box-shadow: 0 14px 26px -28px rgba(16, 24, 40, 0.8);
+}
+
+.app-page-titlebar {
+  border-color: var(--ui-border) !important;
+  background-color: var(--ui-surface) !important;
+  box-shadow: none !important;
+}
+
+.app-header-toolbar {
+  background-color: color-mix(in srgb, var(--ui-bg) 96%, transparent);
+}
+
+@media (min-width: 1280px) {
+  .app-header-toolbar {
+    background-color: transparent;
+  }
+}
+
+.app-sidebar {
+  border-right-color: var(--ui-border) !important;
+  background-color: var(--ui-bg) !important;
+}
+
+.app-surface {
+  border-color: var(--ui-border) !important;
+  background-color: var(--ui-surface) !important;
+  box-shadow: var(--ui-shadow);
+}
+
+.app-surface-soft {
+  border-color: var(--ui-border);
+  background-color: var(--ui-surface-soft);
+}
+
+.app-floating-panel {
+  border-color: var(--ui-border) !important;
+  background-color: var(--ui-surface) !important;
+  box-shadow: var(--ui-floating-shadow) !important;
+}
+
+.app-border {
+  border-color: var(--ui-border) !important;
+}
+
+.app-text-primary {
+  color: var(--ui-text-primary) !important;
+}
+
+.app-text-secondary {
+  color: var(--ui-text-secondary) !important;
+}
+
+.app-text-muted {
+  color: var(--ui-text-muted) !important;
+}
+
+.app-icon-button {
+  border-color: var(--ui-border) !important;
+  color: var(--ui-text-secondary);
+}
+
+.app-icon-button:hover {
+  background-color: var(--ui-surface-soft);
+  color: var(--ui-text-primary);
+}
+
+.app-icon-button:focus-visible,
+.app-button-accent:focus-visible {
+  outline: 2px solid transparent;
+  box-shadow: 0 0 0 4px var(--ui-ring);
+}
+
+.app-icon-button:active {
+  transform: translateY(1px);
+}
+
+.app-button-accent {
+  background-color: var(--ui-accent) !important;
+  border-color: transparent;
+  box-shadow: 0 14px 24px -14px var(--ui-ring);
+}
+
+.app-button-accent:hover {
+  background-color: var(--ui-accent-hover) !important;
+}
+
+.app-grid-shape {
+  opacity: 0.36;
+  filter: saturate(0.92) hue-rotate(-8deg);
+}
+
+.dark .app-grid-shape {
+  opacity: 0.22;
+  filter: brightness(0.7) saturate(0.85);
+}
+
+.asuka .app-grid-shape {
+  opacity: 0.18;
+  filter: sepia(0.48) saturate(1.3) hue-rotate(-24deg) brightness(0.74);
 }
 
 @keyframes asuka-grid-flow {
-  0% { background-position: 0 0; }
-  100% { background-position: 40px 40px; }
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 40px;
+  }
 }
 
-/* Asuka theme text colors - Warm tones */
-.asuka .text-gray-700 {
-  color: #b08080 !important;
+.asuka .app-shell {
+  background:
+    radial-gradient(circle at 85% -10%, rgba(230, 0, 18, 0.22), transparent 40%),
+    radial-gradient(circle at 8% 115%, rgba(255, 107, 53, 0.16), transparent 45%),
+    var(--ui-bg);
 }
 
-.asuka .text-gray-800 {
-  color: #d4a5a5 !important;
+.asuka body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(230, 0, 18, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(230, 0, 18, 0.08) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: asuka-grid-flow 18s linear infinite;
 }
 
-.asuka .text-gray-900 {
-  color: #f5e0e0 !important;
+.asuka .app-surface,
+.asuka .app-surface-soft,
+.asuka .app-floating-panel {
+  border-color: var(--ui-border) !important;
+  box-shadow: var(--ui-shadow);
 }
 
-/* Asuka theme sidebar - Warm glassmorphism effect */
-.asuka aside {
-  background: rgba(45, 24, 24, 0.9) !important;
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border-right: 1px solid rgba(230, 0, 18, 0.4) !important;
+.asuka .app-sidebar h2 {
+  color: #ffbf57 !important;
+  letter-spacing: 0.12em;
 }
 
-/* Asuka theme sidebar title */
-.asuka aside h2 {
-  color: #E60012 !important;
-  font-family: 'Courier New', monospace;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  text-shadow: 0 0 10px rgba(230, 0, 18, 0.8);
+.asuka .menu-item-inactive {
+  color: #ffd07a !important;
 }
 
-/* Asuka theme logo - mecha style portrait */
+.asuka .menu-item-inactive:hover {
+  background-color: rgba(230, 0, 18, 0.18) !important;
+  color: #ffe4a3 !important;
+}
+
+.asuka .menu-item-active {
+  background: linear-gradient(
+    90deg,
+    rgba(230, 0, 18, 0.28),
+    rgba(230, 0, 18, 0.06)
+  ) !important;
+  color: #ffc44d !important;
+  border-left: 2px solid #ff5a50;
+  box-shadow: 0 0 0 1px rgba(230, 0, 18, 0.22) inset;
+}
+
+.asuka .menu-item-icon-active {
+  color: #ffc44d !important;
+}
+
+.asuka .menu-dropdown-item-active {
+  color: #ffc44d !important;
+}
+
 .asuka .asuka-logo {
-  border-radius: 6px;
-  border: 1.5px solid #E60012;
+  border-radius: 10px;
+  border: 1.5px solid rgba(230, 0, 18, 0.7);
   box-shadow:
-    0 0 10px rgba(230, 0, 18, 0.3),
-    inset 0 0 6px rgba(230, 0, 18, 0.15);
+    0 0 0 1px rgba(230, 0, 18, 0.25),
+    0 0 24px -12px rgba(230, 0, 18, 0.95);
   object-fit: cover;
-  position: relative;
-  clip-path: polygon(
-    8% 0%,
-    92% 0%,
-    100% 8%,
-    100% 92%,
-    92% 100%,
-    8% 100%,
-    0% 92%,
-    0% 8%
-  );
 }
 
-/* Sidebar logo size */
 .asuka aside .asuka-logo {
   width: 48px;
   height: 48px;
 }
 
-/* Welcome page logo size */
 .asuka .asuka-logo:not(aside .asuka-logo) {
   width: 96px;
   height: 96px;
 }
 
-/* Corner accents for mecha style */
-.asuka .asuka-logo::before {
-  content: "";
-  position: absolute;
-  top: -1.5px;
-  left: -1.5px;
-  width: 10px;
-  height: 10px;
-  border-top: 2px solid #FF6B35;
-  border-left: 2px solid #FF6B35;
+.asuka .asuka-logo-compact {
+  width: 40px !important;
+  height: 40px !important;
 }
 
-.asuka .asuka-logo::after {
-  content: "";
-  position: absolute;
-  bottom: -1.5px;
-  right: -1.5px;
-  width: 10px;
-  height: 10px;
-  border-bottom: 2px solid #FF6B35;
-  border-right: 2px solid #FF6B35;
-}
-
-/* Asuka theme sidebar EVA Unit-02 background */
 .asuka .asuka-unit02-bg {
   position: absolute;
-  bottom: 0;
   left: 0;
   right: 0;
+  bottom: 0;
   height: 300px;
-  background-image: url('/images/eva-unit02.jpg');
+  background-image: url("/images/eva-unit02.jpg");
   background-size: cover;
   background-position: center bottom;
-  opacity: 0.25;
+  opacity: 0.22;
   pointer-events: none;
   z-index: 0;
   mask-image: linear-gradient(to top, black 0%, transparent 100%);
   -webkit-mask-image: linear-gradient(to top, black 0%, transparent 100%);
 }
 
-/* Asuka theme menu items */
-.asuka .menu-item {
-  color: #d4a5a5 !important;
-  transition: all 0.3s ease;
-}
-
-.asuka .menu-item:hover {
-  background-color: rgba(230, 0, 18, 0.2) !important;
-  color: #f5e0e0 !important;
-  box-shadow: 0 0 15px rgba(230, 0, 18, 0.3);
-}
-
-.asuka .menu-item-active {
-  background: linear-gradient(90deg, rgba(230, 0, 18, 0.25), transparent) !important;
-  color: #ff4d4d !important;
-  border-left: 3px solid #E60012;
-  box-shadow: 0 0 20px rgba(230, 0, 18, 0.4);
-}
-
-/* Asuka theme card styling - Warm glass effect */
-.asuka .bg-white,
-.asuka .bg-gray-50,
-.asuka .bg-gray-100 {
-  background: rgba(45, 24, 24, 0.8) !important;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(230, 0, 18, 0.3);
-  box-shadow: 0 0 20px rgba(230, 0, 18, 0.15);
-}
-
-/* Asuka theme button styling */
-.asuka button[class*="bg-brand"],
-.asuka .bg-brand-500 {
-  background: #E60012 !important;
-  box-shadow: 0 0 20px rgba(230, 0, 18, 0.5);
-  transition: all 0.3s ease;
-}
-
-.asuka button[class*="bg-brand"]:hover,
-.asuka .bg-brand-500:hover {
-  background: #ff1a2e !important;
-  box-shadow: 0 0 30px rgba(230, 0, 18, 0.7);
-  transform: translateY(-1px);
-}
-
-/* Asuka theme headings */
-.asuka h1,
-.asuka h2,
-.asuka h3 {
-  color: #ffffff;
-  text-shadow: 0 0 20px rgba(230, 0, 18, 0.5);
-}
-
-/* Asuka theme scrollbar */
-.asuka ::-webkit-scrollbar {
-  width: 8px;
-}
-
-.asuka ::-webkit-scrollbar-track {
-  background: #1a0f0f;
+.asuka ::selection {
+  background: var(--ui-selection);
+  color: var(--ui-selection-text);
 }
 
 .asuka ::-webkit-scrollbar-thumb {
-  background: #E60012;
-  border-radius: 4px;
-  box-shadow: 0 0 10px rgba(230, 0, 18, 0.5);
+  background: rgba(230, 0, 18, 0.9);
+  box-shadow: 0 0 12px rgba(230, 0, 18, 0.45);
 }
 
-/* Asuka theme selection */
-.asuka ::selection {
-  background: #E60012;
-  color: #ffffff;
+.asuka [class~="bg-white"] {
+  background-color: var(--ui-surface) !important;
 }
 
-/* Asuka theme logo - use dark logo */
+.asuka [class~="bg-gray-50"],
+.asuka [class~="bg-gray-100"] {
+  background-color: color-mix(in srgb, var(--ui-surface-soft) 88%, var(--ui-bg-soft))
+    !important;
+}
+
+.asuka [class~="border-gray-100"],
+.asuka [class~="border-gray-200"],
+.asuka [class~="dark:border-gray-800"] {
+  border-color: var(--ui-border) !important;
+}
+
+.asuka [class~="text-gray-800"],
+.asuka [class~="dark:text-white/90"] {
+  color: var(--ui-text-primary) !important;
+}
+
+.asuka [class~="text-gray-700"] {
+  color: var(--ui-text-secondary) !important;
+}
+
+.asuka [class~="text-gray-500"],
+.asuka [class~="dark:text-gray-400"] {
+  color: var(--ui-text-muted) !important;
+}
+
+.asuka select,
+.asuka .app-select-input {
+  border-color: var(--ui-border) !important;
+  background-color: color-mix(in srgb, var(--ui-surface) 92%, transparent) !important;
+  color: var(--ui-text-primary) !important;
+}
+
+.asuka div.app-select-input:focus-within {
+  border-color: var(--ui-border) !important;
+  box-shadow: 0 0 0 3px rgba(255, 196, 77, 0.18);
+}
+
+.asuka select.app-select-input:focus,
+.asuka select.app-select-input:focus-visible {
+  border-color: var(--ui-border) !important;
+  box-shadow: none !important;
+}
+
+.asuka select:focus,
+.asuka select:focus-visible {
+  border-color: var(--ui-border) !important;
+  box-shadow: none !important;
+}
+
+.asuka .app-select-option,
+.asuka select option {
+  background-color: #2a1410;
+  color: var(--ui-text-secondary);
+}
+
+.asuka .app-select-panel,
+.asuka .app-dropdown-panel {
+  border-color: var(--ui-border) !important;
+  background-color: var(--ui-surface) !important;
+  color: var(--ui-text-secondary);
+}
+
+.asuka .app-select-item:hover {
+  background-color: color-mix(in srgb, var(--ui-surface-soft) 86%, var(--ui-bg-soft))
+    !important;
+}
+
+.asuka .app-select-item-active {
+  color: #ffc44d !important;
+}
+
+.asuka .app-select-chip {
+  border-color: rgba(255, 196, 77, 0.24) !important;
+  background-color: rgba(255, 145, 84, 0.18) !important;
+  color: var(--ui-text-secondary) !important;
+}
+
+.asuka .app-select-divider {
+  border-color: var(--ui-border) !important;
+}
+
+.asuka .app-select-placeholder::placeholder {
+  color: var(--ui-text-muted);
+}
+
+.asuka a:focus-visible,
+.asuka button:focus-visible,
+.asuka input:focus-visible,
+.asuka textarea:focus-visible,
+.asuka select:focus-visible {
+  outline: 2px solid transparent;
+  box-shadow: 0 0 0 4px var(--ui-ring);
+}
+
+.asuka input:focus,
+.asuka input:focus-visible,
+.asuka textarea:focus,
+.asuka textarea:focus-visible {
+  border-color: var(--ui-border) !important;
+  box-shadow: none !important;
+}
+
+.asuka .focus-within\:border-brand-300:focus-within,
+.asuka .dark\:focus-within\:border-brand-800:focus-within {
+  border-color: var(--ui-border) !important;
+}
+
 .asuka .asuka\:hidden {
   display: none;
 }
 
 .asuka .asuka\:block {
   display: block;
-}
-
-/* Asuka Animations */
-
-/* Background grid flow animation */
-@keyframes asuka-grid-flow {
-  0% { background-position: 0 0; }
-  100% { background-position: 40px 40px; }
-}
-
-.asuka body::before {
-  animation: asuka-grid-flow 20s linear infinite;
 }
 
 /* ============================================
@@ -1196,12 +1364,42 @@ pre[class*="language-"].line-numbers {
 /* 焦点环样式 - 可访问性 */
 .focus-ring {
   outline: none;
-  box-shadow: 0 0 0 2px white, 0 0 0 4px var(--color-brand-500, #465fff);
+  box-shadow: 0 0 0 2px var(--ui-surface), 0 0 0 4px var(--ui-ring);
 }
 
 .focus-ring-error {
   outline: none;
-  box-shadow: 0 0 0 2px white, 0 0 0 4px var(--color-error-500, #f04438);
+  box-shadow: 0 0 0 2px var(--ui-surface), 0 0 0 4px rgba(240, 68, 56, 0.35);
+}
+
+@media (prefers-contrast: more) {
+  :root,
+  .dark,
+  .asuka {
+    --ui-border: color-mix(in srgb, var(--ui-border-strong) 90%, white 10%);
+  }
+
+  .app-surface,
+  .app-surface-soft,
+  .app-floating-panel {
+    border-width: 1.5px;
+  }
+
+  .app-text-secondary,
+  .app-text-muted {
+    color: var(--ui-text-primary) !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .app-icon-button:focus-visible,
+  .app-button-accent:focus-visible,
+  .focus-ring,
+  .focus-ring-error {
+    outline: 2px solid ButtonText;
+    outline-offset: 2px;
+    box-shadow: none;
+  }
 }
 
 /* 减少动画偏好 */

@@ -371,7 +371,7 @@ const AppSidebar: React.FC = () => {
 
     return (
         <aside
-            className={`fixed  flex flex-col  top-0 px-5 left-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
+            className={`app-sidebar fixed top-0 left-0 z-50 flex h-screen flex-col border-r border-gray-200 bg-white px-5 text-gray-900 transition-all duration-300 ease-in-out dark:border-gray-800 dark:bg-gray-900
         ${
                 isExpanded || isMobileOpen
                     ? "w-[290px]"
@@ -400,7 +400,7 @@ const AppSidebar: React.FC = () => {
                                 height={40}
                             />
                             <img
-                                className="hidden dark:block"
+                                className="hidden dark:block asuka:hidden"
                                 src="/images/logo/logo-dark.svg"
                                 alt="Logo"
                                 width={150}
@@ -430,7 +430,7 @@ const AppSidebar: React.FC = () => {
                     <div className="flex flex-col gap-4">
                         <div>
                             <h2
-                                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
+                                className={`app-text-muted mb-4 flex text-xs leading-[20px] uppercase text-gray-400 ${
                                     !isExpanded && !isHovered
                                         ? "xl:justify-center"
                                         : "justify-start"
@@ -446,7 +446,7 @@ const AppSidebar: React.FC = () => {
                                 <div className="flex items-center justify-center py-8">
                                     <div className="h-6 w-6 animate-spin rounded-full border-2 border-gray-300 border-t-brand-500"></div>
                                     {(isExpanded || isHovered || isMobileOpen) && (
-                                        <span className="ml-2 text-sm text-gray-400">加载中...</span>
+                                        <span className="app-text-muted ml-2 text-sm text-gray-400">加载中...</span>
                                     )}
                                 </div>
                             ) : (

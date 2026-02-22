@@ -14,6 +14,12 @@ type ThemeContextType = {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+const availableThemes: Theme[] = ["light", "dark", "asuka"];
+
+const isValidTheme = (theme: string | null): theme is Theme => {
+  return theme !== null && availableThemes.includes(theme as Theme);
+};
+
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
@@ -22,8 +28,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     // This code will only run on the client side
-    const savedTheme = localStorage.getItem("theme") as Theme | null;
-    const initialTheme = savedTheme || "light"; // Default to light theme
+    const savedTheme = localStorage.getItem("theme");
+    const initialTheme = isValidTheme(savedTheme) ? savedTheme : "light";
 
     setTheme(initialTheme);
     setIsInitialized(true);
@@ -32,12 +38,30 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     if (isInitialized) {
       localStorage.setItem("theme", theme);
-      document.documentElement.classList.remove("dark", "asuka");
+      const rootElement = document.documentElement;
+      const bodyElement = document.body;
+
+      rootElement.classList.remove("dark", "asuka");
+      rootElement.setAttribute("data-theme", theme);
+      bodyElement.setAttribute("data-theme", theme);
+
       if (theme === "dark") {
-        document.documentElement.classList.add("dark");
-      } else if (theme === "asuka") {
-        document.documentElement.classList.add("asuka");
+        rootElement.classList.add("dark");
+        rootElement.style.colorScheme = "dark";
+        bodyElement.style.colorScheme = "dark";
+        return;
       }
+
+      if (theme === "asuka") {
+        // Asuka builds on dark primitives, then applies branded overrides.
+        rootElement.classList.add("dark", "asuka");
+        rootElement.style.colorScheme = "dark";
+        bodyElement.style.colorScheme = "dark";
+        return;
+      }
+
+      rootElement.style.colorScheme = "light";
+      bodyElement.style.colorScheme = "light";
     }
   }, [theme, isInitialized]);
 

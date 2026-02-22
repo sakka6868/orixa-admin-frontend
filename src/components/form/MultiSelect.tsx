@@ -1,5 +1,5 @@
 import type React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 interface Option {
   value: string;
@@ -24,6 +24,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   const [selectedOptions, setSelectedOptions] =
     useState<string[]>(defaultSelected);
   const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // 同步外部 defaultSelected 的变化
   useEffect(() => {
@@ -33,6 +34,30 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   const toggleDropdown = () => {
     if (!disabled) setIsOpen((prev) => !prev);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent): void => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    const handleEscape = (event: KeyboardEvent): void => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, []);
 
   const handleSelect = (optionValue: string) => {
     const newSelectedOptions = selectedOptions.includes(optionValue)
@@ -58,20 +83,23 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
 
   return (
     <div className="w-full">
-      <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+      <label className="app-text-secondary mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
         {label}
       </label>
 
-      <div className={`relative inline-block w-full ${isOpen ? "z-50" : "z-20"}`}>
+      <div
+        ref={containerRef}
+        className={`relative inline-block w-full ${isOpen ? "z-50" : "z-20"}`}
+      >
         <div className="relative flex flex-col items-center">
           <div onClick={toggleDropdown} className="w-full cursor-pointer">
-            <div className="mb-2 flex min-h-[44px] w-full rounded-lg border border-gray-300 p-1.5 shadow-theme-xs outline-hidden transition focus-within:border-brand-300 dark:border-gray-700 dark:bg-gray-900">
+            <div className="app-select-input mb-2 flex min-h-[44px] w-full rounded-lg border border-gray-300 p-1.5 shadow-theme-xs outline-hidden transition focus-within:border-brand-300 dark:border-gray-700 dark:bg-gray-900">
               <div className="flex flex-wrap items-center flex-1 gap-2 pl-1.5">
                 {selectedValuesText.length > 0 ? (
                   selectedValuesText.map((item) => (
                     <div
                       key={item.value}
-                      className="group flex items-center justify-center rounded-full border-[0.7px] border-transparent bg-gray-100 py-1 pl-2.5 pr-2 text-sm text-gray-800 hover:border-gray-200 dark:bg-gray-800 dark:text-white/90 dark:hover:border-gray-800"
+                      className="app-select-chip group flex items-center justify-center rounded-full border-[0.7px] border-transparent bg-gray-100 py-1 pl-2.5 pr-2 text-sm text-gray-800 hover:border-gray-200 dark:bg-gray-800 dark:text-white/90 dark:hover:border-gray-800"
                     >
                       <span className="flex-initial max-w-full">{item.text}</span>
                       <div
@@ -101,16 +129,16 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
                 ) : (
                   <input
                     placeholder="请选择"
-                    className="w-full p-1 text-sm bg-transparent border-0 outline-hidden appearance-none placeholder:text-gray-400 focus:border-0 focus:outline-hidden focus:ring-0 dark:placeholder:text-gray-500"
+                    className="app-select-placeholder w-full appearance-none border-0 bg-transparent p-1 text-sm outline-hidden placeholder:text-gray-400 focus:border-0 focus:outline-hidden focus:ring-0 dark:placeholder:text-gray-500"
                     readOnly
                   />
                 )}
               </div>
-              <div className="flex items-center self-stretch px-2 border-l border-gray-200 ml-2 dark:border-gray-700">
+              <div className="app-select-divider ml-2 flex items-center self-stretch border-l border-gray-200 px-2 dark:border-gray-700">
                 <button
                   type="button"
                   onClick={toggleDropdown}
-                  className="w-5 h-5 text-gray-700 outline-hidden cursor-pointer focus:outline-hidden dark:text-gray-400"
+                  className="app-text-secondary h-5 w-5 cursor-pointer text-gray-700 outline-hidden focus:outline-hidden dark:text-gray-400"
                 >
                   <svg
                     className={`stroke-current transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
@@ -135,16 +163,16 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
 
           {isOpen && (
             <div
-              className="absolute left-0 z-50 w-full overflow-y-auto border border-gray-200 bg-white shadow-xl top-full mt-1 max-h-60 rounded-lg dark:border-gray-700 dark:bg-gray-900"
+              className="app-select-panel absolute top-full left-0 z-50 mt-1 max-h-60 w-full overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-xl dark:border-gray-700 dark:bg-gray-900"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex flex-col">
                 {options.map((option, index) => (
                   <div
                     key={index}
-                    className={`w-full cursor-pointer border-b border-gray-200 last:border-b-0 dark:border-gray-800 ${
+                    className={`app-select-item w-full cursor-pointer border-b border-gray-200 last:border-b-0 dark:border-gray-800 ${
                       selectedOptions.includes(option.value)
-                        ? "bg-brand-50 hover:bg-brand-100 dark:bg-brand-900/20 dark:hover:bg-brand-900/30"
+                        ? "app-select-item-active bg-brand-50 hover:bg-brand-100 dark:bg-brand-900/20 dark:hover:bg-brand-900/30"
                         : "hover:bg-gray-50 dark:hover:bg-gray-800/50"
                     }`}
                     onClick={() => handleSelect(option.value)}

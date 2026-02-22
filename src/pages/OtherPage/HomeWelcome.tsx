@@ -60,10 +60,10 @@ export default function HomeWelcome() {
                 title="欢迎 | Orixa Admin"
                 description="欢迎使用 Orixa Admin 管理系统"
             />
-            <div className="relative flex flex-col items-center justify-center w-full min-h-screen p-6 overflow-hidden z-1">
+            <div className="relative z-1 flex min-h-[calc(100dvh-8.5rem)] w-full flex-col items-center justify-center overflow-hidden p-6 md:min-h-[calc(100dvh-9.5rem)]">
                 <GridShape />
 
-                <div className="mx-auto w-full max-w-[600px] text-center">
+                <div className="app-surface app-border mx-auto w-full max-w-[600px] rounded-2xl border px-6 py-10 text-center shadow-theme-lg sm:px-10">
                     {/* Logo */}
                     <div className="mb-8">
                         <img
@@ -72,7 +72,7 @@ export default function HomeWelcome() {
                             alt="Logo"
                         />
                         <img
-                            className="mx-auto h-12 hidden dark:block"
+                            className="mx-auto h-12 hidden dark:block asuka:hidden"
                             src="images/logo/logo-dark.svg"
                             alt="Logo"
                         />
@@ -84,19 +84,19 @@ export default function HomeWelcome() {
                     </div>
 
                     {/* 欢迎标题 */}
-                    <h1 className="mb-4 text-3xl font-bold text-gray-800 dark:text-white/90 xl:text-4xl">
+                    <h1 className="app-text-primary mb-4 text-3xl font-bold xl:text-4xl">
                         欢迎使用 Orixa Admin
                     </h1>
-                    <p className="text-base text-gray-500 mb-10 dark:text-gray-400">
+                    <p className="app-text-muted mb-10 text-base">
                         一站式管理后台解决方案，助您高效管理业务
                     </p>
 
                     {/* 开始使用按钮 */}
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+                    <div className="mb-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
                         <button
                             onClick={handleEnterConsole}
                             disabled={loading}
-                            className="inline-flex items-center justify-center gap-2 rounded-lg bg-brand-500 px-6 py-3.5 text-sm font-medium text-white hover:bg-brand-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="app-button-accent inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3.5 text-sm font-medium text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
                         >
                             {loading ? (
                                 <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
@@ -109,7 +109,7 @@ export default function HomeWelcome() {
                         </button>
                         <Link
                             to="/api-keys"
-                            className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-6 py-3.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                            className="app-surface-soft app-border app-text-secondary inline-flex items-center justify-center gap-2 rounded-lg border px-6 py-3.5 text-sm font-medium transition-colors"
                         >
                             查看文档
                         </Link>
@@ -117,7 +117,7 @@ export default function HomeWelcome() {
                 </div>
 
                 {/* 页脚 */}
-                <p className="absolute text-sm text-center text-gray-500 -translate-x-1/2 bottom-6 left-1/2 dark:text-gray-400">
+                <p className="app-text-muted absolute bottom-6 left-1/2 -translate-x-1/2 text-center text-sm">
                     &copy; {new Date().getFullYear()} - Orixa Admin
                 </p>
             </div>

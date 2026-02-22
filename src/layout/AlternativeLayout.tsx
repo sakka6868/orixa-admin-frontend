@@ -25,7 +25,7 @@ const AlternativeLayoutContent: React.FC = () => {
   const currentPageTitle = getPageTitle(location.pathname);
 
   return (
-    <div className="min-h-screen xl:flex">
+    <div className="app-shell min-h-screen xl:flex">
       <div>
         <AppSidebar />
         <Backdrop />

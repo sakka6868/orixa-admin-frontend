@@ -16,7 +16,7 @@ interface CardDescriptionProps {
 // Card Component
 const Card: React.FC<CardProps> = ({ children }) => {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] sm:p-6">
+    <div className="app-surface rounded-xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] sm:p-6">
       {children}
     </div>
   );
@@ -25,7 +25,7 @@ const Card: React.FC<CardProps> = ({ children }) => {
 // CardTitle Component
 const CardTitle: React.FC<CardTitleProps> = ({ children }) => {
   return (
-    <h4 className="mb-1 font-medium text-gray-800 text-theme-xl dark:text-white/90">
+    <h4 className="app-text-primary mb-1 text-theme-xl font-medium text-gray-800 dark:text-white/90">
       {children}
     </h4>
   );
@@ -33,7 +33,11 @@ const CardTitle: React.FC<CardTitleProps> = ({ children }) => {
 
 // CardDescription Component
 const CardDescription: React.FC<CardDescriptionProps> = ({ children }) => {
-  return <p className="text-sm text-gray-500 dark:text-gray-400">{children}</p>;
+  return (
+    <p className="app-text-muted text-sm text-gray-500 dark:text-gray-400">
+      {children}
+    </p>
+  );
 };
 
 // Named exports for better flexibility
