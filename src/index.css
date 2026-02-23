@@ -1643,3 +1643,571 @@ select {
     max-width: none !important;
   }
 }
+
+/* HomeWelcome animations */
+/* 入场动画 - 淡入上移 */
+@keyframes welcome-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 入场动画 - 缩放淡入 */
+@keyframes welcome-scale-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 卡片浮动 - 更柔和的呼吸感 */
+@keyframes welcome-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* 光球漂移 - 更流畅的轨迹 */
+@keyframes welcome-drift {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(12px, -10px, 0) scale(1.03);
+  }
+  66% {
+    transform: translate3d(-8px, -6px, 0) scale(0.98);
+  }
+}
+
+/* 背景旋转 - 平滑线性 */
+@keyframes welcome-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 光泽扫过 - 更细腻 */
+@keyframes welcome-sheen {
+  0%, 100% {
+    opacity: 0.08;
+    transform: translateX(-40%);
+  }
+  50% {
+    opacity: 0.2;
+    transform: translateX(40%);
+  }
+}
+
+/* 按钮呼吸脉冲 - 更微妙 */
+@keyframes welcome-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--ui-ring) 40%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 8px transparent;
+  }
+}
+
+/* 星星闪烁 - 更优雅的闪烁 */
+@keyframes welcome-sparkle {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(0.7);
+    filter: blur(0px);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1);
+    filter: blur(0.5px);
+  }
+}
+
+/* 符文旋转 - 更平缓 */
+@keyframes welcome-twirl {
+  0%, 100% {
+    transform: rotate(0deg) scale(0.95);
+    opacity: 0.3;
+  }
+  50% {
+    transform: rotate(180deg) scale(1.02);
+    opacity: 0.45;
+  }
+}
+
+/* 雨滴涟漪效果 */
+@keyframes raindrop-ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+/* 雨滴落下动画 */
+@keyframes raindrop-fall {
+  0% {
+    transform: scale(0.3);
+    opacity: 0.8;
+  }
+  15% {
+    transform: scale(0.8);
+    opacity: 0.6;
+  }
+  30%, 100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+/* 雨滴容器 */
+.home-welcome-raindrops {
+  position: absolute;
+  inset: -20%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: visible;
+}
+
+/* 雨滴点 */
+.home-welcome-raindrop {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--ui-accent) 60%, transparent),
+    color-mix(in srgb, var(--ui-ring) 30%, transparent) 60%,
+    transparent 70%
+  );
+  animation: raindrop-fall 3s ease-out infinite;
+}
+
+/* 雨滴涟漪圆环 */
+.home-welcome-raindrop::before,
+.home-welcome-raindrop::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80px;
+  height: 80px;
+  margin: -40px 0 0 -40px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--ui-accent) 35%, transparent);
+  box-shadow:
+    0 0 8px color-mix(in srgb, var(--ui-ring) 20%, transparent),
+    inset 0 0 12px color-mix(in srgb, var(--ui-accent) 8%, transparent);
+  animation: raindrop-ripple 3s ease-out infinite;
+}
+
+.home-welcome-raindrop::after {
+  width: 140px;
+  height: 140px;
+  margin: -70px 0 0 -70px;
+  border-color: color-mix(in srgb, var(--ui-ring) 25%, transparent);
+  animation-delay: 0.3s;
+}
+
+/* 雨滴位置和时序 - 错落有致 */
+.home-welcome-raindrop:nth-child(1) {
+  top: 25%;
+  left: 20%;
+  animation-delay: 0s;
+}
+.home-welcome-raindrop:nth-child(1)::before { animation-delay: 0.15s; }
+.home-welcome-raindrop:nth-child(1)::after { animation-delay: 0.4s; }
+
+.home-welcome-raindrop:nth-child(2) {
+  top: 60%;
+  right: 25%;
+  animation-delay: -1s;
+}
+.home-welcome-raindrop:nth-child(2)::before { animation-delay: -0.85s; }
+.home-welcome-raindrop:nth-child(2)::after { animation-delay: -0.6s; }
+
+.home-welcome-raindrop:nth-child(3) {
+  bottom: 30%;
+  left: 35%;
+  animation-delay: -2s;
+}
+.home-welcome-raindrop:nth-child(3)::before { animation-delay: -1.85s; }
+.home-welcome-raindrop:nth-child(3)::after { animation-delay: -1.6s; }
+
+.home-welcome-raindrop:nth-child(4) {
+  top: 40%;
+  right: 15%;
+  animation-delay: -0.5s;
+}
+.home-welcome-raindrop:nth-child(4)::before { animation-delay: -0.35s; }
+.home-welcome-raindrop:nth-child(4)::after { animation-delay: -0.1s; }
+
+.home-welcome-raindrop:nth-child(5) {
+  bottom: 20%;
+  right: 35%;
+  animation-delay: -1.5s;
+}
+.home-welcome-raindrop:nth-child(5)::before { animation-delay: -1.35s; }
+.home-welcome-raindrop:nth-child(5)::after { animation-delay: -1.1s; }
+
+.home-welcome-raindrop:nth-child(6) {
+  top: 15%;
+  left: 45%;
+  animation-delay: -2.5s;
+}
+.home-welcome-raindrop:nth-child(6)::before { animation-delay: -2.35s; }
+.home-welcome-raindrop:nth-child(6)::after { animation-delay: -2.1s; }
+
+/* 光晕呼吸 */
+@keyframes welcome-glow {
+  0%, 100% {
+    opacity: 0.5;
+    filter: blur(16px);
+  }
+  50% {
+    opacity: 0.7;
+    filter: blur(20px);
+  }
+}
+
+/* 箭头指引 */
+@keyframes welcome-arrow-hint {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(3px);
+  }
+}
+
+.home-welcome-scene {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(
+      circle at 85% 0%,
+      color-mix(in srgb, var(--ui-accent) 12%, transparent),
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 15% 100%,
+      color-mix(in srgb, var(--ui-accent) 8%, transparent),
+      transparent 45%
+    ),
+    var(--ui-bg);
+}
+
+/* 父容器包含 welcome 页面时取消宽度限制 */
+div:has(> .home-welcome-bleed) {
+  max-width: none !important;
+  padding: 0 !important;
+}
+
+.home-welcome-bleed {
+  /* 占满整个内容区域 */
+  width: 100%;
+  min-height: calc(100dvh - 4rem);
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .home-welcome-bleed {
+    min-height: calc(100dvh - 4.5rem);
+  }
+}
+
+.home-welcome-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.home-welcome-grid > div {
+  z-index: 1 !important;
+}
+
+.home-welcome-orb {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border-radius: 9999px;
+  background:
+    radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--ui-accent) 35%, transparent), transparent 60%),
+    radial-gradient(circle at 70% 70%, color-mix(in srgb, var(--ui-ring) 55%, transparent), transparent 65%);
+  filter: blur(24px);
+  opacity: 0.5;
+  pointer-events: none;
+  animation: 
+    welcome-drift 24s cubic-bezier(0.4, 0, 0.2, 1) infinite,
+    welcome-glow 12s ease-in-out infinite;
+  z-index: 0;
+}
+
+.home-welcome-orb--one {
+  top: -120px;
+  left: -120px;
+  animation-delay: 0s, 0s;
+}
+
+.home-welcome-orb--two {
+  right: -100px;
+  bottom: -140px;
+  animation-delay: -8s, -4s;
+}
+
+.home-welcome-card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  animation: 
+    welcome-scale-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+    welcome-float 8s cubic-bezier(0.4, 0, 0.2, 1) infinite 0.8s;
+  z-index: 2;
+}
+
+.home-welcome-card::before {
+  content: "";
+  position: absolute;
+  inset: -50px;
+  border-radius: 999px;
+  background: conic-gradient(
+    from 90deg,
+    transparent,
+    color-mix(in srgb, var(--ui-accent) 25%, transparent),
+    transparent 55%,
+    color-mix(in srgb, var(--ui-accent) 12%, transparent),
+    transparent
+  );
+  opacity: 0.25;
+  filter: blur(28px);
+  animation: welcome-spin 30s linear infinite;
+  z-index: 0;
+}
+
+.home-welcome-card::marker {
+  content: "";
+}
+
+.home-welcome-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 20%,
+    color-mix(in srgb, var(--ui-surface) 15%, transparent) 50%,
+    transparent 80%
+  );
+  opacity: 0.12;
+  animation: welcome-sheen 12s ease-in-out infinite;
+  z-index: 0;
+}
+
+.home-welcome-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.home-welcome-logo {
+  animation: 
+    welcome-fade-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s backwards,
+    welcome-float 6s cubic-bezier(0.4, 0, 0.2, 1) infinite 0.8s;
+  filter: drop-shadow(0 12px 24px color-mix(in srgb, var(--ui-ring) 60%, transparent));
+}
+
+.home-welcome-title {
+  position: relative;
+  display: inline-block;
+  animation: welcome-fade-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.35s backwards;
+}
+
+.home-welcome-title::after {
+  content: "";
+  position: absolute;
+  left: 15%;
+  right: 15%;
+  bottom: -6px;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--ui-accent) 60%, transparent),
+    transparent
+  );
+  opacity: 0.5;
+  animation: welcome-fade-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s backwards;
+}
+
+.home-welcome-rune {
+  position: absolute;
+  inset: -35%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, color-mix(in srgb, var(--ui-accent) 20%, transparent), transparent 60%),
+    conic-gradient(
+      from 0deg,
+      transparent 0%,
+      color-mix(in srgb, var(--ui-accent) 30%, transparent) 20%,
+      transparent 40%,
+      color-mix(in srgb, var(--ui-ring) 35%, transparent) 60%,
+      transparent 80%,
+      color-mix(in srgb, var(--ui-accent) 25%, transparent) 90%,
+      transparent 100%
+    );
+  filter: blur(16px);
+  opacity: 0.35;
+  animation: welcome-twirl 30s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 保留原来的 ripple 样式以兼容旧代码，但隐藏它 */
+.home-welcome-ripple {
+  display: none;
+}
+
+.home-welcome-ripple--delay {
+  display: none;
+}
+
+.home-welcome-ripple--third {
+  display: none;
+}
+
+.home-welcome-stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  animation: welcome-fade-in 1.2s ease-out 0.3s backwards;
+}
+
+.home-welcome-stars span {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--ui-accent) 70%, transparent), transparent 70%);
+  box-shadow:
+    0 0 8px color-mix(in srgb, var(--ui-ring) 55%, transparent),
+    0 0 20px color-mix(in srgb, var(--ui-accent) 25%, transparent);
+  animation: welcome-sparkle 5s ease-in-out infinite;
+}
+
+/* 星星位置和延迟 - 错落有致的时序 */
+.home-welcome-stars span:nth-child(1) { top: 12%; left: 8%; animation-delay: 0s; }
+.home-welcome-stars span:nth-child(2) { top: 18%; right: 14%; animation-delay: -0.8s; }
+.home-welcome-stars span:nth-child(3) { bottom: 22%; left: 16%; animation-delay: -1.6s; }
+.home-welcome-stars span:nth-child(4) { bottom: 14%; right: 22%; animation-delay: -2.4s; }
+.home-welcome-stars span:nth-child(5) { top: 30%; left: 20%; animation-delay: -3.2s; }
+.home-welcome-stars span:nth-child(6) { top: 34%; right: 24%; animation-delay: -4s; }
+.home-welcome-stars span:nth-child(7) { bottom: 32%; right: 10%; animation-delay: -0.4s; }
+.home-welcome-stars span:nth-child(8) { bottom: 30%; left: 32%; animation-delay: -1.2s; }
+.home-welcome-stars span:nth-child(9) { top: 8%; right: 32%; animation-delay: -2s; }
+.home-welcome-stars span:nth-child(10) { bottom: 8%; left: 42%; animation-delay: -2.8s; }
+.home-welcome-stars span:nth-child(11) { top: 44%; left: 6%; animation-delay: -3.6s; }
+.home-welcome-stars span:nth-child(12) { top: 50%; right: 8%; animation-delay: -4.4s; }
+
+.home-welcome-button {
+  position: relative;
+  overflow: hidden;
+  animation: 
+    welcome-fade-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.5s backwards,
+    welcome-pulse 4s ease-out infinite 1.2s;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.home-welcome-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--ui-accent) 35%, transparent);
+}
+
+.home-welcome-button:active {
+  transform: translateY(0);
+}
+
+.home-welcome-button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 25%,
+    color-mix(in srgb, var(--ui-surface) 25%, transparent) 50%,
+    transparent 75%
+  );
+  opacity: 0;
+  transform: translateX(-50%);
+  transition: opacity 0.3s ease, transform 0.5s ease;
+}
+
+.home-welcome-button:hover::after {
+  opacity: 0.2;
+  transform: translateX(50%);
+}
+
+.home-welcome-arrow {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: welcome-arrow-hint 2s ease-in-out infinite 1.5s;
+}
+
+.home-welcome-button:hover .home-welcome-arrow {
+  transform: translateX(4px);
+  animation: none;
+}
+
+/* 副按钮入场动画 */
+.home-welcome-card a {
+  animation: welcome-fade-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.6s backwards;
+  transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.home-welcome-card a:hover {
+  transform: translateY(-2px);
+}
+
+/* 描述文字入场 */
+.home-welcome-card .app-text-muted {
+  animation: welcome-fade-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.45s backwards;
+}
+
+/* 减少动效偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .home-welcome-card,
+  .home-welcome-logo,
+  .home-welcome-title,
+  .home-welcome-button,
+  .home-welcome-orb,
+  .home-welcome-stars,
+  .home-welcome-stars span,
+  .home-welcome-ripple,
+  .home-welcome-rune {
+    animation: none !important;
+  }
+  
+  .home-welcome-card::before,
+  .home-welcome-card::after {
+    animation: none !important;
+  }
+}

@@ -60,31 +60,59 @@ export default function HomeWelcome() {
                 title="欢迎 | Orixa Admin"
                 description="欢迎使用 Orixa Admin 管理系统"
             />
-            <div className="relative z-1 flex min-h-[calc(100dvh-8.5rem)] w-full flex-col items-center justify-center overflow-hidden p-6 md:min-h-[calc(100dvh-9.5rem)]">
-                <GridShape />
+            <div className="home-welcome-scene home-welcome-bleed relative z-1 flex w-full flex-col items-center justify-center overflow-hidden p-6">
+                <div className="home-welcome-grid">
+                    <GridShape />
+                </div>
+                <div className="home-welcome-orb home-welcome-orb--one"></div>
+                <div className="home-welcome-orb home-welcome-orb--two"></div>
+                <div className="home-welcome-stars">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
 
-                <div className="app-surface app-border mx-auto w-full max-w-[600px] rounded-2xl border px-6 py-10 text-center shadow-theme-lg sm:px-10">
+                <div className="home-welcome-card app-surface app-border mx-auto w-full max-w-[600px] rounded-2xl border px-6 py-10 text-center shadow-theme-lg sm:px-10">
+                    <div className="home-welcome-rune"></div>
+                    {/* 雨滴涟漪效果 */}
+                    <div className="home-welcome-raindrops">
+                        <div className="home-welcome-raindrop"></div>
+                        <div className="home-welcome-raindrop"></div>
+                        <div className="home-welcome-raindrop"></div>
+                        <div className="home-welcome-raindrop"></div>
+                        <div className="home-welcome-raindrop"></div>
+                        <div className="home-welcome-raindrop"></div>
+                    </div>
                     {/* Logo */}
                     <div className="mb-8">
                         <img
-                            className="mx-auto h-12 dark:hidden asuka:hidden"
+                            className="home-welcome-logo mx-auto h-12 dark:hidden asuka:hidden"
                             src="images/logo/logo.svg"
                             alt="Logo"
                         />
                         <img
-                            className="mx-auto h-12 hidden dark:block asuka:hidden"
+                            className="home-welcome-logo mx-auto h-12 hidden dark:block asuka:hidden"
                             src="images/logo/logo-dark.svg"
                             alt="Logo"
                         />
                         <img
-                            className="mx-auto h-24 hidden asuka:block asuka-logo"
+                            className="home-welcome-logo mx-auto h-24 hidden asuka:block asuka-logo"
                             src="images/asuka-portrait.jpg"
                             alt="Asuka"
                         />
                     </div>
 
                     {/* 欢迎标题 */}
-                    <h1 className="app-text-primary mb-4 text-3xl font-bold xl:text-4xl">
+                    <h1 className="home-welcome-title app-text-primary mb-4 text-3xl font-bold xl:text-4xl">
                         欢迎使用 Orixa Admin
                     </h1>
                     <p className="app-text-muted mb-10 text-base">
@@ -96,12 +124,12 @@ export default function HomeWelcome() {
                         <button
                             onClick={handleEnterConsole}
                             disabled={loading}
-                            className="app-button-accent inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3.5 text-sm font-medium text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+                            className="home-welcome-button app-button-accent group inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3.5 text-sm font-medium text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
                         >
                             {loading ? (
                                 <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
                             ) : (
-                                <svg className="fill-current" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg className="home-welcome-arrow fill-current" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M3.33301 10H16.6663M16.6663 10L11.6663 5M16.6663 10L11.6663 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                                 </svg>
                             )}
