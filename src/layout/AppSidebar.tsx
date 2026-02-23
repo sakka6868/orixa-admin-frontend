@@ -7,6 +7,7 @@ import {useSidebar} from "../context/SidebarContext";
 import SystemApi from "../api/SystemApi";
 import {MenuVo} from "../types/staff";
 import useMountEffect from "../hooks/useMountEffect";
+import {useAuthorization} from "../hooks/authorization/useAuthorization";
 
 type NavItem = {
     name: string;
@@ -88,6 +89,7 @@ const AppSidebar: React.FC = () => {
         useSidebar();
     const location = useLocation();
     const navigate = useNavigate();
+    const {authorization} = useAuthorization();
     
     // 动态菜单数据
     const [navItems, setNavItems] = useState<NavItem[]>([]);
@@ -99,6 +101,11 @@ const AppSidebar: React.FC = () => {
     const fetchCurrentStaffMenus = useCallback(async () => {
         // 如果已经在错误页面，不再获取菜单
         if (location.pathname.startsWith('/error-')) {
+            setMenuLoading(false);
+            return;
+        }
+
+        if (!authorization) {
             setMenuLoading(false);
             return;
         }
@@ -123,7 +130,7 @@ const AppSidebar: React.FC = () => {
         } finally {
             setMenuLoading(false);
         }
-    }, [navigate, location.pathname]);
+    }, [navigate, location.pathname, authorization]);
     
     // 组件挂载时获取菜单（只执行一次）
     useMountEffect(() => {

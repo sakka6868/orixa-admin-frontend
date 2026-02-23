@@ -98,7 +98,7 @@ export const ThemeToggleButton: React.FC = () => {
       aria-live="polite"
     >
       <span
-        className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/18 via-transparent to-transparent opacity-70"
+        className="pointer-events-none absolute inset-0 bg-linear-to-br from-white/18 via-transparent to-transparent opacity-70"
         aria-hidden="true"
       />
       <span

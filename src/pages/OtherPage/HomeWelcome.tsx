@@ -6,6 +6,7 @@ import SystemApi from "../../api/SystemApi";
 import {MenuVo} from "../../types/staff";
 import {MenuType} from "../../types/menu";
 import useMountEffect from "../../hooks/useMountEffect.ts";
+import {useAuthorization} from "../../hooks/authorization/useAuthorization";
 
 // 递归查找第一个 type="MENU" 的菜单路径
 const findFirstMenuPath = (menus: MenuVo[]): string | null => {
@@ -26,12 +27,17 @@ const findFirstMenuPath = (menus: MenuVo[]): string | null => {
 
 export default function HomeWelcome() {
     const navigate = useNavigate();
+    const {authorization} = useAuthorization();
     const [loading, setLoading] = useState(false);
     const [firstMenuPath, setFirstMenuPath] = useState<string | null>(null);
     
     // 获取第一个可用的菜单路径
     useMountEffect(() => {
         const fetchMenus = async () => {
+            if (!authorization) {
+                return;
+            }
+
             try {
                 const staff = await SystemApi.getCurrentStaff();
                 if (staff && staff.menus && staff.menus.length > 0) {
