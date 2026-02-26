@@ -12,6 +12,7 @@ import Button from "../../components/ui/button/Button";
 import {useSidebar} from "../../context/SidebarContext";
 import {useModal} from "../../components/ui/modal";
 import Badge from "../../components/ui/badge/Badge.tsx";
+import { useCurrentStaff } from "../../hooks/useCurrentStaff";
 
 interface MenuApiData {
     id?: string;
@@ -32,6 +33,7 @@ export default function StaffList() {
     const message = useMessage();
     const {refreshMenu} = useSidebar();
     const modal = useModal();
+    const { staff: currentStaff } = useCurrentStaff();
 
     // 页面加载时获取员工数据和菜单数据
     useMountEffect(() => {
@@ -61,8 +63,7 @@ export default function StaffList() {
                 const menuVos = convertToMenuVo(menus as unknown as MenuApiData[]);
                 setAvailableMenus(menuVos);
                 
-                // 获取当前员工ID
-                const currentStaff = await SystemApi.getCurrentStaff();
+                // 获取当前员工ID（从 useCurrentStaff hook 的缓存中获取）
                 if (currentStaff) {
                     setCurrentStaffId(currentStaff.id);
                 }

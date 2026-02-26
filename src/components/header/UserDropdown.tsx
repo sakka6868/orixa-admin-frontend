@@ -8,6 +8,12 @@ export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const authorizationContext = useAuthorization();
 
+  const clearAuthCache = () => {
+    sessionStorage.removeItem("USER_TOKEN");
+    sessionStorage.removeItem("USER_AUTHORIZATION");
+    sessionStorage.removeItem("CURRENT_STAFF_CACHE");
+  };
+
   function toggleDropdown() {
     setIsOpen(!isOpen)
   }
@@ -16,13 +22,14 @@ export default function UserDropdown() {
     setIsOpen(false);
   }
 
-  function logout() {
-    authenticationApi.logout().then(() => {
-      sessionStorage.removeItem("USER_TOKEN");
+  async function logout() {
+    try {
+      await authenticationApi.logout();
+    } finally {
+      clearAuthCache();
       authorizationContext.resetAuthorization(undefined);
       location.reload();
-    });
-
+    }
   }
 
   return (

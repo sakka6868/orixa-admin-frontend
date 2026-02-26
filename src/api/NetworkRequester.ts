@@ -28,6 +28,8 @@ requesterWithAuthenticationInstance.interceptors.response.use(onFulfilled, error
     // 处理token失效
     if (error.response.status === 401) {
         window.sessionStorage.removeItem("USER_TOKEN");
+        window.sessionStorage.removeItem("USER_AUTHORIZATION");
+        window.sessionStorage.removeItem("CURRENT_STAFF_CACHE");
         window.location.href = "/";
     }
     return Promise.reject(error);

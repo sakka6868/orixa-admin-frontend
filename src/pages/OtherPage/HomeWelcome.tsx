@@ -1,12 +1,11 @@
 import GridShape from "../../components/common/GridShape";
 import PageMeta from "../../components/common/PageMeta";
 import {Link, useNavigate} from "react-router";
-import {useState} from "react";
-import SystemApi from "../../api/SystemApi";
+import {useEffect, useState} from "react";
 import {MenuVo} from "../../types/staff";
 import {MenuType} from "../../types/menu";
-import useMountEffect from "../../hooks/useMountEffect.ts";
 import {useAuthorization} from "../../hooks/authorization/useAuthorization";
+import { useCurrentStaff } from "../../hooks/useCurrentStaff";
 
 // 递归查找第一个 type="MENU" 的菜单路径
 const findFirstMenuPath = (menus: MenuVo[]): string | null => {
@@ -30,29 +29,28 @@ export default function HomeWelcome() {
     const {authorization} = useAuthorization();
     const [loading, setLoading] = useState(false);
     const [firstMenuPath, setFirstMenuPath] = useState<string | null>(null);
-    
-    // 获取第一个可用的菜单路径
-    useMountEffect(() => {
-        const fetchMenus = async () => {
-            if (!authorization) {
-                return;
-            }
+    const { staff, loading: staffLoading } = useCurrentStaff();
 
-            try {
-                const staff = await SystemApi.getCurrentStaff();
-                if (staff && staff.menus && staff.menus.length > 0) {
-                    const path = findFirstMenuPath(staff.menus);
-                    setFirstMenuPath(path);
-                }
-            } catch (error) {
-                console.error('获取菜单失败:', error);
-            }
-        };
-        fetchMenus().then(() => console.log('菜单加载完成'));
-    });
-    
+    // 获取第一个可用的菜单路径
+    useEffect(() => {
+        if (!authorization || staffLoading) {
+            return;
+        }
+
+        if (staff && staff.menus && staff.menus.length > 0) {
+            const path = findFirstMenuPath(staff.menus);
+            setFirstMenuPath(path);
+            return;
+        }
+
+        setFirstMenuPath(null);
+    }, [authorization, staff, staffLoading]);
+
     // 进入控制台点击处理
     const handleEnterConsole = () => {
+        if (staffLoading) {
+            return;
+        }
         setLoading(true);
         if (firstMenuPath) {
             navigate(firstMenuPath);
@@ -129,7 +127,7 @@ export default function HomeWelcome() {
                     <div className="mb-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
                         <button
                             onClick={handleEnterConsole}
-                            disabled={loading}
+                            disabled={loading || staffLoading}
                             className="home-welcome-button app-button-accent group inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3.5 text-sm font-medium text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
                         >
                             {loading ? (

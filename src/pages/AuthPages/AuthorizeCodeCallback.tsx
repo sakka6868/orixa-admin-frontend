@@ -20,10 +20,12 @@ export default function AuthorizeCodeCallback() {
             // 保存token
             window.sessionStorage.setItem("USER_TOKEN", response.access_token);
             try {
-               const user =await foundationApi.getCurrentUser();
+               const user = await foundationApi.getCurrentUser();
                 resetAuthorization(user);
-                // 跳转到首页
-                navigate('/');
+                // 使用 setTimeout 确保状态已完全更新后再跳转
+                setTimeout(() => {
+                    navigate('/', { replace: true });
+                }, 0);
             } catch (e: any) {
                 console.log("Error:",e);
             }

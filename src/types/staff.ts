@@ -24,7 +24,6 @@ export interface StaffListItem {
     id: string;
     userId: string;
     menus: MenuVo[];
-    theme?: string;
 }
 
 export interface StaffQuery {

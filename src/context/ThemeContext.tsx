@@ -1,20 +1,11 @@
 "use client";
 
 import type React from "react";
-import {createContext, useContext, useEffect, useState} from "react";
-import SystemApi from "../api/SystemApi";
-import {useAuthorization} from "../hooks/authorization/useAuthorization";
+import {useEffect, useState} from "react";
+import {Theme, ThemeContext, ThemeContextType} from "./ThemeContextCore";
 
-type Theme = "light" | "dark" | "asuka";
-
-type ThemeContextType = {
-    theme: Theme;
-    setTheme: (theme: Theme) => void;
-    toggleTheme: () => void;
-    cycleTheme: () => void;
-};
-
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+export type {Theme, ThemeContextType};
+export {ThemeContext};
 
 const availableThemes: Theme[] = ["light", "dark", "asuka"];
 
@@ -25,7 +16,6 @@ const isValidTheme = (theme: string | null): theme is Theme => {
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
                                                                            children,
                                                                        }) => {
-    const {authorization} = useAuthorization();
     const [theme, setTheme] = useState<Theme>("light");
     const [isInitialized, setIsInitialized] = useState(false);
 
@@ -37,32 +27,6 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
         setTheme(initialTheme);
         setIsInitialized(true);
     }, []);
-
-    useEffect(() => {
-        if (!authorization) {
-            return;
-        }
-
-        let isActive = true;
-
-        const applyStaffTheme = async () => {
-            try {
-                const staff = await SystemApi.getCurrentStaff();
-                if (isActive && staff?.theme && isValidTheme(staff.theme)) {
-                    setTheme(staff.theme);
-                }
-                return Promise.resolve(staff.theme);
-            } catch (error) {
-                console.error("Failed to load staff theme:", error);
-            }
-        };
-
-        applyStaffTheme().then(value => console.log('Staff theme loaded: ' + value));
-
-        return () => {
-            isActive = false;
-        };
-    }, [authorization]);
 
     useEffect(() => {
         if (isInitialized) {
@@ -113,10 +77,4 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
     );
 };
 
-export const useTheme = () => {
-    const context = useContext(ThemeContext);
-    if (context === undefined) {
-        throw new Error("useTheme must be used within a ThemeProvider");
-    }
-    return context;
-};
+

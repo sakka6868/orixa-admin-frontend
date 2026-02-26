@@ -45,13 +45,6 @@ export default function EditStaffModal({
         });
     }, [staff]);
 
-    const handleInputChange = (field: keyof StaffFormData, value: string) => {
-        setFormData(prev => ({
-            ...prev,
-            [field]: value
-        }));
-    };
-
     const handleMenusChange = (checkedKeys: string[]) => {
         // 递归查找所有选中的菜单（包括子菜单）
         const findMenusByIds = (menus: MenuVo[], ids: string[]): MenuVo[] => {
@@ -63,6 +56,7 @@ export default function EditStaffModal({
                         id: menu.id,
                         name: menu.name,
                         path: menu.path,
+                        type: menu.type,
                         icon: menu.icon
                     });
                 }
@@ -117,7 +111,6 @@ export default function EditStaffModal({
             message.warning("表单验证失败", "请至少选择一个菜单权限");
             return;
         }
-
         try {
             await SystemApi.updateStaff(staff.id, formData);
             // 调用回调函数

@@ -4,10 +4,10 @@ import {Link, useLocation, useNavigate} from "react-router";
 // Assume these icons are imported from an icon library
 import {ChevronDownIcon, DocsIcon, GridIcon, HomeIcon, HorizontaLDots, TableIcon, UserIcon,} from "../icons";
 import {useSidebar} from "../context/SidebarContext";
-import SystemApi from "../api/SystemApi";
 import {MenuVo} from "../types/staff";
 import useMountEffect from "../hooks/useMountEffect";
 import {useAuthorization} from "../hooks/authorization/useAuthorization";
+import { useCurrentStaff } from "../hooks/useCurrentStaff";
 
 type NavItem = {
     name: string;
@@ -90,7 +90,8 @@ const AppSidebar: React.FC = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const {authorization} = useAuthorization();
-    
+    const { staff: currentStaff, loading: currentStaffLoading, error: currentStaffError } = useCurrentStaff();
+
     // 动态菜单数据
     const [navItems, setNavItems] = useState<NavItem[]>([]);
     const [menuLoading, setMenuLoading] = useState(true);
@@ -109,17 +110,27 @@ const AppSidebar: React.FC = () => {
             setMenuLoading(false);
             return;
         }
-        
+
+        if (currentStaffLoading) {
+            setMenuLoading(true);
+            return;
+        }
+
+        if (currentStaffError) {
+            console.error('获取当前员工菜单失败:', currentStaffError);
+            setMenuLoading(false);
+            return;
+        }
+
         setMenuLoading(true);
         try {
-            const staff = await SystemApi.getCurrentStaff();
-            if (staff && staff.menus && staff.menus.length > 0) {
-                const items = convertMenusToNavItems(staff.menus);
+            if (currentStaff && currentStaff.menus && currentStaff.menus.length > 0) {
+                const items = convertMenusToNavItems(currentStaff.menus);
                 // 在菜单最前面添加固定的首页菜单
                 setNavItems([homeMenuItem, ...items]);
                 // 保存允许的路径列表
-                setAllowedPaths(getAllMenuPaths(staff.menus));
-            } else {
+                setAllowedPaths(getAllMenuPaths(currentStaff.menus));
+            } else if (currentStaff) {
                 // 没有菜单权限，跳转403页面
                 navigate('/error-403');
             }
@@ -130,13 +141,21 @@ const AppSidebar: React.FC = () => {
         } finally {
             setMenuLoading(false);
         }
-    }, [navigate, location.pathname, authorization]);
-    
+    }, [navigate, location.pathname, authorization, currentStaff, currentStaffLoading, currentStaffError]);
+
     // 组件挂载时获取菜单（只执行一次）
     useMountEffect(() => {
         fetchCurrentStaffMenus().then(()=>console.log('监控服务数据加载完成'));
     });
-    
+
+    // 当授权或员工信息到达时刷新菜单（避免初次加载为空）
+    useEffect(() => {
+        if (!authorization || currentStaffLoading || currentStaffError) {
+            return;
+        }
+        fetchCurrentStaffMenus().then(()=>console.log('监控服务数据加载完成'));
+    }, [authorization, currentStaff, currentStaffLoading, currentStaffError, fetchCurrentStaffMenus]);
+
     // 监听 menuRefreshKey 变化时刷新菜单（跳过首次渲染）
     useEffect(() => {
         if (prevMenuRefreshKey.current !== menuRefreshKey) {
@@ -470,3 +489,4 @@ const AppSidebar: React.FC = () => {
 };
 
 export default AppSidebar;
+
