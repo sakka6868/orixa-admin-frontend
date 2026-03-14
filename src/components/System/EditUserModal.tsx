@@ -33,13 +33,11 @@ export default function EditUserModal({
         lastName: user.lastName,
         birthday: user.birthday,
         avatar: user.avatar,
-        profile: {
-            credential: {
-                credentialKey: user.profile?.credential?.credentialKey || "",
-                credentialValue: "" // 编辑时密码不回显，留空表示不修改
-            },
-            roles: user.profile?.roles?.map(role => ({ id: role.id })) || []
-        }
+        credential: {
+            credentialKey: user.credential?.credentialKey || "",
+            credentialValue: "" // 编辑时密码不回显，留空表示不修改
+        },
+        roles: user.roles?.map(role => ({ id: role.id })) || []
     });
 
     // 旧密码状态
@@ -54,13 +52,11 @@ export default function EditUserModal({
             lastName: user.lastName,
             birthday: user.birthday,
             avatar: user.avatar,
-            profile: {
-                credential: {
-                    credentialKey: user.profile?.credential?.credentialKey || "",
-                    credentialValue: ""
-                },
-                roles: user.profile?.roles?.map(role => ({ id: role.id })) || []
-            }
+            credential: {
+                credentialKey: user.credential?.credentialKey || "",
+                credentialValue: ""
+            },
+            roles: user.roles?.map(role => ({ id: role.id })) || []
         });
         setOldCredentialValue("");
     }, [user]);
@@ -69,12 +65,9 @@ export default function EditUserModal({
         if (field === "credentialKey" || field === "credentialValue") {
             setFormData(prev => ({
                 ...prev,
-                profile: {
-                    ...prev.profile,
-                    credential: {
-                        ...prev.profile.credential,
-                        [field]: value || ""
-                    }
+                credential: {
+                    ...prev.credential,
+                    [field]: value || ""
                 }
             }));
         } else {
@@ -88,12 +81,9 @@ export default function EditUserModal({
     const handleRoleChange = (roleId: string, checked: boolean) => {
         setFormData(prev => ({
             ...prev,
-            profile: {
-                ...prev.profile,
-                roles: checked
-                    ? [...prev.profile.roles, { id: roleId }]
-                    : prev.profile.roles.filter(role => role.id !== roleId)
-            }
+            roles: checked
+                ? [...prev.roles, { id: roleId }]
+                : prev.roles.filter(role => role.id !== roleId)
         }));
     };
 
@@ -106,13 +96,13 @@ export default function EditUserModal({
             return;
         }
 
-        if (!formData.profile.credential.credentialKey.trim()) {
+        if (!formData.credential.credentialKey.trim()) {
             message.warning("表单验证失败", "请输入登录账号");
             return;
         }
 
         // 如果要修改密码，必须输入旧密码
-        if (formData.profile.credential.credentialValue?.trim()) {
+        if (formData.credential.credentialValue?.trim()) {
             if (!oldCredentialValue.trim()) {
                 message.warning("密码验证失败", "请输入旧密码进行验证");
                 return;
@@ -123,12 +113,12 @@ export default function EditUserModal({
             // 如果要修改密码，需要包含旧密码
             const submitData: any = {...formData};
             
-            if (formData.profile.credential.credentialValue?.trim()) {
+            if (formData.credential.credentialValue?.trim()) {
                 // 更新密码，需要提供旧密码
-                submitData.profile.credential.oldCredentialValue = oldCredentialValue;
+                submitData.credential.oldCredentialValue = oldCredentialValue;
             } else {
                 // 不修改密码，删除密码字段
-                delete submitData.profile.credential.credentialValue;
+                delete submitData.credential.credentialValue;
             }
             
             await FoundationApi.updateUser(user.id, submitData);
@@ -157,13 +147,11 @@ export default function EditUserModal({
             lastName: user.lastName,
             birthday: user.birthday,
             avatar: user.avatar,
-            profile: {
-                credential: {
-                    credentialKey: user.profile?.credential?.credentialKey || "",
-                    credentialValue: ""
-                },
-                roles: user.profile?.roles?.map(role => ({ id: role.id })) || []
-            }
+            credential: {
+                credentialKey: user.credential?.credentialKey || "",
+                credentialValue: ""
+            },
+            roles: user.roles?.map(role => ({ id: role.id })) || []
         });
         setOldCredentialValue("");
         onClose();
@@ -248,7 +236,7 @@ export default function EditUserModal({
                             <Input
                                 type="text"
                                 placeholder="请输入登录账号"
-                                value={formData.profile.credential.credentialKey}
+                                value={formData.credential.credentialKey}
                                 onChange={(e) => handleInputChange("credentialKey", e.target.value)}
                             />
                         </div>
@@ -285,7 +273,7 @@ export default function EditUserModal({
                                 <Input
                                     type="password"
                                     placeholder="请输入新密码"
-                                    value={formData.profile.credential.credentialValue || ""}
+                                    value={formData.credential.credentialValue || ""}
                                     onChange={(e) => handleInputChange("credentialValue", e.target.value)}
                                 />
                                 <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
@@ -306,7 +294,7 @@ export default function EditUserModal({
                                         >
                                             <input
                                                 type="checkbox"
-                                                checked={formData.profile.roles.some(r => r.id === role.id)}
+                                                checked={formData.roles.some(r => r.id === role.id)}
                                                 onChange={(e) => handleRoleChange(role.id, e.target.checked)}
                                                 className="h-4 w-4 rounded border-gray-300 text-brand-500 focus:ring-brand-500 dark:border-gray-600"
                                             />

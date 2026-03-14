@@ -175,11 +175,11 @@ export default function UserList() {
                                         {formatDate(user.birthday)}
                                     </td>
                                     <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">
-                                        {user.profile?.credential?.credentialKey || '-'}
+                                        {user.credential?.credentialKey || '-'}
                                     </td>
                                     <td className="px-6 py-4">
                                         <div className="flex flex-wrap gap-2">
-                                            {user.profile?.roles?.map((role) => (
+                                            {user.roles?.map((role) => (
                                                 <Badge
                                                     key={role.id}
                                                     color="primary"

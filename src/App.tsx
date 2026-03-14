@@ -10,7 +10,6 @@ import {ModalProvider} from "./components/ui/modal";
 // 页面组件（懒加载）
 const MonitorDashboard = lazy(() => import("./pages/Analytics/MonitorDashboard.tsx"));
 const NotFound = lazy(() => import("./pages/OtherPage/NotFound"));
-const UserProfiles = lazy(() => import("./pages/User/UserProfiles.tsx"));
 const Maintenance = lazy(() => import("./pages/OtherPage/Maintenance"));
 const FiveZeroZero = lazy(() => import("./pages/OtherPage/FiveZeroZero"));
 const FiveZeroThree = lazy(() => import("./pages/OtherPage/FiveZeroThree"));
@@ -54,7 +53,6 @@ export default function App() {
                                 <Route path="/foundation/roles" element={<RoleList/>}/>
                                 <Route path="/foundation/tenants" element={<TenantList/>}/>
                                 {/* Others Page */}
-                                <Route path="/user/profile" element={<UserProfiles/>}/>
                                 <Route path="/api-keys" element={<ApiKeys/>}/>
                             </Route>
                             {/* Auth Pages */}

@@ -7,18 +7,14 @@ export interface Tenant {
     name: string;
     status?: string;
     updatedAt?: string;
-    profile?: TenantProfile;
+    // 后端更新：移除 profile，新增顶层字段
+    credential: TenantCredential;
+    roles: Role[];
     authenticationMethods?: string[];
     authorizationGrantTypes?: string[];
     redirectUris?: string[];
     postLogoutRedirectUris?: string[];
     scopes?: string[];
-}
-
-// 租户配置
-export interface TenantProfile {
-    credential: TenantCredential;
-    roles: Role[];
 }
 
 // 租户凭证
@@ -31,7 +27,9 @@ export interface TenantCredential {
 // 创建租户命令
 export interface CreateTenantCommand {
     name: string;
-    profile?: TenantProfile;
+    // 顶层结构：不再嵌套 profile
+    credential: TenantCredential;
+    roles: Array<{ id: string }>;
     authenticationMethods?: string[];
     authorizationGrantTypes?: string[];
     redirectUris?: string[];
@@ -43,7 +41,9 @@ export interface CreateTenantCommand {
 export interface UpdateTenantCommand {
     id: string;
     name: string;
-    profile?: TenantProfile;
+    // 顶层结构：不再嵌套 profile
+    credential: Partial<TenantCredential> & Pick<TenantCredential, 'credentialKey'>;
+    roles: Array<{ id: string }>;
     authenticationMethods?: string[];
     authorizationGrantTypes?: string[];
     redirectUris?: string[];

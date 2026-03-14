@@ -1,6 +1,6 @@
 import PageMeta from "../../components/common/PageMeta.tsx";
 import {useState} from "react";
-import {Tenant, CreateTenantCommand, UpdateTenantCommand, TenantProfile} from "../../types/tenant.ts";
+import {Tenant, CreateTenantCommand, UpdateTenantCommand} from "../../types/tenant.ts";
 import {Role} from "../../types/user.ts";
 import {CLIENT_AUTHENTICATION_METHODS, AUTHORIZATION_GRANT_TYPES, OAUTH_SCOPES} from "../../types/oauth.ts";
 import FoundationApi from "../../api/FoundationApi.ts";
@@ -23,13 +23,11 @@ export default function TenantList() {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [addFormData, setAddFormData] = useState<CreateTenantCommand>({
         name: "",
-        profile: {
-            credential: {
-                credentialKey: "",
-                credentialValue: ""
-            },
-            roles: []
+        credential: {
+            credentialKey: "",
+            credentialValue: ""
         },
+        roles: [],
         authenticationMethods: [],
         authorizationGrantTypes: [],
         redirectUris: [],
@@ -42,13 +40,10 @@ export default function TenantList() {
     const [editFormData, setEditFormData] = useState<UpdateTenantCommand>({
         id: "",
         name: "",
-        profile: {
-            credential: {
-                credentialKey: "",
-                credentialValue: ""
-            },
-            roles: []
+        credential: {
+            credentialKey: "",
         },
+        roles: [],
         authenticationMethods: [],
         authorizationGrantTypes: [],
         redirectUris: [],
@@ -104,13 +99,11 @@ export default function TenantList() {
     const handleOpenAddModal = () => {
         setAddFormData({
             name: "",
-            profile: {
-                credential: {
-                    credentialKey: "",
-                    credentialValue: ""
-                },
-                roles: []
+            credential: {
+                credentialKey: "",
+                credentialValue: ""
             },
+            roles: [],
             authenticationMethods: [],
             authorizationGrantTypes: [],
             redirectUris: [],
@@ -127,12 +120,12 @@ export default function TenantList() {
             return;
         }
 
-        if (!addFormData.profile?.credential.credentialKey.trim()) {
+        if (!addFormData.credential.credentialKey.trim()) {
             message.warning("表单验证失败", "请输入登录账号");
             return;
         }
 
-        if (!addFormData.profile?.credential.credentialValue.trim()) {
+        if (!addFormData.credential.credentialValue.trim()) {
             message.warning("表单验证失败", "请输入登录密码");
             return;
         }
@@ -150,19 +143,14 @@ export default function TenantList() {
 
     // 打开编辑弹窗
     const handleOpenEditModal = (tenant: Tenant) => {
-        // 确保编辑时密码字段留空
-        const mergeProfile: TenantProfile = {
-            ...tenant.profile!,
-            credential: {
-                credentialKey: tenant.profile?.credential?.credentialKey || "",
-                credentialValue: "",
-                oldCredentialValue: ""
-            }
-        };
+        // 编辑时密码字段留空
         setEditFormData({
             id: tenant.id,
             name: tenant.name,
-            profile: mergeProfile,
+            credential: {
+                credentialKey: tenant.credential?.credentialKey || "",
+            },
+            roles: (tenant.roles || []).map((role) => ({ id: role.id })),
             authenticationMethods: tenant.authenticationMethods || [],
             authorizationGrantTypes: tenant.authorizationGrantTypes || [],
             redirectUris: tenant.redirectUris || [],
@@ -180,21 +168,25 @@ export default function TenantList() {
         }
 
         // 如果填写了新密码，则必须填写旧密码
-        if (editFormData.profile?.credential.credentialValue?.trim() && !editFormData.profile?.credential.oldCredentialValue?.trim()) {
+        if (editFormData.credential?.credentialValue?.trim() && !editFormData.credential?.oldCredentialValue?.trim()) {
             message.warning("密码验证失败", "修改密码时请输入旧密码进行验证");
             return;
         }
 
         try {
-            // 清洗提交数据
-            const submitData = { ...editFormData };
-            if (!submitData.profile?.credential.credentialValue?.trim()) {
-                // 如果不修改密码，移除相关字段
-                if (submitData.profile) {
-                    const { credentialValue, oldCredentialValue, ...otherCredential } = submitData.profile.credential;
-                    submitData.profile.credential = otherCredential as any;
-                }
-            }
+            const hasNewCredential = Boolean(editFormData.credential?.credentialValue?.trim());
+            const submitData: UpdateTenantCommand = {
+                ...editFormData,
+                credential: hasNewCredential
+                    ? {
+                        credentialKey: editFormData.credential.credentialKey,
+                        credentialValue: editFormData.credential.credentialValue,
+                        oldCredentialValue: editFormData.credential.oldCredentialValue,
+                    }
+                    : {
+                        credentialKey: editFormData.credential.credentialKey,
+                    },
+            };
 
             await FoundationApi.updateTenant(submitData);
             message.success("更新成功", "租户已成功更新");
@@ -371,15 +363,12 @@ export default function TenantList() {
                             <Input
                                 type="text"
                                 placeholder="请输入管理员登录账号"
-                                value={addFormData.profile?.credential.credentialKey || ""}
+                                value={addFormData.credential?.credentialKey || ""}
                                 onChange={(e) => setAddFormData({
                                     ...addFormData,
-                                    profile: {
-                                        ...addFormData.profile!,
-                                        credential: {
-                                            ...addFormData.profile!.credential,
-                                            credentialKey: e.target.value
-                                        }
+                                    credential: {
+                                        ...addFormData.credential,
+                                        credentialKey: e.target.value
                                     }
                                 })}
                             />
@@ -391,15 +380,12 @@ export default function TenantList() {
                             <Input
                                 type="password"
                                 placeholder="请输入管理员登录密码"
-                                value={addFormData.profile?.credential.credentialValue || ""}
+                                value={addFormData.credential?.credentialValue || ""}
                                 onChange={(e) => setAddFormData({
                                     ...addFormData,
-                                    profile: {
-                                        ...addFormData.profile!,
-                                        credential: {
-                                            ...addFormData.profile!.credential,
-                                            credentialValue: e.target.value
-                                        }
+                                    credential: {
+                                        ...addFormData.credential,
+                                        credentialValue: e.target.value
                                     }
                                 })}
                             />
@@ -490,17 +476,14 @@ export default function TenantList() {
                                         >
                                             <input
                                                 type="checkbox"
-                                                checked={addFormData.profile?.roles.some(r => r.id === role.id) || false}
+                                                checked={addFormData.roles?.some(r => r.id === role.id) || false}
                                                 onChange={(e) => {
                                                     const checked = e.target.checked;
                                                     setAddFormData({
                                                         ...addFormData,
-                                                        profile: {
-                                                            ...addFormData.profile!,
-                                                            roles: checked
-                                                                ? [...addFormData.profile!.roles, role]
-                                                                : addFormData.profile!.roles.filter(r => r.id !== role.id)
-                                                        }
+                                                        roles: checked
+                                                            ? [...(addFormData.roles || []), { id: role.id }]
+                                                            : (addFormData.roles || []).filter(r => r.id !== role.id)
                                                     });
                                                 }}
                                                 className="h-4 w-4 rounded border-gray-300 text-brand-500 focus:ring-brand-500 dark:border-gray-600"
@@ -563,15 +546,12 @@ export default function TenantList() {
                             <Input
                                 type="text"
                                 placeholder="请输入管理员登录账号"
-                                value={editFormData.profile?.credential.credentialKey || ""}
+                                value={editFormData.credential?.credentialKey || ""}
                                 onChange={(e) => setEditFormData({
                                     ...editFormData,
-                                    profile: {
-                                        ...editFormData.profile!,
-                                        credential: {
-                                            ...editFormData.profile!.credential,
-                                            credentialKey: e.target.value
-                                        }
+                                    credential: {
+                                        ...editFormData.credential,
+                                        credentialKey: e.target.value
                                     }
                                 })}
                             />
@@ -583,15 +563,12 @@ export default function TenantList() {
                             <Input
                                 type="password"
                                 placeholder="请输入旧密码进行验证"
-                                value={editFormData.profile?.credential.oldCredentialValue || ""}
+                                value={editFormData.credential?.oldCredentialValue || ""}
                                 onChange={(e) => setEditFormData({
                                     ...editFormData,
-                                    profile: {
-                                        ...editFormData.profile!,
-                                        credential: {
-                                            ...editFormData.profile!.credential,
-                                            oldCredentialValue: e.target.value
-                                        }
+                                    credential: {
+                                        ...editFormData.credential,
+                                        oldCredentialValue: e.target.value
                                     }
                                 })}
                             />
@@ -602,15 +579,12 @@ export default function TenantList() {
                             <Input
                                 type="password"
                                 placeholder="请输入新密码"
-                                value={editFormData.profile?.credential.credentialValue || ""}
+                                value={editFormData.credential?.credentialValue || ""}
                                 onChange={(e) => setEditFormData({
                                     ...editFormData,
-                                    profile: {
-                                        ...editFormData.profile!,
-                                        credential: {
-                                            ...editFormData.profile!.credential,
-                                            credentialValue: e.target.value
-                                        }
+                                    credential: {
+                                        ...editFormData.credential,
+                                        credentialValue: e.target.value
                                     }
                                 })}
                             />
@@ -701,17 +675,14 @@ export default function TenantList() {
                                         >
                                             <input
                                                 type="checkbox"
-                                                checked={editFormData.profile?.roles.some(r => r.id === role.id) || false}
+                                                checked={editFormData.roles?.some(r => r.id === role.id) || false}
                                                 onChange={(e) => {
                                                     const checked = e.target.checked;
                                                     setEditFormData({
                                                         ...editFormData,
-                                                        profile: {
-                                                            ...editFormData.profile!,
-                                                            roles: checked
-                                                                ? [...editFormData.profile!.roles, role]
-                                                                : editFormData.profile!.roles.filter(r => r.id !== role.id)
-                                                        }
+                                                        roles: checked
+                                                            ? [...(editFormData.roles || []), { id: role.id }]
+                                                            : (editFormData.roles || []).filter(r => r.id !== role.id)
                                                     });
                                                 }}
                                                 className="h-4 w-4 rounded border-gray-300 text-brand-500 focus:ring-brand-500 dark:border-gray-600"

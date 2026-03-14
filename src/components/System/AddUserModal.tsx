@@ -25,25 +25,20 @@ export default function AddUserModal({onAdd, availableRoles = []}: AddUserModalP
         lastName: "",
         birthday: null,
         avatar: null,
-        profile: {
-            credential: {
-                credentialKey: "",
-                credentialValue: ""
-            },
-            roles: []
-        }
+        credential: {
+            credentialKey: "",
+            credentialValue: ""
+        },
+        roles: []
     });
 
     const handleInputChange = (field: string, value: string | null) => {
         if (field === "credentialKey" || field === "credentialValue") {
             setFormData(prev => ({
                 ...prev,
-                profile: {
-                    ...prev.profile,
-                    credential: {
-                        ...prev.profile.credential,
-                        [field]: value || ""
-                    }
+                credential: {
+                    ...prev.credential,
+                    [field]: value || ""
                 }
             }));
         } else {
@@ -57,12 +52,9 @@ export default function AddUserModal({onAdd, availableRoles = []}: AddUserModalP
     const handleRoleChange = (roleId: string, checked: boolean) => {
         setFormData(prev => ({
             ...prev,
-            profile: {
-                ...prev.profile,
-                roles: checked
-                    ? [...prev.profile.roles, { id: roleId }]
-                    : prev.profile.roles.filter(role => role.id !== roleId)
-            }
+            roles: checked
+                ? [...prev.roles, { id: roleId }]
+                : prev.roles.filter(role => role.id !== roleId)
         }));
     };
 
@@ -75,12 +67,12 @@ export default function AddUserModal({onAdd, availableRoles = []}: AddUserModalP
             return;
         }
 
-        if (!formData.profile.credential.credentialKey.trim()) {
+        if (!formData.credential.credentialKey.trim()) {
             message.warning("表单验证失败", "请输入登录账号");
             return;
         }
 
-        if (!formData.profile.credential.credentialValue?.trim()) {
+        if (!formData.credential.credentialValue?.trim()) {
             message.warning("表单验证失败", "请输入登录密码");
             return;
         }
@@ -98,13 +90,11 @@ export default function AddUserModal({onAdd, availableRoles = []}: AddUserModalP
                 lastName: "",
                 birthday: null,
                 avatar: null,
-                profile: {
-                    credential: {
-                        credentialKey: "",
-                        credentialValue: ""
-                    },
-                    roles: []
-                }
+                credential: {
+                    credentialKey: "",
+                    credentialValue: ""
+                },
+                roles: []
             });
             // 关闭弹窗
             addUserModal.closeModal();
@@ -127,13 +117,11 @@ export default function AddUserModal({onAdd, availableRoles = []}: AddUserModalP
             lastName: "",
             birthday: null,
             avatar: null,
-            profile: {
-                credential: {
-                    credentialKey: "",
-                    credentialValue: ""
-                },
-                roles: []
-            }
+            credential: {
+                credentialKey: "",
+                credentialValue: ""
+            },
+            roles: []
         });
         addUserModal.closeModal();
     };
@@ -241,7 +229,7 @@ export default function AddUserModal({onAdd, availableRoles = []}: AddUserModalP
                                 <Input
                                     type="text"
                                     placeholder="请输入登录账号"
-                                    value={formData.profile.credential.credentialKey}
+                                    value={formData.credential.credentialKey}
                                     onChange={(e) => handleInputChange("credentialKey", e.target.value)}
                                 />
                             </div>
@@ -252,7 +240,7 @@ export default function AddUserModal({onAdd, availableRoles = []}: AddUserModalP
                                 <Input
                                     type="password"
                                     placeholder="请输入登录密码"
-                                    value={formData.profile.credential.credentialValue || ""}
+                                    value={formData.credential.credentialValue || ""}
                                     onChange={(e) => handleInputChange("credentialValue", e.target.value)}
                                 />
                             </div>
@@ -269,7 +257,7 @@ export default function AddUserModal({onAdd, availableRoles = []}: AddUserModalP
                                             >
                                                 <input
                                                     type="checkbox"
-                                                    checked={formData.profile.roles.some(r => r.id === role.id)}
+                                                    checked={formData.roles.some(r => r.id === role.id)}
                                                     onChange={(e) => handleRoleChange(role.id, e.target.checked)}
                                                     className="h-4 w-4 rounded border-gray-300 text-brand-500 focus:ring-brand-500 dark:border-gray-600"
                                                 />

@@ -22,14 +22,6 @@ export interface Holder {
     holderType: string;
 }
 
-// 用户档案
-export interface Profile {
-    id: string;
-    holder: Holder;
-    roles: Role[];
-    credential: Credential;
-}
-
 // 用户列表项
 export interface User {
     id: string;
@@ -38,7 +30,9 @@ export interface User {
     lastName: string;
     birthday: string | null;
     avatar: string | null;
-    profile: Profile;
+    // 后端更新：移除 profile，新增顶层字段
+    credential: Credential;
+    roles: Role[];
 }
 
 // 用户表单数据（新增/编辑用）
@@ -49,13 +43,12 @@ export interface UserFormData {
     lastName?: string;
     birthday: string | null;
     avatar?: string | null;
-    profile: {
-        credential: {
-            credentialKey: string;
-            credentialValue?: string; // 新增时必填，编辑时可选
-        };
-        roles: Array<{ id: string }>; // 角色对象数组
+    // 后端更新：表单结构同步为顶层 credential 与 roles
+    credential: {
+        credentialKey: string;
+        credentialValue?: string; // 新增时必填，编辑时可选
     };
+    roles: Array<{ id: string }>; // 角色对象数组
 }
 
 // 用户查询参数

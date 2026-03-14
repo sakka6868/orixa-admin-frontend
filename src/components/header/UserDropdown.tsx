@@ -82,7 +82,7 @@ export default function UserDropdown() {
             <DropdownItem
               onItemClick={closeDropdown}
               tag="a"
-              to="/user/profile"
+              to="/foundation/users"
               className="flex items-center gap-3 px-3 py-2 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
             >
               <svg
@@ -100,14 +100,14 @@ export default function UserDropdown() {
                   fill=""
                 />
               </svg>
-              编辑用户
+              用户管理
             </DropdownItem>
           </li>
           <li>
             <DropdownItem
               onItemClick={closeDropdown}
               tag="a"
-              to="/user/profile"
+              to="/foundation/tenants"
               className="flex items-center gap-3 px-3 py-2 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
             >
               <svg
@@ -125,7 +125,7 @@ export default function UserDropdown() {
                   fill=""
                 />
               </svg>
-              用户设置
+              租户设置
             </DropdownItem>
           </li>
           <li>
