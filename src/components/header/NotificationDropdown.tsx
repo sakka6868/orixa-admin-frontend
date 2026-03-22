@@ -22,7 +22,7 @@ export default function NotificationDropdown() {
   return (
     <div className="relative">
       <button
-        className="app-icon-button relative flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
+        className="app-icon-button app-text-secondary relative flex h-11 w-11 items-center justify-center rounded-full border transition-colors"
         onClick={handleClick}
       >
         <span
@@ -50,15 +50,15 @@ export default function NotificationDropdown() {
       <Dropdown
         isOpen={isOpen}
         onClose={closeDropdown}
-        className="app-floating-panel absolute -right-[240px] mt-[17px] flex h-[480px] w-[350px] flex-col rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark sm:w-[361px] lg:right-0"
+        className="app-floating-panel absolute -right-[240px] mt-[17px] flex h-[480px] w-[350px] flex-col rounded-2xl border p-3 shadow-theme-lg sm:w-[361px] lg:right-0"
       >
-        <div className="flex items-center justify-between pb-3 mb-3 border-b border-gray-100 dark:border-gray-700">
-          <h5 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+        <div className="app-border mb-3 flex items-center justify-between border-b pb-3">
+          <h5 className="app-text-primary text-lg font-semibold">
             Notification
           </h5>
           <button
             onClick={toggleDropdown}
-            className="text-gray-500 transition dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+            className="app-text-muted transition hover:text-[color:var(--ui-text-primary)]"
           >
             <svg
               className="fill-current"

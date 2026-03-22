@@ -195,19 +195,28 @@ layer(base);
 }
 
 @utility menu-item-active {
-  @apply bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12] dark:text-brand-400;
+  background: var(--ui-menu-active-bg);
+  color: var(--ui-menu-active-text);
+  box-shadow:
+    inset 2px 0 0 var(--ui-menu-active-border),
+    var(--ui-menu-active-shadow);
 }
 
 @utility menu-item-inactive {
-  @apply text-gray-700 hover:bg-gray-100 group-hover:text-gray-700 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-gray-300;
+  color: var(--ui-menu-text);
+
+  &:hover {
+    background-color: var(--ui-menu-hover-bg);
+    color: var(--ui-menu-text-hover);
+  }
 }
 
 @utility menu-item-icon {
-  @apply text-gray-500 group-hover:text-gray-700 dark:text-gray-400;
+  color: var(--ui-menu-icon);
 }
 
 @utility menu-item-icon-active {
-  @apply text-brand-500 dark:text-brand-400;
+  color: var(--ui-menu-active-text);
 }
 
 @utility menu-item-icon-size {
@@ -217,7 +226,7 @@ layer(base);
 }
 
 @utility menu-item-icon-inactive {
-  @apply text-gray-500 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-gray-300;
+  color: var(--ui-menu-icon);
 }
 
 @utility menu-item-arrow {
@@ -225,22 +234,35 @@ layer(base);
 }
 
 @utility menu-item-arrow-active {
-  @apply rotate-180 text-brand-500 dark:text-brand-400;
+  @apply rotate-180;
+  color: var(--ui-menu-active-text);
 }
 
 @utility menu-item-arrow-inactive {
-  @apply text-gray-500 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-gray-300;
+  color: var(--ui-menu-icon);
 }
 
 @utility menu-dropdown-item {
   @apply relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-theme-sm font-medium;
 }
 @utility menu-dropdown-item-active {
-  @apply bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12] dark:text-brand-400;
+  background: var(--ui-menu-active-bg);
+  color: var(--ui-menu-active-text);
+  box-shadow: var(--ui-menu-active-shadow);
 }
 
 @utility menu-dropdown-item-inactive {
-  @apply text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/5;
+  color: var(--ui-menu-text);
+
+  &:hover {
+    background-color: var(--ui-menu-hover-bg);
+    color: var(--ui-menu-text-hover);
+  }
+}
+
+.group:hover .menu-item-icon-inactive,
+.group:hover .menu-item-arrow-inactive {
+  color: var(--ui-menu-icon-hover);
 }
 
 @utility menu-dropdown-badge {
@@ -900,6 +922,22 @@ pre[class*="language-"].line-numbers {
   --ui-floating-shadow: 0 28px 56px -36px rgba(16, 24, 40, 0.45);
   --ui-selection: rgba(70, 95, 255, 0.2);
   --ui-selection-text: #101828;
+  --ui-header-bg: color-mix(in srgb, var(--ui-bg) 94%, #ffffff 6%);
+  --ui-sidebar-bg: color-mix(in srgb, var(--ui-bg) 90%, #ffffff 10%);
+  --ui-menu-text: #475467;
+  --ui-menu-text-hover: #1d2939;
+  --ui-menu-icon: #667085;
+  --ui-menu-icon-hover: #344054;
+  --ui-menu-hover-bg: #eef2f7;
+  --ui-menu-active-bg: color-mix(in srgb, var(--ui-accent) 14%, var(--ui-surface) 86%);
+  --ui-menu-active-text: #3346f0;
+  --ui-menu-active-border: color-mix(in srgb, var(--ui-accent) 72%, #ffffff 28%);
+  --ui-menu-active-shadow: 0 0 0 1px color-mix(in srgb, var(--ui-accent) 24%, transparent 76%) inset;
+  --ui-icon-button-bg: color-mix(in srgb, var(--ui-surface) 94%, #ffffff 6%);
+  --ui-icon-button-hover-bg: var(--ui-surface-soft);
+  --ui-icon-button-border: var(--ui-border);
+  --ui-icon-button-text: var(--ui-text-secondary);
+  --ui-icon-button-text-hover: var(--ui-text-primary);
   --theme-transition-duration: 260ms;
   --theme-transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -921,6 +959,22 @@ pre[class*="language-"].line-numbers {
   --ui-floating-shadow: 0 32px 72px -44px rgba(2, 6, 23, 0.96);
   --ui-selection: rgba(117, 146, 255, 0.28);
   --ui-selection-text: #f8fafc;
+  --ui-header-bg: color-mix(in srgb, var(--ui-bg) 86%, #1d2939 14%);
+  --ui-sidebar-bg: color-mix(in srgb, var(--ui-bg-soft) 88%, #0c111d 12%);
+  --ui-menu-text: #c7d1df;
+  --ui-menu-text-hover: #f2f4f7;
+  --ui-menu-icon: #98a2b3;
+  --ui-menu-icon-hover: #d0d5dd;
+  --ui-menu-hover-bg: rgba(255, 255, 255, 0.08);
+  --ui-menu-active-bg: color-mix(in srgb, var(--ui-accent) 24%, #1d2939 76%);
+  --ui-menu-active-text: #d9e2ff;
+  --ui-menu-active-border: color-mix(in srgb, var(--ui-accent) 82%, #b4c7ff 18%);
+  --ui-menu-active-shadow: 0 0 0 1px rgba(117, 146, 255, 0.32) inset;
+  --ui-icon-button-bg: color-mix(in srgb, var(--ui-surface-soft) 86%, #0f172a 14%);
+  --ui-icon-button-hover-bg: color-mix(in srgb, var(--ui-surface-soft) 70%, #1d2939 30%);
+  --ui-icon-button-border: var(--ui-border);
+  --ui-icon-button-text: var(--ui-text-secondary);
+  --ui-icon-button-text-hover: var(--ui-text-primary);
 }
 
 .asuka {
@@ -940,6 +994,22 @@ pre[class*="language-"].line-numbers {
   --ui-floating-shadow: 0 40px 72px -48px rgba(115, 8, 18, 0.92);
   --ui-selection: rgba(230, 0, 18, 0.34);
   --ui-selection-text: #fff5f3;
+  --ui-header-bg: color-mix(in srgb, var(--ui-bg) 88%, #321218 12%);
+  --ui-sidebar-bg: color-mix(in srgb, var(--ui-bg-soft) 85%, #250d12 15%);
+  --ui-menu-text: #ffd07a;
+  --ui-menu-text-hover: #ffe4a3;
+  --ui-menu-icon: #ffb36a;
+  --ui-menu-icon-hover: #ffd88f;
+  --ui-menu-hover-bg: rgba(230, 0, 18, 0.18);
+  --ui-menu-active-bg: linear-gradient(90deg, rgba(230, 0, 18, 0.3), rgba(230, 0, 18, 0.08));
+  --ui-menu-active-text: #ffc44d;
+  --ui-menu-active-border: #ff5a50;
+  --ui-menu-active-shadow: 0 0 0 1px rgba(230, 0, 18, 0.22) inset;
+  --ui-icon-button-bg: color-mix(in srgb, var(--ui-surface) 78%, #451018 22%);
+  --ui-icon-button-hover-bg: color-mix(in srgb, var(--ui-surface-soft) 76%, #591822 24%);
+  --ui-icon-button-border: var(--ui-border-strong);
+  --ui-icon-button-text: #ffb38b;
+  --ui-icon-button-text-hover: #ffe9bf;
 
   --color-brand-500: #e60012;
   --color-brand-600: #c50010;
@@ -1000,10 +1070,10 @@ select {
 
 .app-header {
   border-color: var(--ui-border) !important;
-  background-color: color-mix(in srgb, var(--ui-bg) 96%, transparent) !important;
+  background-color: var(--ui-header-bg) !important;
   backdrop-filter: blur(14px) saturate(130%);
   -webkit-backdrop-filter: blur(14px) saturate(130%);
-  box-shadow: 0 14px 26px -28px rgba(16, 24, 40, 0.8);
+  box-shadow: 0 16px 36px -30px color-mix(in srgb, var(--ui-text-primary) 26%, transparent);
 }
 
 .app-page-titlebar {
@@ -1013,7 +1083,7 @@ select {
 }
 
 .app-header-toolbar {
-  background-color: color-mix(in srgb, var(--ui-bg) 96%, transparent);
+  background-color: var(--ui-header-bg);
 }
 
 @media (min-width: 1280px) {
@@ -1024,7 +1094,7 @@ select {
 
 .app-sidebar {
   border-right-color: var(--ui-border) !important;
-  background-color: var(--ui-bg) !important;
+  background-color: var(--ui-sidebar-bg) !important;
 }
 
 .app-surface {
@@ -1061,13 +1131,15 @@ select {
 }
 
 .app-icon-button {
-  border-color: var(--ui-border) !important;
-  color: var(--ui-text-secondary);
+  border-color: var(--ui-icon-button-border) !important;
+  background-color: var(--ui-icon-button-bg);
+  color: var(--ui-icon-button-text);
 }
 
 .app-icon-button:hover {
-  background-color: var(--ui-surface-soft);
-  color: var(--ui-text-primary);
+  border-color: var(--ui-border-strong) !important;
+  background-color: var(--ui-icon-button-hover-bg);
+  color: var(--ui-icon-button-text-hover);
 }
 
 .app-icon-button:focus-visible,
@@ -1078,6 +1150,15 @@ select {
 
 .app-icon-button:active {
   transform: translateY(1px);
+}
+
+.app-theme-toggle {
+  border-color: var(--ui-icon-button-border) !important;
+  box-shadow: 0 16px 26px -20px color-mix(in srgb, var(--ui-ring) 88%, transparent);
+}
+
+.app-theme-toggle:hover {
+  box-shadow: 0 18px 30px -20px color-mix(in srgb, var(--ui-ring) 95%, transparent);
 }
 
 .app-button-accent {
@@ -1144,34 +1225,6 @@ select {
 .asuka .app-sidebar h2 {
   color: #ffbf57 !important;
   letter-spacing: 0.12em;
-}
-
-.asuka .menu-item-inactive {
-  color: #ffd07a !important;
-}
-
-.asuka .menu-item-inactive:hover {
-  background-color: rgba(230, 0, 18, 0.18) !important;
-  color: #ffe4a3 !important;
-}
-
-.asuka .menu-item-active {
-  background: linear-gradient(
-    90deg,
-    rgba(230, 0, 18, 0.28),
-    rgba(230, 0, 18, 0.06)
-  ) !important;
-  color: #ffc44d !important;
-  border-left: 2px solid #ff5a50;
-  box-shadow: 0 0 0 1px rgba(230, 0, 18, 0.22) inset;
-}
-
-.asuka .menu-item-icon-active {
-  color: #ffc44d !important;
-}
-
-.asuka .menu-dropdown-item-active {
-  color: #ffc44d !important;
 }
 
 .asuka .asuka-logo {

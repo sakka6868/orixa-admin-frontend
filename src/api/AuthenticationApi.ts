@@ -37,15 +37,14 @@ function base64UrlEncode(buffer: ArrayBuffer) {
 
 // 将二进制数据转换为 Base64 字符串
 function bufferToBase64(buffer: ArrayBuffer) {
-    // @ts-ignore
-    const binary = String.fromCharCode.apply(null, new Uint8Array(buffer));
+    const binary = String.fromCharCode(...new Uint8Array(buffer));
     return window.btoa(binary);
 }
 
 // 从环境变量获取配置
-const CLIENT_ID = import.meta.env.VITE_CLIENT_ID || "pkcepublic";
-const AUTH_SERVER_URL = import.meta.env.VITE_AUTH_SERVER_URL || "http://localhost:9000";
-const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI || "http://localhost:5173/authorize-code-callback";
+const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
+const AUTH_SERVER_URL = import.meta.env.VITE_AUTH_SERVER_URL;
+const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
 
 const AuthenticationApi = {
     redirect: async (callback: string) => {

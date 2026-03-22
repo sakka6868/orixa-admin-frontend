@@ -81,18 +81,11 @@ export const ThemeToggleButton: React.FC = () => {
   const activeLabel = themeLabelMap[theme];
   const nextLabel = getNextThemeLabel(theme);
 
-  const toneClasses =
-    theme === "dark"
-      ? "border-gray-700 bg-gray-900 text-gray-200 hover:border-gray-600 hover:bg-gray-800"
-      : theme === "asuka"
-        ? "border-[#8b3a43] bg-[#2d1418] text-[#ff7f75] hover:border-[#b24f58] hover:bg-[#3b161d]"
-        : "border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50";
-
   return (
     <button
       type="button"
       onClick={cycleTheme}
-      className={`app-icon-button relative inline-flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border shadow-theme-xs transition-all duration-300 ease-out hover:scale-[1.02] active:scale-[0.98] ${toneClasses}`}
+      className="app-theme-toggle app-icon-button app-text-secondary relative inline-flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border shadow-theme-xs transition-all duration-300 ease-out hover:scale-[1.02] active:scale-[0.98]"
       title={`Current: ${activeLabel}. Switch to: ${nextLabel}.`}
       aria-label={`Switch theme. Current: ${activeLabel}. Next: ${nextLabel}.`}
       aria-live="polite"
