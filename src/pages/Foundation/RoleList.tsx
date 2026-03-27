@@ -156,7 +156,7 @@ export default function RoleList() {
     return (
         <>
             <PageMeta
-                title="角色列表"
+                title="角色列表 | Orixa Admin"
                 description="角色管理页面"
             />
             <div className="mb-6 flex justify-end">
@@ -166,10 +166,36 @@ export default function RoleList() {
                 />
             </div>
             {loading ? (
-                <div className="flex items-center justify-center p-12">
-                    <div
-                        className="h-8 w-8 animate-spin rounded-full border-4 border-brand-500 border-t-transparent"></div>
-                    <span className="ml-3 text-gray-500 dark:text-gray-400">加载中...</span>
+                <div className="rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
+                    <div className="overflow-x-auto">
+                        <table className="w-full">
+                            <thead>
+                            <tr className="border-b border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-800/50">
+                                {['角色名称', '角色编码', '角色描述', '父级角色', '操作'].map((h) => (
+                                    <th key={h} className="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-white">
+                                        {h}
+                                    </th>
+                                ))}
+                            </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
+                            {Array.from({length: 5}).map((_, i) => (
+                                <tr key={i}>
+                                    <td className="px-6 py-4"><div className="skeleton h-4 w-24 rounded"></div></td>
+                                    <td className="px-6 py-4"><div className="skeleton h-6 w-28 rounded"></div></td>
+                                    <td className="px-6 py-4"><div className="skeleton h-4 w-40 rounded"></div></td>
+                                    <td className="px-6 py-4"><div className="skeleton h-4 w-20 rounded"></div></td>
+                                    <td className="px-6 py-4">
+                                        <div className="flex items-center justify-center gap-2">
+                                            <div className="skeleton h-8 w-12 rounded-lg"></div>
+                                            <div className="skeleton h-8 w-12 rounded-lg"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             ) : roleList.length > 0 ? (
                 <div

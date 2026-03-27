@@ -421,16 +421,18 @@ const AppSidebar: React.FC = () => {
                             <img
                                 className="dark:hidden asuka:hidden"
                                 src="/images/logo/logo.svg"
-                                alt="Logo"
+                                alt="Orixa Admin Logo"
                                 width={150}
                                 height={40}
+                                loading="lazy"
                             />
                             <img
                                 className="hidden dark:block asuka:hidden"
                                 src="/images/logo/logo-dark.svg"
-                                alt="Logo"
+                                alt="Orixa Admin Logo"
                                 width={150}
                                 height={40}
+                                loading="lazy"
                             />
                             <img
                                 className="hidden asuka:block asuka-logo"
@@ -438,15 +440,17 @@ const AppSidebar: React.FC = () => {
                                 alt="Asuka"
                                 width={150}
                                 height={150}
+                                loading="lazy"
                             />
                         </>
                     ) : (
                         <img
                             className="asuka:hidden"
                             src="/images/logo/logo-icon.svg"
-                            alt="Logo"
+                            alt="Orixa Admin Logo"
                             width={32}
                             height={32}
+                            loading="lazy"
                         />
                     )}
                 </Link>

@@ -87,28 +87,33 @@ const AppHeader: React.FC = () => {
             {/* Cross Icon */}
           </button>
 
-          <Link to="/" className="xl:hidden">
+          <Link to="/" className="xl:hidden" aria-label="返回首页">
             <img
               className="dark:hidden asuka:hidden"
-              src="./images/logo/logo.svg"
-              alt="Logo"
+              src="../../public/images/logo/logo.svg"
+              alt="Orixa Admin Logo"
+              loading="lazy"
             />
             <img
               className="hidden dark:block asuka:hidden"
-              src="./images/logo/logo-dark.svg"
-              alt="Logo"
+              src="../../public/images/logo/logo-dark.svg"
+              alt="Orixa Admin Logo"
+              loading="lazy"
             />
             <img
               className="hidden asuka:block asuka-logo asuka-logo-compact"
-              src="./images/asuka-portrait.jpg"
+              src="../../public/images/asuka-portrait.jpg"
               alt="Asuka"
               width={40}
               height={40}
+              loading="lazy"
             />
           </Link>
 
           <button
             onClick={toggleApplicationMenu}
+            aria-label="切换应用菜单"
+            aria-expanded={isApplicationMenuOpen}
             className="app-icon-button app-text-secondary z-99999 flex h-10 w-10 items-center justify-center rounded-lg xl:hidden"
           >
             <svg

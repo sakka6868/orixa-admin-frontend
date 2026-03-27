@@ -151,7 +151,7 @@ export default function MenusList() {
     return (
         <>
             <PageMeta
-                title="菜单列表"
+                title="菜单列表 | Orixa Admin"
                 description="菜单列表管理页面"
             />
             <div className="mb-6 flex justify-end">
@@ -161,10 +161,47 @@ export default function MenusList() {
                 />
             </div>
             {loading ? (
-                <div className="flex items-center justify-center p-12">
-                    <div
-                        className="h-8 w-8 animate-spin rounded-full border-4 border-brand-500 border-t-transparent"></div>
-                    <span className="ml-3 text-gray-500 dark:text-gray-400">加载中...</span>
+                <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+                    {/* 树形骨架屏 - 3 层结构 */}
+                    <div className="space-y-3">
+                        {/* 一级节点 */}
+                        <div className="flex items-center gap-3">
+                            <div className="skeleton h-4 w-4 rounded"></div>
+                            <div className="skeleton h-4 w-36 rounded"></div>
+                        </div>
+                        {/* 二级节点 */}
+                        <div className="ml-7 space-y-3">
+                            <div className="flex items-center gap-3">
+                                <div className="skeleton h-4 w-4 rounded"></div>
+                                <div className="skeleton h-4 w-28 rounded"></div>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <div className="skeleton h-4 w-4 rounded"></div>
+                                <div className="skeleton h-4 w-24 rounded"></div>
+                            </div>
+                        </div>
+                        {/* 一级节点 */}
+                        <div className="flex items-center gap-3">
+                            <div className="skeleton h-4 w-4 rounded"></div>
+                            <div className="skeleton h-4 w-32 rounded"></div>
+                        </div>
+                        {/* 二级节点 */}
+                        <div className="ml-7 space-y-3">
+                            <div className="flex items-center gap-3">
+                                <div className="skeleton h-4 w-4 rounded"></div>
+                                <div className="skeleton h-4 w-20 rounded"></div>
+                            </div>
+                            <div className="ml-7 flex items-center gap-3">
+                                <div className="skeleton h-4 w-4 rounded"></div>
+                                <div className="skeleton h-4 w-16 rounded"></div>
+                            </div>
+                        </div>
+                        {/* 一级节点 */}
+                        <div className="flex items-center gap-3">
+                            <div className="skeleton h-4 w-4 rounded"></div>
+                            <div className="skeleton h-4 w-40 rounded"></div>
+                        </div>
+                    </div>
                 </div>
             ) : treeData.length > 0 ? (
                 <Tree

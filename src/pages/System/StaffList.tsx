@@ -13,6 +13,7 @@ import {useSidebar} from "../../context/SidebarContext";
 import {useModal} from "../../components/ui/modal";
 import Badge from "../../components/ui/badge/Badge.tsx";
 import { useCurrentStaff } from "../../hooks/useCurrentStaff";
+import {MenuFormData} from "../../types/menu.ts";
 
 interface MenuApiData {
     id?: string;
@@ -49,7 +50,7 @@ export default function StaffList() {
                 setUserList(users);
 
                 // 获取菜单列表（用于权限选择，保留树形结构）
-                const menus = await SystemApi.listMenus({} as any);
+                const menus = await SystemApi.listMenus({} as MenuFormData);
                 // 递归转换菜单数据为 MenuVo 格式，保留树形结构
                 const convertToMenuVo = (menuList: MenuApiData[]): MenuVo[] => {
                     return menuList.map((menu) => ({
@@ -137,7 +138,7 @@ export default function StaffList() {
     return (
         <>
             <PageMeta
-                title="员工列表"
+                title="员工列表 | Orixa Admin"
                 description="员工管理页面"
             />
             <div className="mb-6 flex justify-end">
@@ -148,10 +149,40 @@ export default function StaffList() {
                 />
             </div>
             {loading ? (
-                <div className="flex items-center justify-center p-12">
-                    <div
-                        className="h-8 w-8 animate-spin rounded-full border-4 border-brand-500 border-t-transparent"></div>
-                    <span className="ml-3 text-gray-500 dark:text-gray-400">加载中...</span>
+                <div className="rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
+                    <div className="overflow-x-auto">
+                        <table className="w-full">
+                            <thead>
+                            <tr className="border-b border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-800/50">
+                                {['ID', '用户名', '菜单权限', '操作'].map((h) => (
+                                    <th key={h} className="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-white">
+                                        {h}
+                                    </th>
+                                ))}
+                            </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
+                            {Array.from({length: 5}).map((_, i) => (
+                                <tr key={i}>
+                                    <td className="px-6 py-4"><div className="skeleton h-4 w-40 rounded"></div></td>
+                                    <td className="px-6 py-4"><div className="skeleton h-4 w-24 rounded"></div></td>
+                                    <td className="px-6 py-4">
+                                        <div className="flex gap-2">
+                                            <div className="skeleton h-5 w-14 rounded-full"></div>
+                                            <div className="skeleton h-5 w-14 rounded-full"></div>
+                                        </div>
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        <div className="flex items-center justify-center gap-2">
+                                            <div className="skeleton h-8 w-12 rounded-lg"></div>
+                                            <div className="skeleton h-8 w-12 rounded-lg"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             ) : staffList.length > 0 ? (
                 <div

@@ -223,7 +223,7 @@ export default function TenantList() {
     return (
         <>
             <PageMeta
-                title="租户列表"
+                title="租户列表 | Orixa Admin"
                 description="租户管理页面"
             />
 
@@ -251,10 +251,34 @@ export default function TenantList() {
             </div>
 
             {loading ? (
-                <div className="flex items-center justify-center p-12">
-                    <div
-                        className="h-8 w-8 animate-spin rounded-full border-4 border-brand-500 border-t-transparent"></div>
-                    <span className="ml-3 text-gray-500 dark:text-gray-400">加载中...</span>
+                <div className="rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
+                    <div className="overflow-x-auto">
+                        <table className="w-full">
+                            <thead>
+                            <tr className="border-b border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-800/50">
+                                {['租户名称', '状态', '操作'].map((h) => (
+                                    <th key={h} className="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-white">
+                                        {h}
+                                    </th>
+                                ))}
+                            </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
+                            {Array.from({length: 5}).map((_, i) => (
+                                <tr key={i}>
+                                    <td className="px-6 py-4"><div className="skeleton h-4 w-32 rounded"></div></td>
+                                    <td className="px-6 py-4"><div className="skeleton h-5 w-16 rounded-full"></div></td>
+                                    <td className="px-6 py-4">
+                                        <div className="flex items-center justify-center gap-2">
+                                            <div className="skeleton h-8 w-12 rounded-lg"></div>
+                                            <div className="skeleton h-8 w-12 rounded-lg"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             ) : tenantList.length > 0 ? (
                 <div

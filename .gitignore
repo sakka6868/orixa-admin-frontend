@@ -127,3 +127,7 @@ temp/
 *.iml
 *.sublime-project
 *.sublime-workspace
+
+.claude
+
+.opencode

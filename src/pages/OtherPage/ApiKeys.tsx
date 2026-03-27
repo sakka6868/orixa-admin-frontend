@@ -6,10 +6,10 @@ export default function ApiKeys() {
   return (
     <div>
       <PageMeta
-        title="React.js API Keys Page | TailAdmin - React.js Admin Dashboard Template"
-        description="This is React.js  API Keys page for TailAdmin - React.js Tailwind CSS Admin Dashboard Template"
+        title="API 密钥 | Orixa Admin"
+        description="管理和查看 API 密钥"
       />
-      <PageBreadcrumb pageTitle="API Keys" />
+      <PageBreadcrumb pageTitle="API 密钥" />
       <ApiKeyTable />
     </div>
   );
