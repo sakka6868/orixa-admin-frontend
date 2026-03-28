@@ -19,27 +19,27 @@ export default function DefaultModal() {
         <Modal
           isOpen={isOpen}
           onClose={closeModal}
-          className="max-w-[600px] p-5 lg:p-10"
+          className="w-full max-w-[600px] p-6 lg:p-10"
         >
-          <h4 className="font-semibold text-gray-800 mb-7 text-title-sm dark:text-white/90">
+          <h4 className="font-semibold text-gray-800 mb-1 text-title-sm dark:text-white/90">
             Modal Heading
           </h4>
-          <p className="text-sm leading-6 text-gray-500 dark:text-gray-400">
+          <p className="mb-7 text-sm leading-6 text-gray-500 dark:text-gray-400">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             Pellentesque euismod est quis mauris lacinia pharetra. Sed a ligula
             ac odio condimentum aliquet a nec nulla. Aliquam bibendum ex sit
             amet ipsum rutrum feugiat ultrices enim quam.
           </p>
-          <p className="mt-5 text-sm leading-6 text-gray-500 dark:text-gray-400">
+          <p className="text-sm leading-6 text-gray-500 dark:text-gray-400">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             Pellentesque euismod est quis mauris lacinia pharetra. Sed a ligula
             ac odio.
           </p>
-          <div className="flex items-center justify-end w-full gap-3 mt-8">
-            <Button size="sm" variant="outline" onClick={closeModal}>
+          <div className="flex flex-col-reverse sm:flex-row items-center justify-end w-full gap-3 mt-8">
+            <Button size="sm" variant="outline" onClick={closeModal} className="w-full sm:w-auto">
               Close
             </Button>
-            <Button size="sm" onClick={handleSave}>
+            <Button size="sm" onClick={handleSave} className="w-full sm:w-auto">
               Save Changes
             </Button>
           </div>

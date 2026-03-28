@@ -16,7 +16,7 @@ export default function IntegrationDeleteModal({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      className="w-full max-w-[558px] p-6 lg:p-10"
+      className="w-full max-w-[600px] p-6 lg:p-10"
     >
       <div className="text-center">
         <div className="relative z-1 mb-7 flex items-center justify-center">
@@ -54,7 +54,7 @@ export default function IntegrationDeleteModal({
           </span>
         </div>
 
-        <h4 className="sm:text-title-sm mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
+        <h4 className="text-title-sm mb-1 font-semibold text-gray-800 dark:text-white/90">
           Action Needed!
         </h4>
         <p className="text-sm leading-6 text-gray-500 dark:text-gray-400">
@@ -69,14 +69,13 @@ export default function IntegrationDeleteModal({
             No, cancel
           </Button>
           <Button
-            variant="primary"
+            variant="danger"
             onClick={() => {
               if (onConfirm) {
                 onConfirm();
               }
               onClose();
             }}
-            className="bg-red-500 hover:bg-red-600 dark:bg-red-500 dark:hover:bg-red-600"
           >
             Yes, I'm sure
           </Button>

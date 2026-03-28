@@ -49,11 +49,11 @@ export default function AddApiKeyModal() {
               in the future.
             </p>
           </form>
-          <div className="mt-8 flex flex-col sm:flex-row w-full items-center justify-between gap-3">
-            <Button variant="outline" className="w-full">
+          <div className="mt-8 flex flex-col-reverse sm:flex-row w-full items-center justify-end gap-3">
+            <Button variant="outline" className="w-full sm:w-auto" onClick={addApiKeyModal.closeModal}>
               Close
             </Button>
-            <Button className="w-full">Generate API key</Button>
+            <Button className="w-full sm:w-auto">Generate API key</Button>
           </div>
         </div>
       </Modal>

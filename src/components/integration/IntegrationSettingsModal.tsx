@@ -39,10 +39,10 @@ export default function IntegrationSettingsModal() {
       <Modal
         isOpen={settingsModal.isOpen}
         onClose={settingsModal.closeModal}
-        className="w-full max-w-[558px] p-6 lg:p-10"
+        className="w-full max-w-[600px] p-6 lg:p-10"
       >
         <div>
-          <h4 className="text-title-xs mb-1 font-semibold text-gray-800 dark:text-white/90">
+          <h4 className="text-title-sm mb-1 font-semibold text-gray-800 dark:text-white/90">
             Integration settings
           </h4>
           <p className="mb-7 text-sm leading-6 text-gray-500 dark:text-gray-400">
@@ -51,9 +51,7 @@ export default function IntegrationSettingsModal() {
           <form action="#">
             <div className="space-y-4">
               <div>
-                <label className="mb-1.5 block text-sm font-medium text-gray-700 disabled:opacity-50 dark:text-gray-400">
-                  Select App
-                </label>
+                <Label>Select App</Label>
                 <div
                   x-data="{ isOptionSelected: false }"
                   className="relative z-20 bg-transparent"
@@ -146,15 +144,15 @@ export default function IntegrationSettingsModal() {
               Save your changes by clicking ‘Save Changes’
             </p>
           </form>
-          <div className="mt-8 flex w-full items-center justify-between gap-3">
+          <div className="mt-8 flex flex-col-reverse sm:flex-row w-full items-center justify-end gap-3">
             <Button
               onClick={settingsModal.closeModal}
-              className="w-full"
+              className="w-full sm:w-auto"
               variant="outline"
             >
               Close
             </Button>
-            <Button className="w-full">Save Changes</Button>
+            <Button className="w-full sm:w-auto">Save Changes</Button>
           </div>
         </div>
       </Modal>

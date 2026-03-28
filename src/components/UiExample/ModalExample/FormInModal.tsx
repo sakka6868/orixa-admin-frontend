@@ -20,12 +20,15 @@ export default function FormInModal() {
       <Modal
         isOpen={isOpen}
         onClose={closeModal}
-        className="max-w-[584px] p-5 lg:p-10"
+        className="w-full max-w-[600px] p-6 lg:p-10"
       >
         <form className="">
-          <h4 className="mb-6 text-lg font-medium text-gray-800 dark:text-white/90">
+          <h4 className="mb-1 text-title-sm font-semibold text-gray-800 dark:text-white/90">
             Personal Information
           </h4>
+          <p className="mb-7 text-sm leading-6 text-gray-500 dark:text-gray-400">
+            Update your personal details below.
+          </p>
 
           <div className="grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-2">
             <div className="col-span-1">
@@ -54,11 +57,11 @@ export default function FormInModal() {
             </div>
           </div>
 
-          <div className="flex items-center justify-end w-full gap-3 mt-6">
-            <Button size="sm" variant="outline" onClick={closeModal}>
+          <div className="flex flex-col-reverse sm:flex-row items-center justify-end w-full gap-3 mt-8">
+            <Button size="sm" variant="outline" onClick={closeModal} className="w-full sm:w-auto">
               Close
             </Button>
-            <Button size="sm" onClick={handleSave}>
+            <Button size="sm" onClick={handleSave} className="w-full sm:w-auto">
               Save Changes
             </Button>
           </div>

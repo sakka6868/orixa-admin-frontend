@@ -15,10 +15,10 @@ export default function IntegrationDetailsModal() {
       <Modal
         isOpen={detailsModal.isOpen}
         onClose={detailsModal.closeModal}
-        className="w-full max-w-[558px] p-6 lg:p-10"
+        className="w-full max-w-[600px] p-6 lg:p-10"
       >
         <div>
-          <h4 className="text-title-xs mb-1 font-semibold text-gray-800 dark:text-white/90">
+          <h4 className="text-title-sm mb-1 font-semibold text-gray-800 dark:text-white/90">
             Integration details
           </h4>
           <p className="mb-7 text-sm leading-6 text-gray-500 dark:text-gray-400">

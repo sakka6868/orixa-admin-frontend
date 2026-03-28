@@ -1,6 +1,7 @@
 import { useModal } from "../../hooks/useModal";
 import Button from "../ui/button/Button";
 import { Modal } from "../ui/modal";
+import Label from "../form/Label";
 
 export default function AddIntegrationModal() {
   const addIntegrationModal = useModal();
@@ -27,10 +28,10 @@ export default function AddIntegrationModal() {
       <Modal
         isOpen={addIntegrationModal.isOpen}
         onClose={addIntegrationModal.closeModal}
-        className="w-full max-w-[558px] p-6 lg:p-10"
+        className="w-full max-w-[600px] p-6 lg:p-10"
       >
         <div>
-          <h4 className="text-title-xs mb-1 font-semibold text-gray-800 dark:text-white/90">
+          <h4 className="text-title-sm mb-1 font-semibold text-gray-800 dark:text-white/90">
             New integration
           </h4>
           <p className="mb-7 text-sm leading-6 text-gray-500 dark:text-gray-400">
@@ -39,11 +40,8 @@ export default function AddIntegrationModal() {
           <form action="#">
             <div className="space-y-4">
               <div>
-                <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                  Select App
-                </label>
+                <Label>Select App</Label>
                 <div
-                  x-data="{ isOptionSelected: false }"
                   className="relative z-20 bg-transparent"
                 >
                   <select className="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full appearance-none rounded-lg border border-gray-300 bg-transparent bg-none px-4 py-2.5 pr-11 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">
@@ -105,9 +103,7 @@ export default function AddIntegrationModal() {
                 </div>
               </div>
               <div>
-                <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                  Client ID
-                </label>
+                <Label>Client ID</Label>
                 <input
                   type="text"
                   placeholder="Enter client ID here"
@@ -115,9 +111,7 @@ export default function AddIntegrationModal() {
                 />
               </div>
               <div>
-                <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                  Client Secret
-                </label>
+                <Label>Client Secret</Label>
                 <input
                   type="text"
                   placeholder="Enter client secret here"
@@ -125,9 +119,7 @@ export default function AddIntegrationModal() {
                 />
               </div>
               <div>
-                <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                  Authentication base URI
-                </label>
+                <Label>Authentication base URI</Label>
                 <input
                   type="text"
                   placeholder="Paste URL here"
@@ -141,15 +133,15 @@ export default function AddIntegrationModal() {
               the subdomain for quick reference.
             </p>
           </form>
-          <div className="mt-8 flex w-full flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="mt-8 flex flex-col-reverse sm:flex-row w-full items-center justify-end gap-3">
             <Button
               variant="outline"
               onClick={addIntegrationModal.closeModal}
-              className="w-full"
+              className="w-full sm:w-auto"
             >
               Close
             </Button>
-            <Button className="w-full">Add Integration</Button>
+            <Button className="w-full sm:w-auto">Add Integration</Button>
           </div>
         </div>
       </Modal>

@@ -363,9 +363,9 @@ export default function TenantList() {
             <Modal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)}
                    className="w-full max-w-[600px] p-6 lg:p-10">
                 <div className="max-h-[80vh] overflow-y-auto">
-                    <h2 className="mb-1 text-xl font-semibold text-gray-800 dark:text-white">
+                    <h4 className="text-title-sm mb-1 font-semibold text-gray-800 dark:text-white/90">
                         新增租户
-                    </h2>
+                    </h4>
                     <p className="mb-7 text-sm leading-6 text-gray-500 dark:text-gray-400">
                         填写租户信息，创建新的租户
                     </p>
@@ -531,11 +531,11 @@ export default function TenantList() {
                             </p>
                         </div>
                     </div>
-                    <div className="mt-6 flex justify-end gap-3">
-                        <Button className="w-full" variant="outline" onClick={() => setIsAddModalOpen(false)}>
+                    <div className="mt-8 flex flex-col-reverse sm:flex-row w-full items-center justify-end gap-3">
+                        <Button className="w-full sm:w-auto" variant="outline" onClick={() => setIsAddModalOpen(false)}>
                             取消
                         </Button>
-                        <Button className="w-full" variant="primary" onClick={handleAddTenant}>
+                        <Button className="w-full sm:w-auto" variant="primary" onClick={handleAddTenant}>
                             确定
                         </Button>
                     </div>
@@ -546,9 +546,9 @@ export default function TenantList() {
             <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}
                    className="w-full max-w-[600px] p-6 lg:p-10">
                 <div className="max-h-[80vh] overflow-y-auto">
-                    <h2 className="mb-1 text-xl font-semibold text-gray-800 dark:text-white">
+                    <h4 className="text-title-sm mb-1 font-semibold text-gray-800 dark:text-white/90">
                         编辑租户
-                    </h2>
+                    </h4>
                     <p className="mb-7 text-sm leading-6 text-gray-500 dark:text-gray-400">
                         修改租户信息
                     </p>
@@ -730,11 +730,11 @@ export default function TenantList() {
                             </p>
                         </div>
                     </div>
-                    <div className="mt-6 flex justify-end gap-3">
-                        <Button className="w-full" variant="outline" onClick={() => setIsEditModalOpen(false)}>
+                    <div className="mt-8 flex flex-col-reverse sm:flex-row w-full items-center justify-end gap-3">
+                        <Button className="w-full sm:w-auto" variant="outline" onClick={() => setIsEditModalOpen(false)}>
                             取消
                         </Button>
-                        <Button className="w-full" variant="primary" onClick={handleUpdateTenant}>
+                        <Button className="w-full sm:w-auto" variant="primary" onClick={handleUpdateTenant}>
                             确定
                         </Button>
                     </div>
