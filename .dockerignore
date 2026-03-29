@@ -1,0 +1,14 @@
+node_modules
+dist
+.git
+.github
+.vscode
+.idea
+.claude
+.env
+.env.test
+*.log
+*.md
+!README.md
+tmp
+temp

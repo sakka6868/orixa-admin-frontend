@@ -5,7 +5,10 @@ import Backdrop from "./Backdrop";
 import AppSidebar from "./AppSidebar";
 import {useAuthorization} from "../hooks/authorization/useAuthorization.ts";
 import AuthenticationApi from "../api/AuthenticationApi.ts";
-import React from "react";
+import React, {useEffect, useRef} from "react";
+
+
+const redirectUri = import.meta.env.VITE_REDIRECT_URI;
 
 const LayoutContent: React.FC = () => {
     const {isExpanded, isHovered, isMobileOpen} = useSidebar();
@@ -29,13 +32,27 @@ const LayoutContent: React.FC = () => {
 };
 
 const AppLayout: React.FC = () => {
-    //获取当前路由
     const {authorization} = useAuthorization();
     const userToken = window.sessionStorage.getItem("USER_TOKEN");
-    if (!authorization || !userToken) {
-        AuthenticationApi.redirect('http://localhost:5173/authorize-code-callback').then(() => console.log('redirecting to login'));
+    const isRedirecting = useRef(false);
+    const isAuthenticated = !!(authorization && userToken);
+
+    useEffect(() => {
+        if (!isAuthenticated && !isRedirecting.current) {
+            isRedirecting.current = true;
+            AuthenticationApi.redirect(redirectUri).then(() => {
+                console.log('redirecting to login');
+            }).catch((err) => {
+                console.error('redirect failed', err);
+                isRedirecting.current = false;
+            });
+        }
+    }, [isAuthenticated]);
+
+    if (!isAuthenticated) {
         return <></>;
     }
+
     return (
         <SidebarProvider>
             <LayoutContent/>

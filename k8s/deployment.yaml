@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orixa-admin-frontend
+  namespace: orixa
+  labels:
+    app: orixa-admin-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orixa-admin-frontend
+  template:
+    metadata:
+      labels:
+        app: orixa-admin-frontend
+    spec:
+      containers:
+        - name: orixa-admin-frontend
+          image: orixa-admin-frontend:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 5
