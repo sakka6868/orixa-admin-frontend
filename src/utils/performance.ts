@@ -15,7 +15,6 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { cn } from "./index";
 
 // ============================================
 // 组件懒加载
@@ -119,7 +118,7 @@ export function useDebouncedCallback<T extends (...args: any[]) => any>(
   callback: T,
   delay: number
 ): (...args: Parameters<T>) => void {
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   return useCallback(
     (...args: Parameters<T>) => {
@@ -142,7 +141,7 @@ export function useThrottledCallback<T extends (...args: any[]) => any>(
   limit: number
 ): (...args: Parameters<T>) => void {
   const lastRan = useRef<number>(Date.now());
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   return useCallback(
     (...args: Parameters<T>) => {
@@ -253,7 +252,7 @@ export function useVirtualList<T>(
   options: VirtualListOptions
 ): VirtualListResult<T> {
   const { itemHeight, overscan = 3, containerHeight } = options;
-  const [scrollTop, setScrollTop] = useState(0);
+  const [scrollTop] = useState(0);
 
   const totalHeight = items.length * itemHeight;
   const startIndex = Math.max(0, Math.floor(scrollTop / itemHeight) - overscan);
@@ -360,7 +359,10 @@ export function deepMemo<T extends ComponentType<any>>(
     return true;
   };
 
-  return memo(Component, propsAreEqual || defaultPropsAreEqual) as T;
+  return memo(
+    Component as React.FunctionComponent<any>,
+    (propsAreEqual || defaultPropsAreEqual) as (prevProps: Readonly<any>, nextProps: Readonly<any>) => boolean
+  ) as unknown as T;
 }
 
 // ============================================

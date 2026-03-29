@@ -1,4 +1,4 @@
-import React, { forwardRef, InputHTMLAttributes, ReactNode } from "react";
+import { forwardRef, InputHTMLAttributes, ReactNode } from "react";
 import { cn } from "../../../utils";
 
 export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {

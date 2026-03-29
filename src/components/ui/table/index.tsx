@@ -1,4 +1,4 @@
-import React, { ReactNode, TableHTMLAttributes, TdHTMLAttributes, ThHTMLAttributes } from "react";
+import React, { ReactNode, TableHTMLAttributes, TdHTMLAttributes } from "react";
 import { cn } from "../../../utils";
 
 // ============================================
@@ -66,7 +66,7 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
           )}
           {React.Children.map(children, (child) => {
             if (React.isValidElement(child)) {
-              return React.cloneElement(child as React.ReactElement, {
+              return React.cloneElement(child as React.ReactElement<any>, {
                 striped,
                 hoverable,
                 compact,
@@ -178,7 +178,7 @@ const TableBody = React.forwardRef<HTMLTableSectionElement, TableBodyInternalPro
       >
         {React.Children.map(children, (child, index) => {
           if (React.isValidElement(child)) {
-            return React.cloneElement(child as React.ReactElement, {
+            return React.cloneElement(child as React.ReactElement<any>, {
               striped: striped && index % 2 === 1,
               hoverable,
               compact,
@@ -229,7 +229,7 @@ const TableRow = React.forwardRef<HTMLTableRowElement, TableRowInternalProps>(
       >
         {React.Children.map(children, (child) => {
           if (React.isValidElement(child)) {
-            return React.cloneElement(child as React.ReactElement, { compact });
+            return React.cloneElement(child as React.ReactElement<any>, { compact });
           }
           return child;
         })}
