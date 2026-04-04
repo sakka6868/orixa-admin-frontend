@@ -18,6 +18,7 @@ const ComingSoon = lazy(() => import("./pages/OtherPage/ComingSoon"));
 const HomeWelcome = lazy(() => import("./pages/OtherPage/HomeWelcome.tsx"));
 const ApiKeys = lazy(() => import("./pages/OtherPage/ApiKeys"));
 const AuthorizeCodeCallback = lazy(() => import("./pages/AuthPages/AuthorizeCodeCallback.tsx"));
+const OAuthCallback = lazy(() => import("./pages/AuthPages/OAuthCallback.tsx"));
 const MenusList = lazy(() => import("./pages/System/MenusList.tsx"));
 const StaffList = lazy(() => import("./pages/System/StaffList.tsx"));
 const UserList = lazy(() => import("./pages/Foundation/UserList.tsx"));
@@ -57,6 +58,7 @@ export default function App() {
                             </Route>
                             {/* Auth Pages */}
                             <Route path="/authorize-code-callback" element={<AuthorizeCodeCallback/>}/>
+                            <Route path="/oauth-callback" element={<OAuthCallback/>}/>
                             {/* Fallback Route */}
                             <Route path="/maintenance" element={<Maintenance/>}/>
                             <Route path="/error-500" element={<FiveZeroZero/>}/>
