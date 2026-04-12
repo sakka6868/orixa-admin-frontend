@@ -131,3 +131,7 @@ temp/
 .claude
 
 .opencode
+
+# 自签名证书（私钥不提交到 git）
+ssl/tls.key
+ssl/tls.crt
