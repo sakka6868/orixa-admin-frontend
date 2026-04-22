@@ -9,6 +9,7 @@ import {useMessage} from "../../components/ui/message";
 import Button from "../../components/ui/button/Button.tsx";
 import Badge from "../../components/ui/badge/Badge.tsx";
 import {useModal} from "../../components/ui/modal";
+import {exportToCsv} from "../../utils/export.ts";
 
 export default function UserList() {
     const [userList, setUserList] = useState<User[]>([]);
@@ -102,13 +103,27 @@ export default function UserList() {
         return dateString;
     };
 
+    // 导出用户列表
+    const handleExport = async () => {
+        try {
+            await exportToCsv('/foundation/users/export', 'users');
+            message.success("导出成功", "用户列表已导出");
+        } catch (error) {
+            console.error('导出失败:', error);
+            message.error("导出失败", "导出用户列表失败");
+        }
+    };
+
     return (
         <>
             <PageMeta
                 title="用户列表 | Orixa Admin"
                 description="用户管理页面"
             />
-            <div className="mb-6 flex justify-end">
+            <div className="mb-6 flex justify-end gap-3">
+                <Button variant="outline" size="md" onClick={handleExport}>
+                    导出 CSV
+                </Button>
                 <AddUserModal
                     onAdd={handleAddUser}
                     availableRoles={availableRoles}

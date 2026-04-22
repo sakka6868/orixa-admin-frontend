@@ -24,6 +24,14 @@ const StaffList = lazy(() => import("./pages/System/StaffList.tsx"));
 const UserList = lazy(() => import("./pages/Foundation/UserList.tsx"));
 const RoleList = lazy(() => import("./pages/Foundation/RoleList.tsx"));
 const TenantList = lazy(() => import("./pages/Foundation/TenantList.tsx"));
+const LoginLogList = lazy(() => import("./pages/Authorization/LoginLogList.tsx"));
+const AnnouncementList = lazy(() => import("./pages/Foundation/AnnouncementList.tsx"));
+const OperationLogList = lazy(() => import("./pages/Foundation/OperationLogList.tsx"));
+const MessageList = lazy(() => import("./pages/Foundation/MessageList.tsx"));
+const EmailLogList = lazy(() => import("./pages/Foundation/EmailLogList.tsx"));
+const SystemConfigList = lazy(() => import("./pages/Foundation/SystemConfigList.tsx"));
+const FileStorageList = lazy(() => import("./pages/Foundation/FileStorageList.tsx"));
+const ApiStatistics = lazy(() => import("./pages/Analytics/ApiStatistics.tsx"));
 
 // 页面加载占位组件
 const PageLoader = () => (
@@ -48,11 +56,19 @@ export default function App() {
                                 <Route path="/" element={<HomeWelcome/>}/>
                                 <Route path="/welcome" element={<HomeWelcome/>}/>
                                 <Route path="/analytics/monitor" element={<MonitorDashboard/>}/>
+                                <Route path="/analytics/api-statistics" element={<ApiStatistics/>}/>
                                 <Route path="/system/menus" element={<MenusList/>}/>
                                 <Route path="/system/staffs" element={<StaffList/>}/>
                                 <Route path="/foundation/users" element={<UserList/>}/>
                                 <Route path="/foundation/roles" element={<RoleList/>}/>
                                 <Route path="/foundation/tenants" element={<TenantList/>}/>
+                                <Route path="/authorization/login-logs" element={<LoginLogList/>}/>
+                                <Route path="/foundation/announcements" element={<AnnouncementList/>}/>
+                                <Route path="/foundation/operation-logs" element={<OperationLogList/>}/>
+                                <Route path="/foundation/messages" element={<MessageList/>}/>
+                                <Route path="/foundation/email-logs" element={<EmailLogList/>}/>
+                                <Route path="/foundation/system-configs" element={<SystemConfigList/>}/>
+                                <Route path="/foundation/file-storage" element={<FileStorageList/>}/>
                                 {/* Others Page */}
                                 <Route path="/api-keys" element={<ApiKeys/>}/>
                             </Route>

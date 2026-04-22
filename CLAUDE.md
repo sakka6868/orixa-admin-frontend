@@ -40,6 +40,14 @@ API 模块按业务划分：
 - `FoundationApi`：用户/角色/租户 CRUD
 - `SystemApi`：菜单/员工管理，`getCurrentStaff()` 是获取当前用户权限的关键接口
 - `MonitorApi`：服务健康状态和指标监控
+- `LoginLogApi`：登录日志查询
+- `AnnouncementApi`：系统公告 CRUD
+- `OperationLogApi`：操作日志查询
+- `MessageApi`：站内消息 CRUD
+- `EmailLogApi`：邮件发送日志查询
+- `SystemConfigApi`：系统配置管理
+- `FileStorageApi`：文件存储管理
+- `ApiStatisticsApi`：API 调用统计
 
 ### 认证与权限流程
 
@@ -70,7 +78,23 @@ Provider 嵌套顺序（`App.tsx`）：`ModalProvider` → `MessageProvider` →
 
 所有页面使用 `lazy()` 懒加载 + `Suspense`。
 
-AppLayout 内（需认证）：`/` `/welcome` `/analytics/monitor` `/system/menus` `/system/staffs` `/foundation/users` `/foundation/roles` `/foundation/tenants` `/api-keys`
+AppLayout 内（需认证）：
+- `/` `/welcome` - 首页
+- `/analytics/monitor` - 服务监控
+- `/analytics/api-statistics` - API 统计
+- `/system/menus` - 菜单管理
+- `/system/staffs` - 员工管理
+- `/foundation/users` - 用户管理
+- `/foundation/roles` - 角色管理
+- `/foundation/tenants` - 租户管理
+- `/authorization/login-logs` - 登录日志
+- `/foundation/announcements` - 公告管理
+- `/foundation/operation-logs` - 操作日志
+- `/foundation/messages` - 消息管理
+- `/foundation/email-logs` - 邮件日志
+- `/foundation/system-configs` - 系统配置
+- `/foundation/file-storage` - 文件存储
+- `/api-keys` - API 密钥
 
 独立页面：`/authorize-code-callback` `/oauth-callback`
 
@@ -83,6 +107,20 @@ AppLayout 内（需认证）：`/` `/welcome` `/analytics/monitor` `/system/menu
 - `useAuthorization()`：返回 `{ authorization, resetAuthorization }`，发布-订阅模式
 - `useMessage()`：返回 `{ success, error, warning, info }` 快捷方法
 - `useModal()`：返回 `{ confirm(config): Promise<boolean>, alert(config): Promise<void> }`
+
+### 页面结构 (src/pages/)
+
+按业务模块划分：
+- `Analytics/`：MonitorDashboard（服务监控）、ApiStatistics（API 统计）
+- `Authorization/`：LoginLogList（登录日志）
+- `Foundation/`：UserList、RoleList、TenantList、AnnouncementList、OperationLogList、MessageList、EmailLogList、SystemConfigList、FileStorageList
+- `System/`：MenusList、StaffList
+- `AuthPages/`：AuthorizeCodeCallback、OAuthCallback
+- `OtherPage/`：NotFound、Maintenance、FiveZeroZero、FiveZeroThree、Forbidden、ComingSoon、ApiKeys、HomeWelcome
+
+### 导出功能 (src/utils/export.ts)
+
+`exportToExcel(data, filename)` - 将数据导出为 Excel 文件（使用 SheetJS）。
 
 ### SVG 处理
 
