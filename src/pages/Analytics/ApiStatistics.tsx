@@ -1,17 +1,21 @@
 import PageMeta from "../../components/common/PageMeta.tsx";
-import {useState} from "react";
+import {useState, useCallback} from "react";
 import ApiStatisticsApi from "../../api/ApiStatisticsApi.ts";
 import type {ApiAccessLog, ApiOverview, ApiStatistics, Page} from "../../types/apiStatistics.ts";
 import useMountEffect from "../../hooks/useMountEffect.ts";
 import {useMessage} from "../../components/ui/message";
 import Badge, { BadgeColor } from "../../components/ui/badge/Badge.tsx";
+import PaginationWithText from "../../components/ui/pagination/PaginationWithText.tsx";
+import ApiAccessTrendChart from "../../components/analytics/ApiAccessTrendChart.tsx";
 
 export default function ApiStatistics() {
     const [overview, setOverview] = useState<ApiOverview | null>(null);
-    const [statistics, setStatistics] = useState<ApiStatistics[]>([]);
+    const [statistics, setStatistics] = useState<Page<ApiStatistics> | null>(null);
     const [accessLogs, setAccessLogs] = useState<Page<ApiAccessLog> | null>(null);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState<'overview' | 'statistics' | 'logs'>('overview');
+    const [currentLogPage, setCurrentLogPage] = useState(1);
+    const [currentStatPage, setCurrentStatPage] = useState(1);
 
     const message = useMessage();
 
@@ -19,16 +23,26 @@ export default function ApiStatistics() {
         fetchData().then(() => console.log('API统计数据加载完成'));
     });
 
+    const getTimeRange = () => {
+        const now = new Date();
+        const start = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+        const pad = (n: number) => n.toString().padStart(2, '0');
+        const formatLocal = (d: Date) => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+        return {
+            startTime: formatLocal(start),
+            endTime: formatLocal(now)
+        };
+    };
+
     const fetchData = async () => {
         try {
             setLoading(true);
-            const endTime = new Date().toISOString();
-            const startTime = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+            const { startTime, endTime } = getTimeRange();
 
             const [overviewData, statisticsData, logsData] = await Promise.all([
                 ApiStatisticsApi.getOverview(startTime, endTime),
-                ApiStatisticsApi.getStatistics({startTime, endTime}),
-                ApiStatisticsApi.getAccessLogs({startTime, endTime, size: 10})
+                ApiStatisticsApi.getStatistics({startTime, endTime, page: currentStatPage, size: 10}),
+                ApiStatisticsApi.getAccessLogs({startTime, endTime, page: currentLogPage, size: 10})
             ]);
 
             setOverview(overviewData);
@@ -40,6 +54,44 @@ export default function ApiStatistics() {
         } finally {
             setLoading(false);
         }
+    };
+
+    const fetchLogs = useCallback(async (page: number) => {
+        try {
+            setLoading(true);
+            const { startTime, endTime } = getTimeRange();
+            const logsData = await ApiStatisticsApi.getAccessLogs({startTime, endTime, page, size: 10});
+            setAccessLogs(logsData);
+            setCurrentLogPage(page);
+        } catch (error) {
+            console.error('获取访问日志失败:', error);
+            message.error("加载失败", "获取访问日志失败");
+        } finally {
+            setLoading(false);
+        }
+    }, [message]);
+
+    const handlePageChange = (page: number) => {
+        fetchLogs(page);
+    };
+
+    const fetchStatistics = useCallback(async (page: number) => {
+        try {
+            setLoading(true);
+            const { startTime, endTime } = getTimeRange();
+            const statData = await ApiStatisticsApi.getStatistics({startTime, endTime, page, size: 10});
+            setStatistics(statData);
+            setCurrentStatPage(page);
+        } catch (error) {
+            console.error('获取统计趋势失败:', error);
+            message.error("加载失败", "获取统计趋势失败");
+        } finally {
+            setLoading(false);
+        }
+    }, [message]);
+
+    const handleStatPageChange = (page: number) => {
+        fetchStatistics(page);
     };
 
     const formatNumber = (num: number) => {
@@ -56,7 +108,7 @@ export default function ApiStatistics() {
         if (ms >= 1000) {
             return (ms / 1000).toFixed(2) + 's';
         }
-        return ms + 'ms';
+        return ms.toFixed(2) + 'ms';
     };
 
     const getMethodBadge = (method: string) => {
@@ -161,7 +213,7 @@ export default function ApiStatistics() {
                                                 <div className="w-48 h-2 bg-gray-200 rounded-full overflow-hidden">
                                                     <div
                                                         className="h-full bg-primary-500"
-                                                        style={{width: `${(Number(count) / Number(overview.totalRequests)) * 100}%`}}
+                                                        style={{width: `${overview.totalRequests > 0 ? (Number(count) / Number(overview.totalRequests)) * 100 : 0}%`}}
                                                     />
                                                 </div>
                                                 <span className="text-sm font-medium text-gray-900 dark:text-white w-20 text-right">
@@ -177,6 +229,10 @@ export default function ApiStatistics() {
 
                     {/* Statistics Tab */}
                     {activeTab === 'statistics' && (
+                        <div className="space-y-6">
+                            {/* 访问趋势图表 */}
+                            <ApiAccessTrendChart data={statistics?.records ?? []} />
+
                         <div className="rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-900">
                             <div className="overflow-x-auto">
                                 <table className="w-full">
@@ -192,7 +248,7 @@ export default function ApiStatistics() {
                                     </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
-                                    {statistics.map((stat, idx) => (
+                                    {statistics?.records?.map((stat, idx) => (
                                         <tr key={idx} className="hover:bg-gray-50 dark:hover:bg-gray-800/30">
                                             <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
                                                 {new Date(stat.statHour).toLocaleString('zh-CN')}
@@ -205,7 +261,7 @@ export default function ApiStatistics() {
                                             <td className="px-6 py-4 text-right text-sm text-gray-900 dark:text-white">{formatTime(stat.avgResponseTime)}</td>
                                         </tr>
                                     ))}
-                                    {statistics.length === 0 && (
+                                    {statistics?.records?.length === 0 && (
                                         <tr>
                                             <td colSpan={7} className="px-6 py-12 text-center text-gray-500 dark:text-gray-400">
                                                 暂无统计数据
@@ -215,6 +271,16 @@ export default function ApiStatistics() {
                                     </tbody>
                                 </table>
                             </div>
+                            {statistics && statistics.totalPages > 1 && (
+                                <div className="border-t border-gray-200 dark:border-gray-700">
+                                    <PaginationWithText
+                                        totalPages={statistics.totalPages}
+                                        initialPage={currentStatPage}
+                                        onPageChange={handleStatPageChange}
+                                    />
+                                </div>
+                            )}
+                        </div>
                         </div>
                     )}
 
@@ -266,6 +332,16 @@ export default function ApiStatistics() {
                                     </tbody>
                                 </table>
                             </div>
+                            {/* 分页组件 */}
+                            {accessLogs && accessLogs.totalPages > 1 && (
+                                <div className="border-t border-gray-200 dark:border-gray-700">
+                                    <PaginationWithText
+                                        totalPages={accessLogs.totalPages}
+                                        initialPage={currentLogPage}
+                                        onPageChange={handlePageChange}
+                                    />
+                                </div>
+                            )}
                         </div>
                     )}
                 </>

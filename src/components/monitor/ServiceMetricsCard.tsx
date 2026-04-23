@@ -152,9 +152,9 @@ export default function ServiceMetricsCard({metricsData}: ServiceMetricsCardProp
                     </div>
                     <div className="text-center p-3 rounded-xl bg-gray-50 dark:bg-gray-900">
                         <p className="text-lg font-semibold text-gray-800 dark:text-white">
-                            {(http?.avgResponseTime ?? 0).toFixed(1)}
+                            {(http?.avgResponseTime ?? 0).toFixed(2)} ms
                         </p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">平均响应(ms)</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">平均响应</p>
                     </div>
                     <div className="text-center p-3 rounded-xl bg-gray-50 dark:bg-gray-900">
                         <p className={`text-lg font-semibold ${

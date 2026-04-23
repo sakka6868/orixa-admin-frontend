@@ -50,6 +50,8 @@ export interface ApiStatisticsQuery {
     apiPath?: string;
     startTime?: string;
     endTime?: string;
+    page?: number;
+    size?: number;
 }
 
 export interface PaginationResponse<T> {

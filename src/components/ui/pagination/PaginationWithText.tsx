@@ -99,11 +99,11 @@ export default function PaginationWithText({
             />
           </svg>
         </span>
-        <span className="hidden sm:inline">Previous</span>
+        <span className="hidden sm:inline">上一页</span>
       </button>
 
       <span className="block text-sm font-medium text-gray-700 dark:text-gray-400 sm:hidden">
-        Page {currentPage} of {totalPages}
+        第 {currentPage} 页，共 {totalPages} 页
       </span>
 
       <ul className="hidden items-center gap-0.5 sm:flex">
@@ -115,7 +115,7 @@ export default function PaginationWithText({
         disabled={currentPage === totalPages}
         className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 sm:px-3.5 sm:py-2.5 disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        <span className="hidden sm:inline">Next</span>
+        <span className="hidden sm:inline">下一页</span>
         <span className="inline sm:hidden">
           <svg
             className="fill-current"
