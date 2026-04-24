@@ -14,6 +14,7 @@ export interface AnnouncementFormData {
     title: string;
     content: string;
     priority: 'HIGH' | 'NORMAL' | 'LOW';
+    status?: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
 }
 
 export interface AnnouncementQuery {

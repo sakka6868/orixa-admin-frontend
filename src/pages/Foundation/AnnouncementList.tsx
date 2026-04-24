@@ -94,7 +94,8 @@ export default function AnnouncementList() {
             await AnnouncementApi.updateAnnouncement(announcement.id, {
                 title: announcement.title,
                 content: announcement.content,
-                priority: announcement.priority
+                priority: announcement.priority,
+                status: 'PUBLISHED'
             });
             message.success("发布成功", "公告已发布");
             await fetchAnnouncements();
