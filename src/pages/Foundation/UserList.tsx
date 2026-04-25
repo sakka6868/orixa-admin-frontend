@@ -10,12 +10,15 @@ import Button from "../../components/ui/button/Button.tsx";
 import Badge from "../../components/ui/badge/Badge.tsx";
 import {useModal} from "../../components/ui/modal";
 import {exportToCsv} from "../../utils/export.ts";
+import Input from "../../components/form/input/InputField";
 
 export default function UserList() {
     const [userList, setUserList] = useState<User[]>([]);
     const [availableRoles, setAvailableRoles] = useState<Role[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [editingUser, setEditingUser] = useState<User | null>(null);
+    const [searchName, setSearchName] = useState<string>("");
+    const [filterRole, setFilterRole] = useState<string>("");
 
     const message = useMessage();
     const modal = useModal();
@@ -43,10 +46,10 @@ export default function UserList() {
     });
 
     // 刷新用户列表
-    const fetchUserList = async () => {
+    const fetchUserList = async (name?: string, roleId?: string) => {
         try {
             setLoading(true);
-            const users = await FoundationApi.listUsers({});
+            const users = await FoundationApi.listUsers({ name, roleId });
             setUserList(users);
         } catch (error) {
             console.error('获取用户列表失败:', error);
@@ -54,6 +57,18 @@ export default function UserList() {
         } finally {
             setLoading(false);
         }
+    };
+
+    // 搜索用户
+    const handleSearch = () => {
+        fetchUserList(searchName || undefined, filterRole || undefined);
+    };
+
+    // 重置搜索
+    const handleReset = () => {
+        setSearchName("");
+        setFilterRole("");
+        fetchUserList();
     };
 
     // 处理添加用户
@@ -120,14 +135,42 @@ export default function UserList() {
                 title="用户列表 | Orixa Admin"
                 description="用户管理页面"
             />
-            <div className="mb-6 flex justify-end gap-3">
-                <Button variant="outline" size="md" onClick={handleExport}>
-                    导出 CSV
-                </Button>
-                <AddUserModal
-                    onAdd={handleAddUser}
-                    availableRoles={availableRoles}
-                />
+            <div className="mb-6 flex flex-wrap items-center gap-4">
+                <div className="flex items-center gap-2">
+                    <Input
+                        type="text"
+                        placeholder="请输入用户名或姓名"
+                        value={searchName}
+                        onChange={(e) => setSearchName(e.target.value)}
+                    />
+                    <select
+                        className="h-11 rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                        value={filterRole}
+                        onChange={(e) => setFilterRole(e.target.value)}
+                    >
+                        <option value="">全部角色</option>
+                        {availableRoles.map((role) => (
+                            <option key={role.id} value={role.id}>
+                                {role.name}
+                            </option>
+                        ))}
+                    </select>
+                    <Button variant="primary" size="sm" onClick={handleSearch}>
+                        搜索
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={handleReset}>
+                        重置
+                    </Button>
+                </div>
+                <div className="ml-auto flex gap-3">
+                    <Button variant="outline" size="md" onClick={handleExport}>
+                        导出 CSV
+                    </Button>
+                    <AddUserModal
+                        onAdd={handleAddUser}
+                        availableRoles={availableRoles}
+                    />
+                </div>
             </div>
             {loading ? (
                 <div className="rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">

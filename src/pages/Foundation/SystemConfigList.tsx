@@ -351,11 +351,23 @@ export default function SystemConfigList() {
                             </div>
                             <div>
                                 <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">配置值</label>
-                                <Input
-                                    type="text"
-                                    value={editingConfig.configValue}
-                                    onChange={(e) => setEditingConfig({...editingConfig, configValue: e.target.value})}
-                                />
+                                {editingConfig.isEncrypted ? (
+                                    <div className="relative">
+                                        <Input
+                                            type="password"
+                                            value={editingConfig.configValue}
+                                            onChange={(e) => setEditingConfig({...editingConfig, configValue: e.target.value})}
+                                            placeholder="加密值不可见"
+                                        />
+                                        <p className="mt-1 text-xs text-gray-500">加密配置项值不可在前端编辑</p>
+                                    </div>
+                                ) : (
+                                    <Input
+                                        type="text"
+                                        value={editingConfig.configValue}
+                                        onChange={(e) => setEditingConfig({...editingConfig, configValue: e.target.value})}
+                                    />
+                                )}
                             </div>
                             <div>
                                 <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">描述</label>
@@ -368,7 +380,9 @@ export default function SystemConfigList() {
                         </div>
                         <div className="mt-6 flex justify-end gap-3">
                             <Button variant="outline" onClick={() => setEditingConfig(null)}>取消</Button>
-                            <Button variant="primary" onClick={() => handleUpdate(editingConfig.id, editingConfig.configValue, editingConfig.description)}>保存</Button>
+                            {!editingConfig.isEncrypted && (
+                                <Button variant="primary" onClick={() => handleUpdate(editingConfig.id, editingConfig.configValue, editingConfig.description)}>保存</Button>
+                            )}
                         </div>
                     </div>
                 </div>

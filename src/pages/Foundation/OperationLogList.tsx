@@ -6,6 +6,7 @@ import {useMessage} from "../../components/ui/message";
 import Button from "../../components/ui/button/Button";
 import Badge from "../../components/ui/badge/Badge.tsx";
 import Input from "../../components/form/input/InputField";
+import DatePicker from "../../components/form/date-picker";
 
 export default function OperationLogList() {
     const [logs, setLogs] = useState<OperationLog[]>([]);
@@ -19,6 +20,7 @@ export default function OperationLogList() {
     const [filterUsername, setFilterUsername] = useState<string>('');
     const [filterModule, setFilterModule] = useState<string>('');
     const [filterOperationType, setFilterOperationType] = useState<string>('');
+    const [filterDateRange, setFilterDateRange] = useState<[string, string] | null>(null);
 
     const message = useMessage();
 
@@ -34,7 +36,9 @@ export default function OperationLogList() {
                 size: pageSize,
                 username: filterUsername || undefined,
                 module: filterModule || undefined,
-                operationType: filterOperationType || undefined
+                operationType: filterOperationType || undefined,
+                startTime: filterDateRange?.[0] || undefined,
+                endTime: filterDateRange?.[1] || undefined
             };
             const result = await OperationLogApi.listOperationLogs(query);
             setLogs(result.records);
@@ -57,6 +61,7 @@ export default function OperationLogList() {
         setFilterUsername('');
         setFilterModule('');
         setFilterOperationType('');
+        setFilterDateRange(null);
         fetchLogs(1);
     };
 
@@ -99,7 +104,7 @@ export default function OperationLogList() {
 
             {/* 筛选器 */}
             <div className="mb-6 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-900">
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6">
                     <div>
                         <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">用户名</label>
                         <Input
@@ -130,7 +135,23 @@ export default function OperationLogList() {
                             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                         />
                     </div>
-                    <div className="flex items-end gap-2">
+                    <div className="lg:col-span-3">
+                        <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">操作时间范围</label>
+                        <DatePicker
+                            id="dateRangePicker"
+                            mode="range"
+                            placeholder="选择日期范围"
+                            onChange={(selectedDates) => {
+                                if (selectedDates && selectedDates.length === 2) {
+                                    setFilterDateRange([
+                                        selectedDates[0] as string,
+                                        selectedDates[1] as string
+                                    ]);
+                                }
+                            }}
+                        />
+                    </div>
+                    <div className="lg:col-span-6 flex items-end gap-2">
                         <Button variant="primary" size="md" onClick={handleSearch}>搜索</Button>
                         <Button variant="outline" size="md" onClick={handleReset}>重置</Button>
                     </div>

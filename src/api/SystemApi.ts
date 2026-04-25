@@ -15,6 +15,13 @@ const SystemApi = {
             params: menu
         });
     },
+    updateMenu: async (id: string, menu: MenuFormData): Promise<MenuFormData> => {
+        return await requesterWithAuthenticationInstance.put(`/system/menus/${id}`, menu, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    },
 
     // 员工管理相关 API
     createStaff: async (staff: StaffFormData): Promise<StaffListItem> => {

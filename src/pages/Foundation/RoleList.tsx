@@ -9,11 +9,14 @@ import {useMessage} from "../../components/ui/message";
 import Button from "../../components/ui/button/Button.tsx";
 import React from "react";
 import {useModal} from "../../components/ui/modal";
+import Input from "../../components/form/input/InputField";
 
 export default function RoleList() {
     const [roleList, setRoleList] = useState<Role[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [editingRole, setEditingRole] = useState<Role | null>(null);
+    const [searchName, setSearchName] = useState<string>("");
+    const [searchCode, setSearchCode] = useState<string>("");
 
     const message = useMessage();
     const modal = useModal();
@@ -48,6 +51,24 @@ export default function RoleList() {
         } finally {
             setLoading(false);
         }
+    };
+
+    // 过滤后的角色列表
+    const filteredRoles = roleList.filter(role => {
+        const nameMatch = !searchName || role.name.toLowerCase().includes(searchName.toLowerCase());
+        const codeMatch = !searchCode || (role.code && role.code.toLowerCase().includes(searchCode.toLowerCase()));
+        return nameMatch && codeMatch;
+    });
+
+    // 搜索角色
+    const handleSearch = () => {
+        // 搜索只是触发重新渲染，已经通过 filteredRoles 实现了内存过滤
+    };
+
+    // 重置搜索
+    const handleReset = () => {
+        setSearchName("");
+        setSearchCode("");
     };
 
     // 处理添加角色
@@ -150,7 +171,7 @@ export default function RoleList() {
 
     // 获取顶级角色（没有父级的角色）
     const getTopLevelRoles = () => {
-        return roleList.filter(role => !role.parent);
+        return filteredRoles.filter(role => !role.parent);
     };
 
     return (
@@ -159,11 +180,33 @@ export default function RoleList() {
                 title="角色列表 | Orixa Admin"
                 description="角色管理页面"
             />
-            <div className="mb-6 flex justify-end">
-                <AddRoleModal
-                    onAdd={handleAddRole}
-                    availableParentRoles={roleList}
-                />
+            <div className="mb-6 flex flex-wrap items-center gap-4">
+                <div className="flex items-center gap-2">
+                    <Input
+                        type="text"
+                        placeholder="请输入角色名称"
+                        value={searchName}
+                        onChange={(e) => setSearchName(e.target.value)}
+                    />
+                    <Input
+                        type="text"
+                        placeholder="请输入角色编码"
+                        value={searchCode}
+                        onChange={(e) => setSearchCode(e.target.value)}
+                    />
+                    <Button variant="primary" size="sm" onClick={handleSearch}>
+                        搜索
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={handleReset}>
+                        重置
+                    </Button>
+                </div>
+                <div className="ml-auto">
+                    <AddRoleModal
+                        onAdd={handleAddRole}
+                        availableParentRoles={roleList}
+                    />
+                </div>
             </div>
             {loading ? (
                 <div className="rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
@@ -197,7 +240,7 @@ export default function RoleList() {
                         </table>
                     </div>
                 </div>
-            ) : roleList.length > 0 ? (
+            ) : filteredRoles.length > 0 ? (
                 <div
                     className="rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
                     <div className="overflow-x-auto">

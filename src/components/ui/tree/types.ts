@@ -33,4 +33,8 @@ export interface TreeProps {
   selectedKeys?: string[];
   /** 是否显示删除按钮 */
   deletable?: boolean;
+  /** 是否显示编辑按钮 */
+  editable?: boolean;
+  /** 编辑回调 */
+  onEdit?: (node: TreeNode) => void;
 }

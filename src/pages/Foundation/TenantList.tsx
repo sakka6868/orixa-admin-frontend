@@ -12,6 +12,7 @@ import Input from "../../components/form/input/InputField";
 import Label from "../../components/form/Label";
 import MultiSelect from "../../components/form/MultiSelect.tsx";
 import {useModal} from "../../components/ui/modal";
+import {exportToCsv} from "../../utils/export";
 
 export default function TenantList() {
     const [tenantList, setTenantList] = useState<Tenant[]>([]);
@@ -220,6 +221,17 @@ export default function TenantList() {
         }
     };
 
+    // 导出租户列表
+    const handleExport = async () => {
+        try {
+            await exportToCsv('/foundation/tenants/export', 'tenants');
+            message.success("导出成功", "租户列表已导出");
+        } catch (error) {
+            console.error('导出失败:', error);
+            message.error("导出失败", "导出租户列表失败");
+        }
+    };
+
     return (
         <>
             <PageMeta
@@ -243,7 +255,10 @@ export default function TenantList() {
                         重置
                     </Button>
                 </div>
-                <div className="ml-auto">
+                <div className="ml-auto flex gap-3">
+                    <Button variant="outline" size="md" onClick={handleExport}>
+                        导出 CSV
+                    </Button>
                     <Button variant="primary" onClick={handleOpenAddModal}>
                         新增租户
                     </Button>

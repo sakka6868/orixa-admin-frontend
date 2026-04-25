@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import {CreateMessageCommand} from "../../api/MessageApi.ts";
 import {Modal} from "../ui/modal";
 import Button from "../ui/button/Button";
@@ -6,6 +6,8 @@ import {useModal} from "../../hooks/useModal";
 import Label from "../form/Label";
 import Input from "../form/input/InputField";
 import {useMessage} from "../ui/message";
+import FoundationApi from "../../api/FoundationApi.ts";
+import {User} from "../../types/user";
 
 interface MessageModalProps {
     onSubmit: (data: CreateMessageCommand) => Promise<void>;
@@ -17,17 +19,34 @@ export default function MessageModal({onSubmit, onSent}: MessageModalProps) {
     const message = useMessage();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [receiverId, setReceiverId] = useState('');
+    const [receiverIds, setReceiverIds] = useState<string[]>([]);
     const [priority, setPriority] = useState<'HIGH' | 'NORMAL' | 'LOW'>('NORMAL');
     const [loading, setLoading] = useState(false);
+    const [users, setUsers] = useState<User[]>([]);
+    const [loadingUsers, setLoadingUsers] = useState(false);
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                setLoadingUsers(true);
+                const result = await FoundationApi.listUsers({});
+                setUsers(result);
+            } catch (error) {
+                console.error('获取用户列表失败:', error);
+            } finally {
+                setLoadingUsers(false);
+            }
+        };
+        fetchUsers();
+    }, []);
 
     const handleSubmit = async () => {
         if (!title.trim()) {
             message.warning("验证失败", "请输入消息标题");
             return;
         }
-        if (!receiverId.trim()) {
-            message.warning("验证失败", "请输入收件人ID");
+        if (receiverIds.length === 0) {
+            message.warning("验证失败", "请选择收件人");
             return;
         }
         if (!content.trim()) {
@@ -36,7 +55,10 @@ export default function MessageModal({onSubmit, onSent}: MessageModalProps) {
         }
         setLoading(true);
         try {
-            await onSubmit({title, content, receiverId, priority});
+            // 为每个收件人发送消息
+            for (const receiverId of receiverIds) {
+                await onSubmit({title, content, receiverId, priority});
+            }
             handleClose();
             if (onSent) {
                 onSent();
@@ -52,7 +74,7 @@ export default function MessageModal({onSubmit, onSent}: MessageModalProps) {
     const handleClose = () => {
         setTitle('');
         setContent('');
-        setReceiverId('');
+        setReceiverIds([]);
         setPriority('NORMAL');
         modal.closeModal();
     };
@@ -76,13 +98,28 @@ export default function MessageModal({onSubmit, onSent}: MessageModalProps) {
                     </p>
                     <div className="space-y-4">
                         <div>
-                            <Label>收件人ID <span className="text-red-500">*</span></Label>
-                            <Input
-                                type="text"
-                                placeholder="请输入收件人用户ID"
-                                value={receiverId}
-                                onChange={(e) => setReceiverId(e.target.value)}
-                            />
+                            <Label>收件人（可多选） <span className="text-red-500">*</span></Label>
+                            <select
+                                className="h-24 w-full appearance-none rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 pr-11 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
+                                value={receiverIds.length > 0 ? receiverIds[receiverIds.length - 1] : ''}
+                                onChange={(e) => {
+                                    const selectedOptions = Array.from(e.target.selectedOptions);
+                                    const selectedIds = selectedOptions.map(opt => opt.value).filter(id => id !== '');
+                                    setReceiverIds(selectedIds);
+                                }}
+                                disabled={loadingUsers}
+                                multiple
+                            >
+                                <option value="" disabled>按住 Ctrl 多选</option>
+                                {users.map((user) => (
+                                    <option key={user.id} value={user.id}>
+                                        {user.name}
+                                    </option>
+                                ))}
+                            </select>
+                            <p className="mt-1.5 text-xs text-gray-500 dark:text-gray-400">
+                                已选择 {receiverIds.length} 个收件人
+                            </p>
                         </div>
 
                         <div>
@@ -125,7 +162,7 @@ export default function MessageModal({onSubmit, onSent}: MessageModalProps) {
                             取消
                         </Button>
                         <Button onClick={handleSubmit} isLoading={loading}>
-                            发送
+                            {receiverIds.length > 1 ? '群发' : '发送'}
                         </Button>
                     </div>
                 </div>

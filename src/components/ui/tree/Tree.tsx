@@ -13,10 +13,12 @@ const Tree: React.FC<TreeProps> = ({
                                        onSelect,
                                        onExpand,
                                        onDelete,
+                                       onEdit,
                                        className = '',
                                        multiple = false,
                                        checkStrictly = false,
                                        deletable = false,
+                                       editable = false,
                                        expandedKeys: controlledExpandedKeys,
                                        checkedKeys: controlledCheckedKeys,
                                        selectedKeys: controlledSelectedKeys,
@@ -98,7 +100,7 @@ const Tree: React.FC<TreeProps> = ({
     const handleSelect = useCallback((node: TreeNode) => {
         if (!selectable || node.disabled) return;
 
-        let newSelectedKeys: string[] = [];
+        let newSelectedKeys: string[];
 
         if (multiple) {
             if (selectedKeys.includes(node.key || '')) {
@@ -131,7 +133,7 @@ const Tree: React.FC<TreeProps> = ({
     const handleCheck = useCallback((node: TreeNode) => {
         if (!checkable || node.disabled) return;
 
-        let newCheckedKeys: string[] = [];
+        let newCheckedKeys: string[];
 
         if (checkStrictly) {
             // 严格模式下，不进行级联选择
@@ -326,11 +328,21 @@ const Tree: React.FC<TreeProps> = ({
     const handleDelete = useCallback((node: TreeNode, e: React.MouseEvent) => {
         e.stopPropagation();
         if (node.disabled) return;
-        
+
         if (onDelete) {
             onDelete(node);
         }
     }, [onDelete]);
+
+    // 处理编辑节点
+    const handleEdit = useCallback((node: TreeNode, e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (node.disabled) return;
+
+        if (onEdit) {
+            onEdit(node);
+        }
+    }, [onEdit]);
 
     // 渲染单个树节点
     const renderTreeNode = (node: TreeNode, level: number = 0) => {
@@ -429,7 +441,7 @@ const Tree: React.FC<TreeProps> = ({
                     {deletable && (
                         <button
                             className={`
-                ml-auto flex items-center justify-center w-6 h-6 rounded-md 
+                ml-auto flex items-center justify-center w-6 h-6 rounded-md
                 opacity-0 group-hover:opacity-100 transition-opacity duration-200
                 hover:bg-red-100 dark:hover:bg-red-900/30 text-red-500 dark:text-red-400
                 ${node.disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}
@@ -440,6 +452,25 @@ const Tree: React.FC<TreeProps> = ({
                         >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                            </svg>
+                        </button>
+                    )}
+
+                    {/* 编辑按钮 */}
+                    {editable && (
+                        <button
+                            className={`
+                ml-1 flex items-center justify-center w-6 h-6 rounded-md
+                opacity-0 group-hover:opacity-100 transition-opacity duration-200
+                hover:bg-blue-100 dark:hover:bg-blue-900/30 text-blue-500 dark:text-blue-400
+                ${node.disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}
+              `}
+                            onClick={(e) => handleEdit(node, e)}
+                            disabled={node.disabled}
+                            title="编辑节点"
+                        >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                             </svg>
                         </button>
                     )}

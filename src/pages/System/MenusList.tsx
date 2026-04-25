@@ -3,7 +3,8 @@ import Tree from "../../components/ui/tree";
 import {useState} from "react";
 import {TreeNode} from "../../components/ui/tree/types.ts";
 import AddMenuModal from "../../components/System/AddMenuModal.tsx";
-import {MenuFormData, MenuParent} from "../../types/menu";
+import EditMenuModal from "../../components/System/EditMenuModal.tsx";
+import {MenuFormData, MenuParent, MenuStatus, MenuType} from "../../types/menu";
 import SystemApi from "../../api/SystemApi.ts";
 import useMountEffect from "../../hooks/useMountEffect.ts";
 
@@ -12,6 +13,7 @@ import useMountEffect from "../../hooks/useMountEffect.ts";
 interface MenuApiData extends MenuFormData {
     id?: string;
     children?: MenuApiData[];
+    status?: MenuStatus;
 }
 
 const convertMenuToTreeNode = (menus: MenuApiData[]): TreeNode[] => {
@@ -24,10 +26,12 @@ const convertMenuToTreeNode = (menus: MenuApiData[]): TreeNode[] => {
 
 export default function MenusList() {
     const [treeData, setTreeData] = useState<TreeNode[]>([]);
+    const [rawMenuData, setRawMenuData] = useState<Map<string, MenuApiData>>(new Map());
     const [checkedKeys, setCheckedKeys] = useState<string[]>([]);
     const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
     const [expandedKeys, setExpandedKeys] = useState<string[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const [editingMenu, setEditingMenu] = useState<MenuApiData | null>(null);
 
     // 页面加载时获取菜单数据
     useMountEffect(() => {
@@ -35,8 +39,24 @@ export default function MenusList() {
             try {
                 setLoading(true);
                 const response = await SystemApi.listMenus({} as MenuFormData);
-                const treeNodes = convertMenuToTreeNode(response as unknown as MenuApiData[]);
+                const menuArray = response as unknown as MenuApiData[];
+                const treeNodes = convertMenuToTreeNode(menuArray);
                 setTreeData(treeNodes);
+
+                // 构建 ID -> 菜单数据 的映射
+                const menuMap = new Map<string, MenuApiData>();
+                const buildMap = (menus: MenuApiData[]) => {
+                    menus.forEach(menu => {
+                        if (menu.id) {
+                            menuMap.set(menu.id, menu);
+                        }
+                        if (menu.children) {
+                            buildMap(menu.children);
+                        }
+                    });
+                };
+                buildMap(menuArray);
+                setRawMenuData(menuMap);
             } catch (error) {
                 console.error('获取菜单列表失败:', error);
             } finally {
@@ -124,6 +144,51 @@ export default function MenusList() {
         }
     };
 
+    // 处理编辑菜单
+    const handleEdit = (node: TreeNode) => {
+        const menuId = node.key || '';
+        const menuData = rawMenuData.get(menuId);
+        if (menuData) {
+            setEditingMenu({
+                ...menuData,
+                id: menuId,
+                type: menuData.type || MenuType.MENU,
+                status: menuData.status || MenuStatus.ENABLED
+            });
+        }
+    };
+
+    // 处理更新菜单
+    const handleUpdateMenu = (menuData: MenuFormData) => {
+        console.log('Update menu:', menuData);
+        // 刷新菜单列表
+        const fetchMenus = async () => {
+            try {
+                const response = await SystemApi.listMenus({} as MenuFormData);
+                const menuArray = response as unknown as MenuApiData[];
+                const treeNodes = convertMenuToTreeNode(menuArray);
+                setTreeData(treeNodes);
+
+                const menuMap = new Map<string, MenuApiData>();
+                const buildMap = (menus: MenuApiData[]) => {
+                    menus.forEach(menu => {
+                        if (menu.id) {
+                            menuMap.set(menu.id, menu);
+                        }
+                        if (menu.children) {
+                            buildMap(menu.children);
+                        }
+                    });
+                };
+                buildMap(menuArray);
+                setRawMenuData(menuMap);
+            } catch (error) {
+                console.error('获取菜单列表失败:', error);
+            }
+        };
+        fetchMenus();
+    };
+
     // 获取所有菜单作为父级菜单选项
     const getParentMenuOptions = (nodes: TreeNode[], level = 1): MenuParent[] => {
         let options: MenuParent[] = [];
@@ -208,7 +273,9 @@ export default function MenusList() {
                     treeData={treeData}
                     selectable={true}
                     deletable={true}
+                    editable={true}
                     onDelete={handleDelete}
+                    onEdit={handleEdit}
                     defaultExpandAll={true}
                 />
             ) : (
@@ -234,6 +301,15 @@ export default function MenusList() {
                         点击上方按钮添加你的第一个菜单
                     </p>
                 </div>
+            )}
+
+            {/* 编辑菜单弹窗 */}
+            {editingMenu && (
+                <EditMenuModal
+                    menu={editingMenu}
+                    parentMenuOptions={parentMenuOptions}
+                    onUpdate={handleUpdateMenu}
+                />
             )}
         </>
     );

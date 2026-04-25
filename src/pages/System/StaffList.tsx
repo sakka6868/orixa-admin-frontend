@@ -14,6 +14,8 @@ import {useModal} from "../../components/ui/modal";
 import Badge from "../../components/ui/badge/Badge.tsx";
 import { useCurrentStaff } from "../../hooks/useCurrentStaff";
 import {MenuFormData} from "../../types/menu.ts";
+import Input from "../../components/form/input/InputField";
+import {exportToCsv} from "../../utils/export";
 
 interface MenuApiData {
     id?: string;
@@ -30,6 +32,8 @@ export default function StaffList() {
     const [loading, setLoading] = useState<boolean>(true);
     const [editingStaff, setEditingStaff] = useState<StaffListItem | null>(null);
     const [currentStaffId, setCurrentStaffId] = useState<string | null>(null);
+    const [searchUsername, setSearchUsername] = useState<string>("");
+    const [filterMenu, setFilterMenu] = useState<string>("");
 
     const message = useMessage();
     const {refreshMenu} = useSidebar();
@@ -135,18 +139,71 @@ export default function StaffList() {
         }
     };
 
+    // 过滤后的员工列表
+    const filteredStaffList = staffList.filter(staff => {
+        const user = userList.find(u => u.id === staff.userId);
+        const usernameMatch = !searchUsername ||
+            (user?.name && user.name.toLowerCase().includes(searchUsername.toLowerCase())) ||
+            (user?.credential?.credentialKey && user.credential.credentialKey.toLowerCase().includes(searchUsername.toLowerCase()));
+        const menuMatch = !filterMenu || staff.menus.some(m => m.id === filterMenu);
+        return usernameMatch && menuMatch;
+    });
+
+    // 重置搜索
+    const handleReset = () => {
+        setSearchUsername("");
+        setFilterMenu("");
+    };
+
+    // 导出员工列表
+    const handleExport = async () => {
+        try {
+            await exportToCsv('/system/staffs/export', 'staffs');
+            message.success("导出成功", "员工列表已导出");
+        } catch (error) {
+            console.error('导出失败:', error);
+            message.error("导出失败", "导出员工列表失败");
+        }
+    };
+
     return (
         <>
             <PageMeta
                 title="员工列表 | Orixa Admin"
                 description="员工管理页面"
             />
-            <div className="mb-6 flex justify-end">
-                <AddStaffModal
-                    onAdd={handleAddStaff}
-                    availableMenus={availableMenus}
-                    availableUsers={userList}
-                />
+            <div className="mb-6 flex flex-wrap items-center gap-4">
+                <div className="flex items-center gap-2">
+                    <Input
+                        type="text"
+                        placeholder="搜索用户名"
+                        value={searchUsername}
+                        onChange={(e) => setSearchUsername(e.target.value)}
+                    />
+                    <select
+                        className="h-11 rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                        value={filterMenu}
+                        onChange={(e) => setFilterMenu(e.target.value)}
+                    >
+                        <option value="">全部菜单</option>
+                        {availableMenus.map(menu => (
+                            <option key={menu.id} value={menu.id}>{menu.name}</option>
+                        ))}
+                    </select>
+                    <Button variant="outline" size="sm" onClick={handleReset}>
+                        重置
+                    </Button>
+                </div>
+                <div className="ml-auto flex gap-3">
+                    <Button variant="outline" size="md" onClick={handleExport}>
+                        导出 CSV
+                    </Button>
+                    <AddStaffModal
+                        onAdd={handleAddStaff}
+                        availableMenus={availableMenus}
+                        availableUsers={userList}
+                    />
+                </div>
             </div>
             {loading ? (
                 <div className="rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
@@ -184,7 +241,7 @@ export default function StaffList() {
                         </table>
                     </div>
                 </div>
-            ) : staffList.length > 0 ? (
+            ) : filteredStaffList.length > 0 ? (
                 <div
                     className="rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
                     <div className="overflow-x-auto">
@@ -206,7 +263,7 @@ export default function StaffList() {
                             </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
-                            {staffList.map((staff) => (
+                            {filteredStaffList.map((staff) => (
                                 <tr key={staff.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/30">
                                     <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">
                                         {staff.id}
